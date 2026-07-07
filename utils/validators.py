@@ -1,51 +1,63 @@
 """
-ChannelIQ Validators
+=========================================================
+ChannelIQ AI
+
+Validation Utilities
+=========================================================
 """
+
+from __future__ import annotations
 
 import pandas as pd
 
 
-REQUIRED_COLUMNS = [
-
-    "Form No",
-
-    "Date of Visit",
-
-    "Channel Partner",
-
-    "Sales Person",
-
-    "Customer Name",
-
-    "Mobile No"
-
-]
+class TemplateValidationError(Exception):
+    """Raised when uploaded template is invalid."""
 
 
-class ValidationError(Exception):
-    pass
+class TemplateValidator:
 
+    def __init__(self):
 
-def validate_template(
-    df: pd.DataFrame
-):
+        self.required_columns = [
 
-    missing = []
+            "Form No",
 
-    for column in REQUIRED_COLUMNS:
+            "Date of Visit",
 
-        if column not in df.columns:
+            "Channel Partner",
 
-            missing.append(column)
+            "Sales Person",
 
-    if missing:
+            "Customer Name",
 
-        raise ValidationError(
+            "Mobile No",
 
-            "Missing required columns:\n\n"
+        ]
 
-            + "\n".join(missing)
+    # ----------------------------------------------------
 
-        )
+    def validate(
+        self,
+        df: pd.DataFrame
+    ) -> None:
 
-    return True
+        missing = [
+
+            column
+
+            for column in self.required_columns
+
+            if column not in df.columns
+
+        ]
+
+        if missing:
+
+            raise TemplateValidationError(
+
+                "Missing required columns:\n\n"
+
+                + "\n".join(missing)
+
+            )
