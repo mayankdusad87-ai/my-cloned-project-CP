@@ -30,32 +30,25 @@ AnalysisResult
 
 from __future__ import annotations
 
-from pathlib import Path
 from datetime import datetime
 from uuid import uuid4
 
+from core.analysis_result import AnalysisResult
 from core.excel_reader import ExcelReader
 from utils.validators import TemplateValidator
-
-from core.analysis_result import AnalysisResult
-
-from config import (
-    EXCEL_HEADER_ROW,
-    EXCEL_DATA_START_ROW,
-)
 
 
 class AnalysisService:
     """
     Main business orchestration class.
+
+    This class coordinates the complete analysis workflow.
+    It does not perform business calculations itself.
     """
 
-    def __init__(self):
-
-        self.result = AnalysisResult()
+    def __init__(self) -> None:
 
         self.reader = ExcelReader()
-
         self.validator = TemplateValidator()
 
     # =======================================================
@@ -71,35 +64,31 @@ class AnalysisService:
         year: int,
     ) -> AnalysisResult:
 
+        # Create a fresh result object for every analysis
+        result = AnalysisResult()
+
+        # Initialise metadata
         self._initialise_metadata(
-            company_name,
-            project_name,
-            month,
-            year,
+            result=result,
+            company=company_name,
+            project=project_name,
+            month=month,
+            year=year,
         )
 
-        df = self._reader_excel(excel_file)
+        # Read Excel
+        df = self.reader.read(excel_file)
+
+        # Validate template
         self.validator.validate(df)
 
-        self.result.dataframe = df
+        # Store dataframe
+        result.dataframe = df
 
-        self._calculate_basic_metrics()
+        # Temporary metrics
+        self._calculate_basic_metrics(result)
 
-        # Future modules
-
-        # self._calculate_partner_scores()
-
-        # self._calculate_health_score()
-
-        # self._calculate_trends()
-
-        # self._calculate_risk()
-
-        # self._calculate_opportunities()
-
-        # self._generate_ai_summary()
-
-        return self.result
+        return result
 
     # =======================================================
     # PRIVATE
@@ -107,61 +96,53 @@ class AnalysisService:
 
     def _initialise_metadata(
         self,
-        company,
-        project,
-        month,
-        year,
-    ):
+        result: AnalysisResult,
+        company: str,
+        project: str,
+        month: str,
+        year: int,
+    ) -> None:
 
-        self.result.analysis_id = (
+        result.analysis_id = (
             datetime.now().strftime("%Y%m%d")
             + "-"
             + uuid4().hex[:8].upper()
         )
 
-        self.result.company_name = company
-
-        self.result.project_name = project
-
-        self.result.month = month
-
-        self.result.year = year
+        result.company_name = company
+        result.project_name = project
+        result.month = month
+        result.year = year
 
     # =======================================================
 
-   
-
-    # =======================================================
-
-    def _calculate_basic_metrics(self):
-
+    def _calculate_basic_metrics(
+        self,
+        result: AnalysisResult,
+    ) -> None:
         """
-        Initial KPIs.
+        Temporary placeholder KPIs.
 
-        These are placeholders until
-        the scoring engine is completed.
+        In the next sprint this method will be replaced by:
+
+            DataProcessor
+            ScoringEngine
+            TrendEngine
+            RiskEngine
+            OpportunityEngine
         """
 
-        df = self.result.dataframe
+        df = result.dataframe
 
-        self.result.total_bookings = 0
+        result.total_bookings = 0
+        result.conversion = 0
+        result.health_score = 0
+        result.revenue_opportunity = 0
+        result.growth_rate = 0
+        result.high_risk_partners = 0
 
-        self.result.conversion = 0
-
-        self.result.health_score = 0
-
-        self.result.revenue_opportunity = 0
-
-        self.result.growth_rate = 0
-
-        self.result.high_risk_partners = 0
-
-        self.result.metadata = {
-
+        result.metadata = {
             "rows": len(df),
-
             "columns": len(df.columns),
-
-            "generated_at": datetime.now()
-
+            "generated_at": datetime.now().isoformat(),
         }
