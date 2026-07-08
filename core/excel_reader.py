@@ -122,23 +122,26 @@ class ExcelReader:
         # to internal column names
         # -----------------------------------------------
 
+                # -----------------------------------------------
+        # Rename Excel headers
+        # -----------------------------------------------
+
         df.rename(
             columns=COLUMN_MAPPING,
             inplace=True,
         )
-        # Create customer_name from first and last name
 
-         if "first_name" in df.columns and "last_name" in df.columns:
+        # -----------------------------------------------
+        # Create customer_name
+        # -----------------------------------------------
 
-        df["customer_name"] = (
+        if "first_name" in df.columns and "last_name" in df.columns:
 
-        df["first_name"].fillna("").astype(str).str.strip()
-
-        + " "
-
-        + df["last_name"].fillna("").astype(str).str.strip()
-
-       ).str.strip()
+            df["customer_name"] = (
+                df["first_name"].fillna("").astype(str).str.strip()
+                + " "
+                + df["last_name"].fillna("").astype(str).str.strip()
+            ).str.strip()
 
         return df.copy()
 
