@@ -4,7 +4,7 @@ ChannelIQ AI
 
 Database Connection
 
-Handles SQLite database connection.
+Handles SQLite connection.
 
 =========================================================
 """
@@ -12,35 +12,48 @@ Handles SQLite database connection.
 from __future__ import annotations
 
 import sqlite3
+from sqlite3 import Connection
 
-from config import DB_PATH
+from config import DB_PATH, DB_TIMEOUT
 
 
 class DatabaseConnection:
     """
-    SQLite database connection manager.
+    SQLite Database Connection Manager.
     """
 
     def __init__(self):
 
         self.db_path = DB_PATH
 
-    # --------------------------------------------------
+        self.timeout = DB_TIMEOUT
 
-    def connect(self) -> sqlite3.Connection:
+    # -----------------------------------------------------
+
+    def connect(self) -> Connection:
         """
-        Returns a SQLite connection.
+        Returns an open SQLite connection.
         """
 
-        return sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(
 
-    # --------------------------------------------------
+            self.db_path,
+
+            timeout=self.timeout
+
+        )
+
+        conn.row_factory = sqlite3.Row
+
+        return conn
+
+    # -----------------------------------------------------
 
     def execute(
         self,
         query: str,
         params: tuple = (),
-    ):
+    ) -> None:
 
         conn = self.connect()
 
@@ -52,7 +65,45 @@ class DatabaseConnection:
 
         conn.close()
 
-    # --------------------------------------------------
+    # -----------------------------------------------------
+
+    def executemany(
+        self,
+        query: str,
+        params: list[tuple],
+    ) -> None:
+
+        conn = self.connect()
+
+        cursor = conn.cursor()
+
+        cursor.executemany(query, params)
+
+        conn.commit()
+
+        conn.close()
+
+    # -----------------------------------------------------
+
+    def fetch_one(
+        self,
+        query: str,
+        params: tuple = (),
+    ):
+
+        conn = self.connect()
+
+        cursor = conn.cursor()
+
+        cursor.execute(query, params)
+
+        row = cursor.fetchone()
+
+        conn.close()
+
+        return row
+
+    # -----------------------------------------------------
 
     def fetch_all(
         self,
@@ -72,13 +123,13 @@ class DatabaseConnection:
 
         return rows
 
-    # --------------------------------------------------
+    # -----------------------------------------------------
 
-    def fetch_one(
+    def execute_return_id(
         self,
         query: str,
         params: tuple = (),
-    ):
+    ) -> int:
 
         conn = self.connect()
 
@@ -86,8 +137,10 @@ class DatabaseConnection:
 
         cursor.execute(query, params)
 
-        row = cursor.fetchone()
+        conn.commit()
+
+        last_id = cursor.lastrowid
 
         conn.close()
 
-        return row
+        return last_id
