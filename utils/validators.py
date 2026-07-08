@@ -3,6 +3,11 @@
 ChannelIQ AI
 
 Validation Utilities
+
+Validates the cleaned dataframe returned by
+ExcelReader.
+
+Version : 2.0
 =========================================================
 """
 
@@ -10,9 +15,23 @@ from __future__ import annotations
 
 import pandas as pd
 
+from core.column_mapping import (
+    FORM_NO,
+    VISIT_DATE,
+    CUSTOMER_NAME,
+    MOBILE,
+    CUSTOMER_STAGE,
+    CHANNEL_PARTNER,
+    CLOSING_MANAGER,
+)
+
 
 class TemplateValidationError(Exception):
-    """Raised when uploaded template is invalid."""
+    """
+    Raised when the uploaded template
+    is missing required columns.
+    """
+    pass
 
 
 class TemplateValidator:
@@ -21,17 +40,19 @@ class TemplateValidator:
 
         self.required_columns = [
 
-            "Form No",
+            FORM_NO,
 
-            "Date of Visit",
+            VISIT_DATE,
 
-            "Channel Partner",
+            CUSTOMER_NAME,
 
-            "Sales Person",
+            MOBILE,
 
-            "Customer Name",
+            CUSTOMER_STAGE,
 
-            "Mobile No",
+            CHANNEL_PARTNER,
+
+            CLOSING_MANAGER,
 
         ]
 
@@ -39,8 +60,19 @@ class TemplateValidator:
 
     def validate(
         self,
-        df: pd.DataFrame
+        df: pd.DataFrame,
     ) -> None:
+        """
+        Validate cleaned dataframe.
+        """
+
+        if df.empty:
+
+            raise TemplateValidationError(
+
+                "The uploaded Excel file contains no data."
+
+            )
 
         missing = [
 
@@ -61,3 +93,60 @@ class TemplateValidator:
                 + "\n".join(missing)
 
             )
+
+    # ----------------------------------------------------
+
+    def validate_not_empty(
+        self,
+        df: pd.DataFrame,
+    ) -> None:
+
+        if len(df) == 0:
+
+            raise TemplateValidationError(
+
+                "The uploaded file has zero records."
+
+            )
+
+    # ----------------------------------------------------
+
+    def validate_duplicates(
+        self,
+        df: pd.DataFrame,
+    ) -> None:
+        """
+        Placeholder for future duplicate checks.
+        """
+
+        return
+
+    # ----------------------------------------------------
+
+    def validate_business_rules(
+        self,
+        df: pd.DataFrame,
+    ) -> None:
+        """
+        Placeholder for future business validations.
+        """
+
+        return
+
+    # ----------------------------------------------------
+
+    def run(
+        self,
+        df: pd.DataFrame,
+    ) -> None:
+        """
+        Execute all validations.
+        """
+
+        self.validate(df)
+
+        self.validate_not_empty(df)
+
+        self.validate_duplicates(df)
+
+        self.validate_business_rules(df)
