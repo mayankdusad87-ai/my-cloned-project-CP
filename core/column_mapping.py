@@ -24,7 +24,7 @@ COLUMN_MAPPING = {
 
     "Last Name*": "last_name",
 
-    "Mobile Number": "mobile",
+    "Mobile Number*": "mobile",
 
     "Visit Type": "visit_type",
 
