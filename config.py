@@ -54,9 +54,9 @@ LOGO_PATH = ASSETS_DIR / "logo.png"
 
 # Create folders automatically
 
-DIRECTORIES = [
+# Create writable directories
 
-    ASSETS_DIR,
+DIRECTORIES = [
 
     DATABASE_DIR,
 
@@ -72,26 +72,24 @@ DIRECTORIES = [
 
 for folder in DIRECTORIES:
 
-    if folder.exists():
-
-        if folder.is_file():
-
-            raise RuntimeError(
-
-                f"{folder} already exists as a FILE. "
-
-                f"Delete or rename it because ChannelIQ "
-
-                f"expects a DIRECTORY."
-
-            )
-
-    else:
+    try:
 
         folder.mkdir(
             parents=True,
             exist_ok=True,
         )
+
+        print(f"✓ Created/Verified: {folder}")
+
+    except Exception as e:
+
+        print(f"❌ Failed: {folder}")
+
+        print(type(e).__name__)
+
+        print(e)
+
+        raise
 
 # =========================================================
 # FILES
