@@ -49,10 +49,10 @@ class ExcelReader:
 
         df = pd.read_excel(
             file,
-            header=EXCEL_HEADER_ROW - 1,
+            header=None,
             engine="openpyxl",
         )
-
+        print(df.head(10))
         return self.clean(df)
 
     # -----------------------------------------------------
