@@ -126,6 +126,19 @@ class ExcelReader:
             columns=COLUMN_MAPPING,
             inplace=True,
         )
+        # Create customer_name from first and last name
+
+         if "first_name" in df.columns and "last_name" in df.columns:
+
+        df["customer_name"] = (
+
+        df["first_name"].fillna("").astype(str).str.strip()
+
+        + " "
+
+        + df["last_name"].fillna("").astype(str).str.strip()
+
+       ).str.strip()
 
         return df.copy()
 
