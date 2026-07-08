@@ -104,7 +104,10 @@ class AnalysisService:
 
         df = self.reader.read(excel_file)
         
-        print(df.columns.tolist())
+        import streamlit as st
+
+        st.write("Columns after ExcelReader:")
+        st.write(df.columns.tolist())
         # -----------------------------------------
         # Validate
         # -----------------------------------------
