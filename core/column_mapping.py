@@ -4,67 +4,55 @@ ChannelIQ AI
 
 Column Mapping
 
-This file maps business fields to the
-standard ChannelIQ Excel template.
-
-If the Excel template changes,
-only this file should be updated.
+Single source of truth for the ChannelIQ Excel Template.
+If the Excel template changes, only this file should
+require modification.
 =========================================================
 """
 
-# =========================================================
-# EXCEL COLUMN MAPPING
-# =========================================================
+# ==========================================================
+# EXCEL COLUMN -> INTERNAL COLUMN
+# ==========================================================
 
 COLUMN_MAPPING = {
 
-    # -----------------------------------------------------
-    # Customer
-    # -----------------------------------------------------
+    "Form No": "form_no",
 
-    "form_no": "Form No",
+    "Date of Visit": "visit_date",
 
-    "visit_date": "Date of Visit",
+    "Customer Name": "customer_name",
 
-    "customer_name": "Customer Name",
+    "Mobile Number": "mobile",
 
-    "mobile": "Mobile Number",
+    "Visit Type": "visit_type",
 
-    "visit_type": "Visit Type",
+    "Customer Fresh/Revisit": "customer_stage",
 
-    "customer_stage": "Customer Fresh/Revisit",
+    "Channel Partner Company*": "channel_partner",
 
-    # -----------------------------------------------------
-    # Sales
-    # -----------------------------------------------------
+    "Closing Manager*": "closing_manager",
 
-    "closing_manager": "Closing Manager*",
+    "Booking Date (DD-MM-YYYY)": "booking_date",
 
-    "booking_date": "Booking Date",
+    "Project Name": "project_name",
 
-    # -----------------------------------------------------
-    # Channel Partner
-    # -----------------------------------------------------
+    "Source*": "source",
 
-    "channel_partner": "Channel Partner Company*",
+    "Budget*": "budget",
 
-    # -----------------------------------------------------
-    # Project
-    # -----------------------------------------------------
-
-    "project_name": "Project Name",
-
-    "source": "Source*",
-
-    "budget": "Budget*",
-
-    "configuration": "Preferred Configuration*"
+    "Preferred Configuration*": "configuration",
 
 }
 
-# =========================================================
+# ==========================================================
+# REQUIRED COLUMNS
+# ==========================================================
+
+REQUIRED_COLUMNS = list(COLUMN_MAPPING.keys())
+
+# ==========================================================
 # BUSINESS VALUES
-# =========================================================
+# ==========================================================
 
 BUSINESS_VALUES = {
 
@@ -78,6 +66,37 @@ BUSINESS_VALUES = {
 
     "fourth_revisit": "Fourth Revisit",
 
-    "revisit": "Revisit"
+    "revisit": "Revisit",
 
 }
+
+# ==========================================================
+# INTERNAL COLUMN NAMES
+# (Convenience Constants)
+# ==========================================================
+
+FORM_NO = "form_no"
+
+VISIT_DATE = "visit_date"
+
+CUSTOMER_NAME = "customer_name"
+
+MOBILE = "mobile"
+
+VISIT_TYPE = "visit_type"
+
+CUSTOMER_STAGE = "customer_stage"
+
+CHANNEL_PARTNER = "channel_partner"
+
+CLOSING_MANAGER = "closing_manager"
+
+BOOKING_DATE = "booking_date"
+
+PROJECT_NAME = "project_name"
+
+SOURCE = "source"
+
+BUDGET = "budget"
+
+CONFIGURATION = "configuration"
