@@ -4,11 +4,9 @@ ChannelIQ AI
 
 Data Processor
 
-Converts raw Excel data into business metrics.
+Converts cleaned Excel data into business metrics.
 
-This class DOES NOT calculate scores.
-It only extracts business facts.
-
+Version : 1.0
 =========================================================
 """
 
@@ -30,31 +28,184 @@ from core.column_mapping import (
 
 class DataProcessor:
 
-    def process(self, df: pd.DataFrame) -> dict:
-        """
-        Process dataframe and return all business metrics.
-        """
+    """
+    Extracts business metrics from the cleaned dataframe.
 
-        metrics = {}
+    This class does NOT generate AI insights.
 
-        metrics["total_records"] = len(df)
+    It only calculates facts.
+    """
 
-        metrics["fresh_walkins"] = self.total_fresh_walkins(df)
+    def process(
+        self,
+        df: pd.DataFrame,
+    ) -> dict:
 
-        metrics["unique_revisits"] = self.unique_revisits(df)
+        dashboard = self.dashboard_summary(df)
 
-        metrics["booking_count"] = self.booking_count(df)
+        customer = self.customer_journey(df)
 
-        metrics["booking_percentage"] = self.booking_percentage(metrics)
+        bookings = self.booking_summary(df)
 
-        metrics["active_channel_partners"] = self.active_channel_partners(df)
+        return {
 
-        metrics["top_channel_partners"] = self.top_channel_partners(df)
+            "dashboard": dashboard,
 
-        metrics["top_closing_managers"] = self.top_closing_managers(df)
+            "customer": customer,
 
-        return metrics
+            "bookings": bookings,
 
+        }
+
+    # =====================================================
+    # DASHBOARD SUMMARY
+    # =====================================================
+
+    def dashboard_summary(
+        self,
+        df: pd.DataFrame,
+    ) -> dict:
+
+        fresh_walkins = self.total_fresh_walkins(df)
+
+        unique_revisits = self.unique_revisits(df)
+
+        booking_count = self.booking_count(df)
+
+        booking_percentage = self.booking_percentage(
+            booking_count,
+            fresh_walkins,
+        )
+
+        active_channel_partners = self.active_channel_partners(
+            df
+        )
+
+        return {
+
+            "fresh_walkins": fresh_walkins,
+
+            "unique_revisits": unique_revisits,
+
+            "booking_count": booking_count,
+
+            "booking_percentage": booking_percentage,
+
+            "active_channel_partners":
+                active_channel_partners,
+
+        }
+
+    # =====================================================
+    # CUSTOMER JOURNEY
+    # =====================================================
+
+    def customer_journey(
+        self,
+        df: pd.DataFrame,
+    ) -> dict:
+
+        fresh = len(
+
+            df[
+                df[CUSTOMER_STAGE]
+                == BUSINESS_VALUES["fresh"]
+            ]
+
+        )
+
+        unique = len(
+
+            df[
+                df[CUSTOMER_STAGE]
+                == BUSINESS_VALUES["unique_revisit"]
+            ]
+
+        )
+
+        second = len(
+
+            df[
+                df[CUSTOMER_STAGE]
+                == BUSINESS_VALUES["second_revisit"]
+            ]
+
+        )
+
+        third = len(
+
+            df[
+                df[CUSTOMER_STAGE]
+                == BUSINESS_VALUES["third_revisit"]
+            ]
+
+        )
+
+        fourth = len(
+
+            df[
+                df[CUSTOMER_STAGE]
+                == BUSINESS_VALUES["fourth_revisit"]
+            ]
+
+        )
+
+        revisit = len(
+
+            df[
+                df[CUSTOMER_STAGE]
+                == BUSINESS_VALUES["revisit"]
+            ]
+
+        )
+
+        return {
+
+            "fresh": fresh,
+
+            "unique_revisit": unique,
+
+            "second_revisit": second,
+
+            "third_revisit": third,
+
+            "fourth_revisit": fourth,
+
+            "revisit": revisit,
+
+        }
+
+    # =====================================================
+    # BOOKINGS
+    # =====================================================
+
+    def booking_summary(
+        self,
+        df: pd.DataFrame,
+    ) -> dict:
+
+        booking_count = self.booking_count(df)
+
+        fresh_walkins = self.total_fresh_walkins(df)
+
+        return {
+
+            "booking_count": booking_count,
+
+            "booking_percentage":
+
+                self.booking_percentage(
+
+                    booking_count,
+
+                    fresh_walkins,
+
+                )
+
+        }
+
+    # =====================================================
+    # BASIC KPI FUNCTIONS
     # =====================================================
 
     def total_fresh_walkins(
@@ -71,7 +222,7 @@ class DataProcessor:
 
         )
 
-    # =====================================================
+    # -----------------------------------------------------
 
     def unique_revisits(
         self,
@@ -87,39 +238,44 @@ class DataProcessor:
 
         )
 
-    # =====================================================
+    # -----------------------------------------------------
 
     def booking_count(
         self,
         df: pd.DataFrame,
     ) -> int:
 
-        return df[BOOKING_DATE].notna().sum()
+        return int(
 
-    # =====================================================
+            df[BOOKING_DATE]
 
-    def booking_percentage(
-        self,
-        metrics: dict,
-    ) -> float:
+            .notna()
 
-        fresh = metrics["fresh_walkins"]
-
-        bookings = metrics["booking_count"]
-
-        if fresh == 0:
-
-            return 0
-
-        return round(
-
-            (bookings / fresh) * 100,
-
-            2
+            .sum()
 
         )
 
-    # =====================================================
+    # -----------------------------------------------------
+
+    def booking_percentage(
+        self,
+        bookings: int,
+        fresh_walkins: int,
+    ) -> float:
+
+        if fresh_walkins == 0:
+
+            return 0.0
+
+        return round(
+
+            (bookings / fresh_walkins) * 100,
+
+            2,
+
+        )
+
+    # -----------------------------------------------------
 
     def active_channel_partners(
         self,
@@ -129,71 +285,28 @@ class DataProcessor:
         temp = df.copy()
 
         temp[VISIT_DATE] = pd.to_datetime(
+
             temp[VISIT_DATE],
+
             errors="coerce",
+
             dayfirst=True,
+
         )
 
-        last_30_days = datetime.today() - timedelta(days=30)
+        last_30_days = (
+
+            datetime.today()
+
+            - timedelta(days=30)
+
+        )
 
         temp = temp[
-            temp[VISIT_DATE] >= last_30_days
+            temp[VISIT_DATE]
+            >= last_30_days
         ]
 
         return temp[
             CHANNEL_PARTNER
         ].dropna().nunique()
-
-    # =====================================================
-
-    def top_channel_partners(
-        self,
-        df: pd.DataFrame,
-        top: int = 10,
-    ) -> pd.DataFrame:
-
-        result = (
-
-            df.groupby(CHANNEL_PARTNER)
-
-            .size()
-
-            .reset_index(name="walkins")
-
-            .sort_values(
-                "walkins",
-                ascending=False
-            )
-
-            .head(top)
-
-        )
-
-        return result
-
-    # =====================================================
-
-    def top_closing_managers(
-        self,
-        df: pd.DataFrame,
-        top: int = 10,
-    ) -> pd.DataFrame:
-
-        result = (
-
-            df.groupby(CLOSING_MANAGER)
-
-            .size()
-
-            .reset_index(name="walkins")
-
-            .sort_values(
-                "walkins",
-                ascending=False
-            )
-
-            .head(top)
-
-        )
-
-        return result
