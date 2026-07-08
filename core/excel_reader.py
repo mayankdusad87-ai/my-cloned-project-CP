@@ -49,10 +49,11 @@ class ExcelReader:
 
         df = pd.read_excel(
             file,
-            header=None,
+            sheet_name="CIF",
+            header=EXCEL_HEADER_ROW - 1,
             engine="openpyxl",
         )
-        print(df.iloc[:10, :5])
+       
         return self.clean(df)
 
     # -----------------------------------------------------
