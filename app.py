@@ -334,8 +334,139 @@ if st.session_state.full_dataframe is not None:
                 st.session_state.analysis_id = result.analysis_id
 
             st.success("Analysis completed successfully.")
+            st.rerun()
 
         except Exception as e:
 
             st.exception(e)
+
+# =====================================================
+# EXECUTIVE DASHBOARD
+# =====================================================
+
+if st.session_state.analysis_result is not None:
+
+    result = st.session_state.analysis_result
+
+    st.divider()
+
+    st.header("📊 Executive Dashboard")
+
+    st.caption(
+        f"Reporting Period : {result.metadata['reporting_period']}"
+    )
+
+    # -------------------------------------------------
+    # KPI CARDS
+    # -------------------------------------------------
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+
+        st.metric(
+            "Fresh Walk-ins",
+            result.metadata["fresh_walkins"],
+        )
+
+    with c2:
+
+        st.metric(
+            "Repeat Walk-ins",
+            result.metadata["unique_revisits"],
+        )
+
+    with c3:
+
+        st.metric(
+            "Bookings",
+            result.total_bookings,
+        )
+
+    c4, c5, c6 = st.columns(3)
+
+    with c4:
+
+        st.metric(
+            "Conversion %",
+            f"{result.conversion:.2f}%",
+        )
+
+    with c5:
+
+        st.metric(
+            "Active Channel Partners",
+            result.metadata["active_channel_partners"],
+        )
+
+    with c6:
+
+        st.metric(
+            "Total Walk-ins",
+            len(result.dataframe),
+        )
+
+    st.divider()
+
+    # -------------------------------------------------
+    # BUSINESS BRIEF
+    # -------------------------------------------------
+
+    st.subheader("📌 Business Brief")
+
+    st.info(
+
+        f"""
+During **{result.metadata['reporting_period']}**, the business generated **{len(result.dataframe)} walk-ins**, resulting in **{result.total_bookings} bookings** with a **{result.conversion:.2f}% conversion rate**.
+
+A total of **{result.metadata['active_channel_partners']} active channel partners** contributed during this reporting period.
+"""
+    )
+
+    # -------------------------------------------------
+    # EXECUTIVE SUMMARY
+    # -------------------------------------------------
+
+    st.subheader("📝 Executive Summary")
+
+    st.write(result.executive_summary)
+
+    # -------------------------------------------------
+    # RECOMMENDATIONS
+    # -------------------------------------------------
+
+    st.subheader("🎯 Recommendations")
+
+    recommendations = result.recommendations
+
+    if isinstance(recommendations, list):
+
+        for item in recommendations:
+
+            st.markdown(f"✅ {item}")
+
+    else:
+
+        st.write(recommendations)
+
+    # -------------------------------------------------
+    # PARTNER PERFORMANCE
+    # -------------------------------------------------
+
+    st.subheader("🏆 Partner Performance")
+
+    partner_summary = result.metadata.get("partner_summary")
+
+    if partner_summary is not None:
+
+        if hasattr(partner_summary, "dataframe"):
+
+            st.dataframe(
+                partner_summary.dataframe,
+                use_container_width=True,
+            )
+
+        else:
+
+            st.write(partner_summary)
 
