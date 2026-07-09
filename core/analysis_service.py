@@ -111,7 +111,7 @@ class AnalysisService:
         
         self.validator.run(full_df)
 
-        # -----------------------------------------
+                # -----------------------------------------
         # Reporting Period
         # -----------------------------------------
 
@@ -119,25 +119,24 @@ class AnalysisService:
 
         latest_period = self.reporting.latest_period(full_df)
 
-        # If UI has not supplied a period,
+        # If UI has not supplied a reporting period,
         # use the latest available period.
 
         if reporting_period is None:
 
-           reporting_period = latest_period
+            reporting_period = latest_period
 
         # Filter dataframe for selected period
 
-       df = self.reporting.filter(
+        df = self.reporting.filter(
 
-         full_df,
+            full_df,
 
-         reporting_period,
+            reporting_period,
 
-     )
+        )
 
-     result.dataframe = df
-
+        result.dataframe = df 
      result.metadata["available_periods"] = available_periods
 
      result.metadata["reporting_period"] = reporting_period
