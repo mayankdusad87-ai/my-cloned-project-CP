@@ -43,6 +43,8 @@ COLUMN_MAPPING = {
     "Budget*": "budget",
 
     "Preferred Configuration*": "configuration",
+    
+    "Month name": "reporting_period",
 
 }
 
