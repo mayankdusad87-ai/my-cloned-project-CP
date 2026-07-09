@@ -55,6 +55,8 @@ class AnalysisService:
 
         self.partner_analyzer = PartnerAnalyzer()
 
+        self.reporting = ReportingPeriod()
+
     # =====================================================
     # PUBLIC
     # =====================================================
@@ -103,19 +105,29 @@ class AnalysisService:
         # Read Excel
         # -----------------------------------------
 
-        df = self.reader.read(excel_file)
-        
-        import streamlit as st
+        full_df = self.reader.read(excel_file)
 
-        st.write("Columns after ExcelReader:")
-        st.write(df.columns.tolist())
         # -----------------------------------------
         # Validate
         # -----------------------------------------
+        
+        self.validator.run(full_df)
 
-        self.validator.run(df)
+        # -----------------------------------------
+        # Reporting Period
+        # -----------------------------------------
+
+        available_periods = self.reporting.available_periods(full_df)
+
+        latest_period = self.reporting.latest_period(full_df)
+
+        df = self.reporting.latest_dataframe(full_df)
 
         result.dataframe = df
+
+        result.metadata["available_periods"] = available_periods
+
+        result.metadata["reporting_period"] = latest_period
 
         # -----------------------------------------
         # Process Business Metrics
