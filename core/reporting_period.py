@@ -4,11 +4,15 @@ ChannelIQ AI
 
 Reporting Period Engine
 
-Responsible for:
+Uses the Excel column:
 
-1. Discovering available reporting periods
-2. Returning latest reporting period
-3. Filtering dataframe by reporting period
+Month name
+
+Example values
+
+Jan 25
+Feb 25
+Sep 25
 
 =========================================================
 """
@@ -21,30 +25,36 @@ import pandas as pd
 class ReportingPeriod:
 
     """
-    Reporting Period Engine
-
-    This module is the single source of truth
-    for all month/year filtering.
+    Handles reporting period discovery,
+    sorting and filtering.
     """
+
+    def __init__(self):
+
+        self.column = "reporting_period"
 
     # ----------------------------------------------------
 
-    def prepare_dates(
-        self,
-        df: pd.DataFrame,
-    ) -> pd.DataFrame:
+    def prepare(self, df: pd.DataFrame) -> pd.DataFrame:
 
         """
-        Converts visit_date into datetime.
+        Creates an internal datetime column
+        for sorting.
+
+        Excel value:
+            Sep 25
+
+        Internal:
+            2025-09-01
         """
 
         df = df.copy()
 
-        df["visit_date"] = pd.to_datetime(
+        df["_period"] = pd.to_datetime(
 
-            df["visit_date"],
+            df[self.column],
 
-            dayfirst=True,
+            format="%b %y",
 
             errors="coerce",
 
@@ -55,30 +65,34 @@ class ReportingPeriod:
     # ----------------------------------------------------
 
     def available_periods(
+
         self,
+
         df: pd.DataFrame,
+
     ) -> list[str]:
 
         """
-        Returns all available months
-        sorted chronologically.
+        Returns
+
+        January 2025
+        February 2025
+        ...
         """
 
-        df = self.prepare_dates(df)
+        df = self.prepare(df)
 
         periods = (
 
-            df["visit_date"]
+            df["_period"]
 
             .dropna()
 
-            .dt.to_period("M")
+            .drop_duplicates()
 
-            .unique()
+            .sort_values()
 
         )
-
-        periods = sorted(periods)
 
         return [
 
@@ -91,17 +105,16 @@ class ReportingPeriod:
     # ----------------------------------------------------
 
     def latest_period(
-        self,
-        df: pd.DataFrame,
-    ) -> str | None:
 
-        """
-        Returns latest available month.
-        """
+        self,
+
+        df: pd.DataFrame,
+
+    ) -> str | None:
 
         periods = self.available_periods(df)
 
-        if not periods:
+        if len(periods) == 0:
 
             return None
 
@@ -110,19 +123,24 @@ class ReportingPeriod:
     # ----------------------------------------------------
 
     def filter(
+
         self,
+
         df: pd.DataFrame,
+
         period: str,
+
     ) -> pd.DataFrame:
 
         """
-        Returns dataframe filtered
-        for selected month.
+        period example
+
+        September 2025
         """
 
-        df = self.prepare_dates(df)
+        df = self.prepare(df)
 
-        period_date = pd.to_datetime(
+        selected = pd.to_datetime(
 
             period,
 
@@ -132,33 +150,66 @@ class ReportingPeriod:
 
         filtered = df[
 
-            (df["visit_date"].dt.month == period_date.month)
+            (df["_period"].dt.month == selected.month)
 
             &
 
-            (df["visit_date"].dt.year == period_date.year)
+            (df["_period"].dt.year == selected.year)
 
         ]
 
-        return filtered.reset_index(drop=True)
+        return filtered.drop(
+
+            columns="_period",
+
+            errors="ignore",
+
+        ).reset_index(drop=True)
+
+    # ----------------------------------------------------
+
+    def latest_dataframe(
+
+        self,
+
+        df: pd.DataFrame,
+
+    ) -> pd.DataFrame:
+
+        """
+        Returns dataframe for latest month.
+        """
+
+        latest = self.latest_period(df)
+
+        if latest is None:
+
+            return df
+
+        return self.filter(df, latest)
 
     # ----------------------------------------------------
 
     def summary(
-        self,
-        df: pd.DataFrame,
-    ) -> dict:
 
-        """
-        Dashboard helper.
-        """
+        self,
+
+        df: pd.DataFrame,
+
+    ) -> dict:
 
         return {
 
-            "available_periods": self.available_periods(df),
+            "available_periods":
 
-            "latest_period": self.latest_period(df),
+                self.available_periods(df),
 
-            "record_count": len(df),
+            "latest_period":
+
+                self.latest_period(df),
+
+            "records":
+
+                len(df),
 
         }
