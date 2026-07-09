@@ -4,7 +4,7 @@ ChannelIQ AI
 
 Application Entry Point
 
-Version : 2.0
+Version : 2.1
 =========================================================
 """
 
@@ -24,11 +24,12 @@ from config import (
 from database import create_tables
 
 from core.analysis_service import AnalysisService
+from core.excel_reader import ExcelReader
+from core.reporting_period import ReportingPeriod
 
 from components.header import render_header
 from components.sidebar import render_sidebar
 from components.metric_cards import metric_card
-
 
 # =========================================================
 # PAGE CONFIG
@@ -42,7 +43,7 @@ st.set_page_config(
 )
 
 # =========================================================
-# CSS
+# LOAD CSS
 # =========================================================
 
 if Path(STYLE_FILE).exists():
@@ -50,11 +51,8 @@ if Path(STYLE_FILE).exists():
     with open(STYLE_FILE, "r", encoding="utf-8") as css:
 
         st.markdown(
-
             f"<style>{css.read()}</style>",
-
             unsafe_allow_html=True,
-
         )
 
 # =========================================================
@@ -67,22 +65,31 @@ create_tables()
 # SESSION STATE
 # =========================================================
 
-if "analysis_result" not in st.session_state:
+DEFAULT_STATE = {
 
-    st.session_state.analysis_result = None
+    "analysis_result": None,
 
-if "company" not in st.session_state:
+    "analysis_id": "",
 
-    st.session_state.company = ""
+    "company": "",
 
-if "project" not in st.session_state:
+    "project": "",
 
-    st.session_state.project = ""
+    "uploaded_file": None,
 
-if "analysis_id" not in st.session_state:
+    "full_dataframe": None,
 
-    st.session_state.analysis_id = ""
+    "available_periods": [],
 
+    "selected_period": None,
+
+}
+
+for key, value in DEFAULT_STATE.items():
+
+    if key not in st.session_state:
+
+        st.session_state[key] = value
 
 # =========================================================
 # SIDEBAR
@@ -105,299 +112,160 @@ render_header(
 )
 
 # =========================================================
-# DASHBOARD
+# PAGE TITLE
 # =========================================================
 
 if selected_page == "🏠 Dashboard":
 
     st.title("Executive Dashboard")
 
-    # -----------------------------------------------------
+    st.caption(
+        "AI-powered Channel Partner Performance Intelligence"
+    )
+
+    st.divider()
+
+    # =====================================================
+    # Sprint 2 starts here...
+    # (Upload Section will be added in Part 2)
+    # =====================================================
+
+
+    # =====================================================
+    # UPLOAD SECTION
+    # =====================================================
+
+    st.subheader("📂 Upload Monthly Tracker")
 
     uploaded_file = st.file_uploader(
-
-        "Upload Monthly Walk-in Tracker",
-
+        "Upload ChannelIQ Excel Tracker",
         type=["xlsx", "xls"],
-
+        help="Upload the latest Channel Partner tracker.",
     )
 
-    col1, col2 = st.columns(2)
+    # -----------------------------------------------------
+    # READ EXCEL
+    # -----------------------------------------------------
 
-    with col1:
+    if uploaded_file is not None:
 
-        company = st.text_input(
+        if (
+            st.session_state.uploaded_file is None
+            or
+            uploaded_file.name != st.session_state.uploaded_file.name
+        ):
 
-            "Company Name",
+            try:
 
-            value=st.session_state.company,
+                with st.spinner("Reading Excel..."):
 
-        )
+                    reader = ExcelReader()
 
-        project = st.text_input(
+                    full_df = reader.read(uploaded_file)
 
-            "Project Name",
+                    reporting = ReportingPeriod()
 
-            value=st.session_state.project,
+                    periods = reporting.available_periods(full_df)
 
-        )
+                    latest = reporting.latest_period(full_df)
 
-    with col2:
+                    st.session_state.uploaded_file = uploaded_file
 
-        month = st.selectbox(
+                    st.session_state.full_dataframe = full_df
 
-            "Month",
+                    st.session_state.available_periods = periods
 
-            [
+                    st.session_state.selected_period = latest
 
-                "January",
+                st.success(
+                    f"Tracker loaded successfully "
+                    f"({len(full_df):,} records)"
+                )
 
-                "February",
+            except Exception as e:
 
-                "March",
+                st.error("Unable to read uploaded tracker.")
 
-                "April",
-
-                "May",
-
-                "June",
-
-                "July",
-
-                "August",
-
-                "September",
-
-                "October",
-
-                "November",
-
-                "December",
-
-            ],
-
-        )
-
-        year = st.number_input(
-
-            "Year",
-
-            min_value=2020,
-
-            max_value=2100,
-
-            value=2026,
-
-        )
-
-    analyse = st.button(
-
-        "🚀 Analyse",
-
-        use_container_width=True,
-
-    )
+                st.exception(e)
 
     # =====================================================
-    # RUN ANALYSIS
+    # ANALYSIS SETTINGS
     # =====================================================
 
-    if analyse:
-
-        if uploaded_file is None:
-
-            st.error(
-
-                "Please upload an Excel file."
-
-            )
-
-        else:
-
-            with st.spinner(
-
-                "Analysing Excel..."
-
-            ):
-
-                try:
-
-                    service = AnalysisService()
-
-                    result = service.analyse(
-
-                        excel_file=uploaded_file,
-
-                        company_name=company,
-
-                        project_name=project,
-
-                        month=month,
-
-                        year=int(year),
-
-                    )
-
-                    st.session_state.analysis_result = result
-
-                    st.session_state.company = company
-
-                    st.session_state.project = project
-
-                    st.session_state.analysis_id = (
-
-                        result.analysis_id
-
-                    )
-
-                    st.success(
-
-                        "Analysis completed."
-
-                    )
-
-                except Exception as e:
-
-                    st.exception(e)
-
-    # =====================================================
-    # SHOW KPI
-    # =====================================================
-
-    result = st.session_state.analysis_result
-
-    if result:
+    if st.session_state.full_dataframe is not None:
 
         st.divider()
 
-        dashboard = result.metadata
+        st.subheader("⚙ Analysis Settings")
 
-        c1, c2, c3, c4 = st.columns(4)
+        left, right = st.columns(2)
 
-        with c1:
+        with left:
 
-            metric_card(
+            company = st.text_input(
 
-                title="Fresh Walk-ins",
+                "Company",
 
-                value=str(
+                value=st.session_state.company,
 
-                    dashboard["fresh_walkins"]
+                placeholder="Builder Name",
 
+            )
+
+            project = st.text_input(
+
+                "Project",
+
+                value=st.session_state.project,
+
+                placeholder="Project Name",
+
+            )
+
+        with right:
+
+            selected_period = st.selectbox(
+
+                "Analysis Period",
+
+                options=st.session_state.available_periods,
+
+                index=st.session_state.available_periods.index(
+                    st.session_state.selected_period
                 ),
 
-                change="",
-
-                change_type="neutral",
-
-                subtitle="Current Month",
-
-                icon="🚶",
-
             )
 
-        with c2:
-
-            metric_card(
-
-                title="Bookings",
-
-                value=str(
-
-                    result.total_bookings
-
-                ),
-
-                change="",
-
-                change_type="neutral",
-
-                subtitle="Current Month",
-
-                icon="🏠",
-
+            st.caption(
+                "Latest reporting period is selected automatically."
             )
 
-        with c3:
+        st.session_state.company = company
 
-            metric_card(
+        st.session_state.project = project
 
-                title="Booking %",
-
-                value=f"{result.conversion}%",
-
-                change="",
-
-                change_type="neutral",
-
-                subtitle="Current Month",
-
-                icon="🎯",
-
-            )
-
-        with c4:
-
-            metric_card(
-
-                title="Active Partners",
-
-                value=str(
-
-                    dashboard["active_channel_partners"]
-
-                ),
-
-                change="",
-
-                change_type="neutral",
-
-                subtitle="Last 30 Days",
-
-                icon="🤝",
-
-            )
-
-        st.divider()
-
-        st.subheader(
-
-            "Executive Summary"
-
-        )
+        st.session_state.selected_period = selected_period
 
         st.info(
 
-            result.executive_summary
+            f"""
+**Loaded Records**
+
+- Total Records : **{len(st.session_state.full_dataframe):,}**
+
+- Available Reporting Periods : **{len(st.session_state.available_periods)}**
+
+- Current Analysis Period : **{selected_period}**
+"""
+        )
+
+        analyse = st.button(
+
+            "🚀 Analyse",
+
+            use_container_width=True,
+
+            type="primary",
 
         )
 
-        st.subheader(
-
-            "Recommendations"
-
-        )
-
-        for item in result.recommendations:
-
-            st.write("•", item)
-
-    else:
-
-        st.info(
-
-            "Upload an Excel file and click Analyse."
-
-        )
-
-# =========================================================
-# OTHER PAGES
-# =========================================================
-
-else:
-
-    st.info(
-
-        f"{selected_page} will be implemented in upcoming sprints."
-
-    )
