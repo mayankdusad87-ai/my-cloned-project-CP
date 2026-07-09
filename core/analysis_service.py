@@ -71,9 +71,7 @@ class AnalysisService:
 
         project_name: str,
 
-        month: str,
-
-        year: int,
+        reporting_period: str | None = None,
 
     ) -> AnalysisResult:
 
@@ -97,9 +95,9 @@ class AnalysisService:
 
         result.project_name = project_name
 
-        result.month = month
+        result.month = reporting_period or ""
 
-        result.year = year
+        result.year = 0
 
         # -----------------------------------------
         # Read Excel
@@ -121,13 +119,28 @@ class AnalysisService:
 
         latest_period = self.reporting.latest_period(full_df)
 
-        df = self.reporting.latest_dataframe(full_df)
+        # If UI has not supplied a period,
+        # use the latest available period.
 
-        result.dataframe = df
+        if reporting_period is None:
 
-        result.metadata["available_periods"] = available_periods
+           reporting_period = latest_period
 
-        result.metadata["reporting_period"] = latest_period
+# Filter dataframe for selected period
+
+       df = self.reporting.filter(
+
+         full_df,
+
+         reporting_period,
+
+     )
+
+     result.dataframe = df
+
+     result.metadata["available_periods"] = available_periods
+
+     result.metadata["reporting_period"] = reporting_period
 
         # -----------------------------------------
         # Process Business Metrics
@@ -162,6 +175,10 @@ class AnalysisService:
         result.conversion = dashboard["booking_percentage"]
 
         result.metadata = {
+
+            "reporting_period":
+
+                 reporting_period,
 
             "fresh_walkins":
 
