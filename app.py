@@ -334,11 +334,15 @@ if st.session_state.full_dataframe is not None:
                 st.session_state.analysis_id = result.analysis_id
 
             st.success("Analysis completed successfully.")
+            
             st.rerun()
 
         except Exception as e:
 
             st.exception(e)
+
+
+
 
 # =====================================================
 # EXECUTIVE DASHBOARD
@@ -403,10 +407,41 @@ if st.session_state.analysis_result is not None:
 
         st.metric(
             "Total Walk-ins",
-            len(result.dataframe),
+            result.metadata["total_walkins"],
         )
 
     st.divider()
+
+# =====================================================
+# KPI VALIDATION (TEMPORARY)
+# =====================================================
+
+with st.expander("🔍 KPI Validation (Temporary)"):
+
+    st.json({
+
+        "Reporting Period":
+            result.metadata["reporting_period"],
+
+        "Total Walk-ins":
+            result.metadata["total_walkins"],
+
+        "Fresh Walk-ins":
+            result.metadata["fresh_walkins"],
+
+        "Unique Revisits":
+            result.metadata["unique_revisits"],
+
+        "Bookings":
+            result.total_bookings,
+
+        "Conversion %":
+            result.conversion,
+
+        "Active Channel Partners":
+            result.metadata["active_channel_partners"],
+
+    })
 
     # -------------------------------------------------
     # BUSINESS BRIEF
@@ -417,7 +452,7 @@ if st.session_state.analysis_result is not None:
     st.info(
 
         f"""
-During **{result.metadata['reporting_period']}**, the business generated **{len(result.dataframe)} walk-ins**, resulting in **{result.total_bookings} bookings** with a **{result.conversion:.2f}% conversion rate**.
+During **{result.metadata['reporting_period']}**, the business generated **{result.metadata['total_walkins']} Channle Partner walk-ins**, resulting in **{result.total_bookings} bookings** with a **{result.conversion:.2f}% conversion rate**.
 
 A total of **{result.metadata['active_channel_partners']} active channel partners** contributed during this reporting period.
 """
