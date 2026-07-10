@@ -82,7 +82,6 @@ class DataProcessor:
 
         dashboard["booking_percentage"] = dashboard["conversion"]
 
-        fresh_walkins = self.total_fresh_walkins(df)
 
         return dashboard
 
