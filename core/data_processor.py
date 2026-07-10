@@ -33,7 +33,7 @@ class DataProcessor:
     
   def __init__(self):
 
-    self.kpi = KPIEngine()
+        self.kpi = KPIEngine()
 
     """
     Extracts business metrics from the cleaned dataframe.
@@ -43,7 +43,7 @@ class DataProcessor:
     It only calculates facts.
     """
 
-    def process(
+ def process(
         self,
         df: pd.DataFrame,
     ) -> dict:
