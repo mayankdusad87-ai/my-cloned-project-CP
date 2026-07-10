@@ -28,7 +28,7 @@ COLUMN_MAPPING = {
 
     "Visit Type": "visit_type",
 
-    "Customer Fresh/Revisit": "customer_stage",
+    "Customer Fresh/Revisit": "customer_fresh_revisit",
 
     "Channel Partner Company*": "channel_partner",
 
