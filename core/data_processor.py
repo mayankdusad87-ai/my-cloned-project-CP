@@ -221,7 +221,7 @@ class DataProcessor:
         return len(
 
             df[
-                df[CUSTOMER_FRESH_REVISIT
+                df[CUSTOMER_FRESH_REVISIT]
                 == BUSINESS_VALUES["unique_revisit"]
             ]
 
