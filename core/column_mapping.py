@@ -89,7 +89,7 @@ MOBILE = "mobile"
 
 VISIT_TYPE = "visit_type"
 
-CUSTOMER FRESH/REVISIT = "customer_fresh_revisit"
+CUSTOMER_FRESH_REVISIT = "customer_fresh_revisit"
 
 CHANNEL_PARTNER = "channel_partner"
 
