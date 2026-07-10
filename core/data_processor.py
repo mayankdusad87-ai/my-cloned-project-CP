@@ -97,7 +97,7 @@ class DataProcessor:
         fresh = len(
 
             df[
-                df[CUSTOMER_STAGE]
+                df[CUSTOMER_FRESH_REVISIT]
                 == BUSINESS_VALUES["fresh"]
             ]
 
@@ -106,7 +106,7 @@ class DataProcessor:
         unique = len(
 
             df[
-                df[CUSTOMER_STAGE]
+                df[CUSTOMER_FRESH_REVISIT]
                 == BUSINESS_VALUES["unique_revisit"]
             ]
 
@@ -115,7 +115,7 @@ class DataProcessor:
         second = len(
 
             df[
-                df[CUSTOMER_STAGE]
+                df[CUSTOMER_FRESH_REVISIT]
                 == BUSINESS_VALUES["second_revisit"]
             ]
 
@@ -124,7 +124,7 @@ class DataProcessor:
         third = len(
 
             df[
-                df[CUSTOMER_STAGE]
+                df[CUSTOMER_FRESH_REVISIT]
                 == BUSINESS_VALUES["third_revisit"]
             ]
 
@@ -133,7 +133,7 @@ class DataProcessor:
         fourth = len(
 
             df[
-                df[CUSTOMER_STAGE]
+                df[CUSTOMER_FRESH_REVISIT]
                 == BUSINESS_VALUES["fourth_revisit"]
             ]
 
@@ -142,7 +142,7 @@ class DataProcessor:
         revisit = len(
 
             df[
-                df[CUSTOMER_STAGE]
+                df[CUSTOMER_FRESH_REVISIT]
                 == BUSINESS_VALUES["revisit"]
             ]
 
@@ -419,7 +419,7 @@ class DataProcessor:
         fresh = len(
 
             group[
-                group[CUSTOMER_STAGE]
+                group[CUSTOMER_FRESH_REVISIT]
                 == BUSINESS_VALUES["fresh"]
             ]
 
@@ -467,7 +467,7 @@ class DataProcessor:
         fresh = len(
 
             group[
-                group[CUSTOMER_STAGE]
+                group[CUSTOMER_FRESH_REVISIT]
                 == BUSINESS_VALUES["fresh"]
             ]
 
