@@ -399,8 +399,8 @@ if st.session_state.analysis_result is not None:
     with c5:
 
         st.metric(
-            "Active Channel Partners",
-            result.metadata["active_channel_partners"],
+            "Participating CP",
+            result.metadata["Participating CP"],
         )
 
     with c6:
