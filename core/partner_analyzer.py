@@ -179,7 +179,7 @@ class PartnerAnalyzer:
 
             .sort_values(
 
-                by="booking_percentage",
+                by="conversion",
 
                 ascending=False,
 
@@ -217,7 +217,7 @@ class PartnerAnalyzer:
 
             &
 
-            (df["booking_percentage"] < 5)
+            (df["conversion"] < 5)
 
         ].sort_values(
 
@@ -239,7 +239,7 @@ class PartnerAnalyzer:
             return None
 
         return df.sort_values(
-            by="booking_percentage",
+            by="conversion",
             ascending=False,
         ).iloc[0]
 
@@ -259,7 +259,7 @@ class PartnerAnalyzer:
             return None
 
         return filtered.sort_values(
-            by="booking_percentage",
+            by="conversion",
             ascending=True,
         ).iloc[0]
 
@@ -286,7 +286,7 @@ class PartnerAnalyzer:
 
             recommendations.append(
 
-                f"{row.iloc[0]} generated the highest "
+                f"{row["partner"]} generated the highest "
                 f"fresh walk-ins ({int(row['fresh_walkins'])}). "
                 "Continue strengthening this relationship."
 
@@ -300,7 +300,7 @@ class PartnerAnalyzer:
 
             recommendations.append(
 
-                f"{row.iloc[0]} achieved the highest number "
+                f"{row["partner"]} achieved the highest number "
                 f"of bookings ({int(row['bookings'])}). "
                 "Study and replicate this partner's approach."
 
@@ -314,8 +314,8 @@ class PartnerAnalyzer:
 
             recommendations.append(
 
-                f"{row.iloc[0]} has the best booking "
-                f"conversion ({row['booking_percentage']}%). "
+                f"{row["partner"]} has the best booking "
+                f"conversion ({row['conversion']}%). "
                 "Use this partner as a benchmark."
 
             )
