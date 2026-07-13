@@ -286,7 +286,7 @@ class PartnerAnalyzer:
 
             recommendations.append(
 
-                f"{row["partner"]} generated the highest "
+                f"{row['partner']} generated the highest "
                 f"fresh walk-ins ({int(row['fresh_walkins'])}). "
                 "Continue strengthening this relationship."
 
@@ -300,7 +300,7 @@ class PartnerAnalyzer:
 
             recommendations.append(
 
-                f"{row["partner"]} achieved the highest number "
+                f"{row['partner']} achieved the highest number "
                 f"of bookings ({int(row['bookings'])}). "
                 "Study and replicate this partner's approach."
 
@@ -314,7 +314,7 @@ class PartnerAnalyzer:
 
             recommendations.append(
 
-                f"{row["partner"]} has the best booking "
+                f"{row['partner']} has the best booking "
                 f"conversion ({row['conversion']}%). "
                 "Use this partner as a benchmark."
 
