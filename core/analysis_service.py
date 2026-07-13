@@ -156,3 +156,96 @@ class AnalysisService:
             )
 
         )
+                # ----------------------------------------------
+        # Populate Result
+        # ----------------------------------------------
+
+        result.total_bookings = dashboard.get("bookings", 0)
+
+        result.conversion = dashboard.get("conversion", 0)
+
+        result.metadata = {
+
+            "available_periods": available_periods,
+
+            "reporting_period": reporting_period,
+
+            "total_walkins": dashboard.get("total_walkins", 0),
+
+            "fresh_walkins": dashboard.get("fresh_walkins", 0),
+
+            "unique_revisits": dashboard.get("unique_revisits", 0),
+
+            "participating_cp": dashboard.get("participating_cp", 0),
+
+            "customer_journey": customer,
+
+            "booking_summary": bookings,
+
+            "partner_summary": partner_analysis,
+
+            "partner_table": partner_df,
+
+            "generated_at": datetime.now(),
+
+        }
+
+        # ----------------------------------------------
+        # AI Consulting
+        # ----------------------------------------------
+
+        try:
+
+            result.ai_report = self.consulting.generate(result)
+
+        except Exception as ex:
+
+            print("=" * 80)
+
+            print("AI CONSULTING ERROR")
+
+            print(ex)
+
+            print("=" * 80)
+
+            result.ai_report = {}
+
+        # ----------------------------------------------
+        # Executive Summary
+        # ----------------------------------------------
+
+        if result.ai_report:
+
+            result.executive_summary = result.ai_report.get(
+
+                "executive_summary",
+
+                "",
+
+            )
+
+            result.recommendations = result.ai_report.get(
+
+                "recommendations",
+
+                [],
+
+            )
+
+        else:
+
+            result.executive_summary = (
+
+                partner_analysis["executive_summary"]
+
+            )
+
+            result.recommendations = (
+
+                partner_analysis["recommendations"]
+
+            )
+
+        return result
+
+
