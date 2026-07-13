@@ -132,7 +132,7 @@ class AnalysisService:
 
         partner_analysis = self.partner_analyzer.report(
             partner_df
-
+        )
         print("=" * 80)
         print("PARTNER ENGINE OUTPUT")
         print(partner_df.head(10))
