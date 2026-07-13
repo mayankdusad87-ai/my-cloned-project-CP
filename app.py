@@ -400,7 +400,7 @@ if st.session_state.analysis_result is not None:
 
         st.metric(
             "Participating CP",
-            result.metadata["participating cp"],
+            result.metadata["participating_cp"],
         )
 
     with c6:
