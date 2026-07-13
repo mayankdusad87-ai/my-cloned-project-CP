@@ -31,6 +31,7 @@ from core.analysis_result import AnalysisResult
 from core.ai.context_builder import ContextBuilder
 from core.ai.findings_engine import FindingsEngine
 from core.ai.provider import AIProvider
+from core.ai.validator import AIResponseValidator
 
 from core.ai.prompts import (
     SYSTEM_PROMPT,
