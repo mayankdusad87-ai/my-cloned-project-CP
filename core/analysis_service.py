@@ -153,28 +153,28 @@ class AnalysisService:
         result.conversion = dashboard["conversion"]
 
         result.metadata = {
- 
-          "available_periods": available_periods,
 
-          "reporting_period": reporting_period,
+            "available_periods": available_periods,
 
-         "total_walkins": dashboard.get("total_walkins", 0),
+            "reporting_period": reporting_period,
 
-         "fresh_walkins": dashboard.get("fresh_walkins", 0),
+            "total_walkins": dashboard.get("total_walkins", 0),
 
-         "unique_revisits": dashboard.get("unique_revisits", 0),
+            "fresh_walkins": dashboard.get("fresh_walkins", 0),
 
-         "participating_cp": dashboard.get("participating_cp", 0),
+            "unique_revisits": dashboard.get("unique_revisits", 0),
 
-         "customer_journey": customer,
+            "participating_cp": dashboard.get("participating_cp", 0),
 
-         "booking_summary": bookings,
-  
-        "partner_summary": partner_analysis,
+            "customer_journey": customer,
 
-        "generated_at": datetime.now(),
+            "booking_summary": bookings,
 
-       }
+            "partner_summary": partner_analysis,
+
+            "generated_at": datetime.now(),
+
+        }
 
         # -------------------------------------------------
         # Executive Summary
