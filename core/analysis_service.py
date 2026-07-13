@@ -62,6 +62,11 @@ class AnalysisService:
 
         self.reporting = ReportingPeriod()
 
+        self.ai_provider = OpenAIProvider()
+
+        self.consulting = ConsultingEngine(
+           self.ai_provider
+        )
     # =====================================================
     # PUBLIC
     # =====================================================
@@ -125,7 +130,8 @@ class AnalysisService:
 
         partner_engine = PartnerEngine()
 
-        partner_df = partner_engine.analyse(df)
+        partner_analysis = self.partner_analyzer.report(
+            partner_df
 
         print("=" * 80)
         print("PARTNER ENGINE OUTPUT")
@@ -194,17 +200,51 @@ class AnalysisService:
             "generated_at": datetime.now(),
 
         }
-
+        # -------------------------------------------------
+        # AI Consulting
+        # -------------------------------------------------
+        
+        try:
+        
+            result.ai_report = self.consulting.generate(result)
+        
+            print("=" * 80)
+            print("AI REPORT")
+            print(result.ai_report)
+            print("=" * 80)
+        
+        except Exception as ex:
+        
+            print("=" * 80)
+            print("AI CONSULTING ERROR")
+            print(ex)
+            print("=" * 80)
+        
+            result.ai_report = {}
         # -------------------------------------------------
         # Executive Summary
         # -------------------------------------------------
 
-        result.executive_summary = (
-            partner_analysis["executive_summary"]
-        )
-
-        result.recommendations = (
-            partner_analysis["recommendations"]
-        )
-
+        if result.ai_report:
+        
+                    result.executive_summary = result.ai_report.get(
+                        "executive_summary",
+                        "",
+                    )
+                
+                    result.recommendations = result.ai_report.get(
+                        "recommendations",
+                        [],
+                    )
+        
+        else:
+        
+                    result.executive_summary = (
+                        partner_analysis["executive_summary"]
+                    )
+                
+                    result.recommendations = (
+                        partner_analysis["recommendations"]
+                    )
+        
         return result
