@@ -4,128 +4,159 @@ ChannelIQ AI
 
 Context Builder
 
-Creates a structured business context
-for the AI Consulting Layer.
+Builds a structured AI context from the
+AnalysisResult object.
 
-Version : 1.0
+This class NEVER performs calculations.
+
+It simply converts verified business facts
+into a format consumable by the AI layer.
+
 =========================================================
 """
 
 from __future__ import annotations
+
+from typing import Any
 
 from core.analysis_result import AnalysisResult
 
 
 class ContextBuilder:
     """
-    Converts AnalysisResult into a structured
-    AI-ready business context.
+    Converts AnalysisResult into an AI-ready context.
+
+    AI should NEVER receive raw Excel data.
+
+    AI should ONLY receive verified facts.
     """
 
     def build(
         self,
         result: AnalysisResult,
-    ) -> dict:
+    ) -> dict[str, Any]:
+
+        metadata = result.metadata or {}
 
         context = {
 
-            # -----------------------------------------
-            # Company Information
-            # -----------------------------------------
+            # =====================================================
+            # COMPANY
+            # =====================================================
 
-            "company": result.company_name,
+            "company": {
 
-            "project": result.project_name,
+                "name": result.company_name,
 
-            "reporting_period":
+                "project": result.project_name,
 
-                result.metadata.get(
+                "reporting_period": metadata.get(
                     "reporting_period",
                     "",
                 ),
 
-            # -----------------------------------------
-            # Executive KPIs
-            # -----------------------------------------
+            },
+
+            # =====================================================
+            # EXECUTIVE KPI
+            # =====================================================
 
             "dashboard": {
 
                 "total_walkins":
-
-                    result.metadata.get(
+                    metadata.get(
                         "total_walkins",
                         0,
                     ),
 
                 "fresh_walkins":
-
-                    result.metadata.get(
+                    metadata.get(
                         "fresh_walkins",
                         0,
                     ),
 
                 "unique_revisits":
-
-                    result.metadata.get(
+                    metadata.get(
                         "unique_revisits",
                         0,
                     ),
 
                 "bookings":
-
                     result.total_bookings,
 
                 "conversion":
-
                     result.conversion,
 
                 "participating_cp":
-
-                    result.metadata.get(
+                    metadata.get(
                         "participating_cp",
                         0,
                     ),
 
             },
 
-            # -----------------------------------------
-            # Business Tables
-            # -----------------------------------------
+            # =====================================================
+            # TABLES
+            # =====================================================
 
             "partner_table":
 
-                result.metadata.get(
-                    "partner_table",
-                    None,
+                metadata.get(
+                    "partner_summary",
+                    {},
                 ),
 
             "customer_journey":
 
-                result.metadata.get(
+                metadata.get(
                     "customer_journey",
-                    None,
+                    {},
                 ),
 
             "booking_summary":
 
-                result.metadata.get(
+                metadata.get(
                     "booking_summary",
-                    None,
+                    {},
                 ),
 
-            # -----------------------------------------
-            # Existing AI Output
-            # (temporary)
-            # -----------------------------------------
+            # =====================================================
+            # EXISTING AI
+            # =====================================================
 
-            "executive_summary":
+            "existing_summary":
 
                 result.executive_summary,
 
-            "recommendations":
+            "existing_recommendations":
 
                 result.recommendations,
 
         }
 
         return context
+
+    # =====================================================
+    # DEBUG
+    # =====================================================
+
+    def pretty_print(
+        self,
+        context: dict,
+    ) -> None:
+
+        import json
+
+        print(
+
+            json.dumps(
+
+                context,
+
+                indent=4,
+
+                default=str,
+
+            )
+
+        )
