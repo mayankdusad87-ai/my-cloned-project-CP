@@ -127,6 +127,12 @@ class AnalysisService:
 
         dashboard = processed["dashboard"]
 
+        print("=" * 50)
+        print("DASHBOARD KEYS")
+        print(dashboard.keys())
+        print(dashboard)
+        print("=" * 50)
+
         customer = processed["customer"]
 
         bookings = processed["bookings"]
