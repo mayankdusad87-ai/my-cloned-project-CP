@@ -60,7 +60,7 @@ class ConsultingEngine:
 
         self.findings_engine = FindingsEngine()
 
-       self.validator = AIResponseValidator()
+        self.validator = AIResponseValidator()
 
     # =====================================================
     # PUBLIC
