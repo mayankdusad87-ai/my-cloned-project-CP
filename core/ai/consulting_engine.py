@@ -60,6 +60,8 @@ class ConsultingEngine:
 
         self.findings_engine = FindingsEngine()
 
+       self.validator = AIResponseValidator()
+
     # =====================================================
     # PUBLIC
     # =====================================================
@@ -116,7 +118,7 @@ class ConsultingEngine:
             user_prompt=user_prompt,
 
         )
-
+        validated_response = self.validator.validate(response)
         return response
 
     # =====================================================
