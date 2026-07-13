@@ -61,7 +61,7 @@ class AnalysisResult:
 
     year: int = 0
 
-    self.ai_report = {}
+    ai_report: Dict = field(default_factory=dict)
 
     # --------------------------------------------------
     # Raw Data
