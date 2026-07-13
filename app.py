@@ -11,6 +11,7 @@ Version : 2.1
 from pathlib import Path
 
 import streamlit as st
+from openai import OpenAI
 
 from config import (
     APP_NAME,
@@ -96,6 +97,32 @@ for key, value in DEFAULT_STATE.items():
 # =========================================================
 
 selected_page = render_sidebar()
+
+if st.sidebar.button("🧪 Test OpenAI"):
+
+    try:
+
+        api_key = st.secrets.get("OPENAI_API_KEY")
+
+        client = OpenAI(api_key=api_key)
+
+        response = client.responses.create(
+
+            model="gpt-5-mini",
+
+            input="Reply with exactly: SUCCESS"
+
+        )
+
+        st.success("✅ OpenAI Connected")
+
+        st.code(response.output_text)
+
+    except Exception as ex:
+
+        st.error("❌ OpenAI Failed")
+
+        st.exception(ex)
 
 # =========================================================
 # HEADER
