@@ -126,7 +126,7 @@ class AnalysisService:
             reporting_period,
         )
 
-        result.dataframe = df
+      
 
        
 
