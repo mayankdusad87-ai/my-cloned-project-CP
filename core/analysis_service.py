@@ -128,7 +128,9 @@ class AnalysisService:
         dashboard = processed["dashboard"]
 
         if not isinstance(dashboard, dict):
-           raise ValueError("KPI Engine did not return a dashboard dictionary.")
+           raise ValueError(
+               "KPI Engine did not return a dashboard dictionary." 
+           )
 
         customer = processed["customer"]
 
