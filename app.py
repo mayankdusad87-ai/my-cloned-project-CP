@@ -240,166 +240,166 @@ if selected_page == "🏠 Dashboard":
     
                 st.exception(ex)
     
-    # =========================================================
-    # DATASET SUMMARY
-    # =========================================================
+        # =========================================================
+        # DATASET SUMMARY
+        # =========================================================
+        
+        if st.session_state.full_dataframe is not None:
+        
+            st.divider()
+        
+            st.subheader("Dataset Summary")
+        
+            c1, c2, c3 = st.columns(3)
+        
+            with c1:
+        
+                st.metric(
+        
+                    "Total Records",
+        
+                    len(
+                        st.session_state.full_dataframe
+                    ),
+        
+                )
+        
+            with c2:
+        
+                st.metric(
+        
+                    "Reporting Periods",
+        
+                    len(
+                        st.session_state.available_periods
+                    ),
+        
+                )
+        
+            with c3:
+        
+                st.metric(
+        
+                    "Latest Period",
+        
+                    st.session_state.selected_period,
+        
+                ) 
+                
+        # =========================================================
+        # ANALYSIS SETTINGS
+        # =========================================================
+        
+        if st.session_state.full_dataframe is not None:
+        
+            st.divider()
+        
+            st.subheader("⚙ Analysis Settings")
+        
+            left, right = st.columns(2)
+
+        # -----------------------------------------------------
+        # COMPANY / PROJECT
+        # -----------------------------------------------------
     
-    if st.session_state.full_dataframe is not None:
+        with left:
+    
+            company = st.text_input(
+                "Company",
+                value=st.session_state.company,
+                placeholder="Builder Name",
+            )
+    
+            project = st.text_input(
+                "Project",
+                value=st.session_state.project,
+                placeholder="Project Name",
+            )
+    
+        # -----------------------------------------------------
+        # REPORTING PERIOD
+        # -----------------------------------------------------
+    
+        with right:
+    
+            selected_period = st.selectbox(
+                "Analysis Period",
+                options=st.session_state.available_periods,
+                index=st.session_state.available_periods.index(
+                    st.session_state.selected_period
+                ),
+            )
+    
+        # -----------------------------------------------------
+        # SAVE SESSION
+        # -----------------------------------------------------
+    
+        st.session_state.company = company
+    
+        st.session_state.project = project
+    
+        st.session_state.selected_period = selected_period
     
         st.divider()
     
-        st.subheader("Dataset Summary")
+        # =====================================================
+        # ANALYSE BUTTON
+        # =====================================================
     
-        c1, c2, c3 = st.columns(3)
+        if st.button(
+            "🚀 Analyse",
+            use_container_width=True,
+            type="primary",
+        ):
     
-        with c1:
+            try:
     
-            st.metric(
+                with st.spinner(
+                    "Generating Executive Intelligence..."
+                ):
     
-                "Total Records",
+                    service = AnalysisService()
     
-                len(
-                    st.session_state.full_dataframe
-                ),
+                    result = service.analyse(
     
-            )
+                        dataframe=st.session_state.full_dataframe,
     
-        with c2:
+                        company_name=company,
     
-            st.metric(
+                        project_name=project,
     
-                "Reporting Periods",
+                        reporting_period=selected_period,
     
-                len(
-                    st.session_state.available_periods
-                ),
+                    )
     
-            )
+                    # --------------------------------------
+                    # SAVE SESSION
+                    # --------------------------------------
     
-        with c3:
+                    st.session_state.analysis_result = result
     
-            st.metric(
+                    st.session_state.analysis_id = result.analysis_id
     
-                "Latest Period",
+                    st.success(
+                        "Analysis completed successfully."
+                    )
     
-                st.session_state.selected_period,
+            except Exception as ex:
     
-            ) 
-            
-    # =========================================================
-    # ANALYSIS SETTINGS
-    # =========================================================
+                st.exception(ex)
+       
+    if st.session_state.analysis_result:
     
-    if st.session_state.full_dataframe is not None:
+        result = st.session_state.analysis_result
     
-        st.divider()
+        PAGE_ROUTES = {
     
-        st.subheader("⚙ Analysis Settings")
+            "🏠 Dashboard": show_dashboard,
     
-        left, right = st.columns(2)
-
-    # -----------------------------------------------------
-    # COMPANY / PROJECT
-    # -----------------------------------------------------
-
-    with left:
-
-        company = st.text_input(
-            "Company",
-            value=st.session_state.company,
-            placeholder="Builder Name",
-        )
-
-        project = st.text_input(
-            "Project",
-            value=st.session_state.project,
-            placeholder="Project Name",
-        )
-
-    # -----------------------------------------------------
-    # REPORTING PERIOD
-    # -----------------------------------------------------
-
-    with right:
-
-        selected_period = st.selectbox(
-            "Analysis Period",
-            options=st.session_state.available_periods,
-            index=st.session_state.available_periods.index(
-                st.session_state.selected_period
-            ),
-        )
-
-    # -----------------------------------------------------
-    # SAVE SESSION
-    # -----------------------------------------------------
-
-    st.session_state.company = company
-
-    st.session_state.project = project
-
-    st.session_state.selected_period = selected_period
-
-    st.divider()
-
-    # =====================================================
-    # ANALYSE BUTTON
-    # =====================================================
-
-    if st.button(
-        "🚀 Analyse",
-        use_container_width=True,
-        type="primary",
-    ):
-
-        try:
-
-            with st.spinner(
-                "Generating Executive Intelligence..."
-            ):
-
-                service = AnalysisService()
-
-                result = service.analyse(
-
-                    dataframe=st.session_state.full_dataframe,
-
-                    company_name=company,
-
-                    project_name=project,
-
-                    reporting_period=selected_period,
-
-                )
-
-                # --------------------------------------
-                # SAVE SESSION
-                # --------------------------------------
-
-                st.session_state.analysis_result = result
-
-                st.session_state.analysis_id = result.analysis_id
-
-                st.success(
-                    "Analysis completed successfully."
-                )
-
-        except Exception as ex:
-
-            st.exception(ex)
-   
-if st.session_state.analysis_result:
-
-    result = st.session_state.analysis_result
-
-    PAGE_ROUTES = {
-
-        "🏠 Dashboard": show_dashboard,
-
-        "📈 Executive Report": show_executive,
-
-        "🏆 Partner Intelligence": show_partner_page,
-
-    }
-
-    PAGE_ROUTES[selected_page](result)
+            "📈 Executive Report": show_executive,
+    
+            "🏆 Partner Intelligence": show_partner_page,
+    
+        }
+    
+        PAGE_ROUTES[selected_page](result)
