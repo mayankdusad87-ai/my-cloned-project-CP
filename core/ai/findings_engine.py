@@ -44,7 +44,7 @@ class FindingsEngine:
         business_snapshot = context["business_snapshot"]
 
         partner_summary = context.get(
-            "partner_table",
+            "partner_intelligence",
             {},
         )
 
@@ -55,7 +55,7 @@ class FindingsEngine:
         findings.extend(
 
             self.dashboard_findings(
-                dashboard
+                businedd_dashboard
             )
 
         )
