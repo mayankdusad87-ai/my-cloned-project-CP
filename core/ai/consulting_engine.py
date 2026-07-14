@@ -118,22 +118,31 @@ class ConsultingEngine:
         print(user_prompt[:1500])
         print("=" * 80)
 
-        # --------------------------------------------
-        # AI
-        # --------------------------------------------
-
-        response = self.provider.generate(
-
-            system_prompt=SYSTEM_PROMPT,
-
-            user_prompt=user_prompt,
-
-        )
-       print("=" * 80)
-       print("STEP 4 - RAW AI RESPONSE")
-       print(response)
-       print("=" * 80)
-        return self.validator.validate(response)
+       # --------------------------------------------
+      # AI
+      # --------------------------------------------
+      
+      response = self.provider.generate(
+      
+          system_prompt=SYSTEM_PROMPT,
+      
+          user_prompt=user_prompt,
+      
+      )
+      
+      print("=" * 80)
+      print("STEP 4 - RAW AI RESPONSE")
+      print(response)
+      print("=" * 80)
+      
+      validated = self.validator.validate(response)
+      
+      print("=" * 80)
+      print("STEP 5 - VALIDATED RESPONSE")
+      print(validated)
+      print("=" * 80)
+      
+      return validated
 
     # =====================================================
     # PROMPT
