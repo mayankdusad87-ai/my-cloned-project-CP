@@ -6,6 +6,7 @@ import streamlit as st
 # =====================================================
 
 def show_executive(result):
+ st.write("EXECUTIVE PAGE LOADED")   
 
     ai = result.ai_report or {}
 
