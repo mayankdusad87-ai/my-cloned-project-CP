@@ -118,9 +118,7 @@ class ConsultingEngine:
             user_prompt=user_prompt,
 
         )
-        validated_response = self.validator.validate(response)
-        
-        return validated_response 
+        return self.validator.validate(response)
 
     # =====================================================
     # PROMPT
