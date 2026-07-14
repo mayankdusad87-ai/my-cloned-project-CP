@@ -12,7 +12,7 @@ def show_executive(result):
 
     st.write("✅ EXECUTIVE PAGE LOADED")
 
-    st.write(result.ai_report)
+    
 
     ai = result.ai_report or {}
 
