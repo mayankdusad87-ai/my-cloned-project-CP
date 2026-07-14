@@ -6,12 +6,12 @@ import streamlit as st
 # =====================================================
 
 def show_executive(result):
- st.title("Executive Report")
 
-st.write("Page Loaded Successfully")
+    st.title("📊 Executive Report")
 
-st.write(result.ai_report)
-st.write("EXECUTIVE PAGE LOADED")   
+    st.write("✅ EXECUTIVE PAGE LOADED")
+
+    st.write(result.ai_report)
 
     ai = result.ai_report or {}
 
@@ -28,7 +28,6 @@ st.write("EXECUTIVE PAGE LOADED")
     st.divider()
 
     show_executive_summary(ai)
-
     # STOP HERE FOR NOW
 
 
