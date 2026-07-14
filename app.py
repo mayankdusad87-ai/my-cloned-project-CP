@@ -152,11 +152,11 @@ if selected_page == "🏠 Dashboard":
 
     st.divider()
 
-   st.subheader("🏆 Partner Performance")
+    st.subheader("🏆 Partner Performance")
 
-   partner_table = result.metadata["partner_table"]
+    partner_table = result.metadata["partner_table"]
 
-   st.dataframe(
+    st.dataframe(
     partner_table,
     use_container_width=True,
     hide_index=True,
