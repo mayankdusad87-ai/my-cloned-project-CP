@@ -6,6 +6,7 @@ import streamlit as st
 # =====================================================
 
 def show_executive(result):
+    
 
     st.title("📊 Executive Report")
 
