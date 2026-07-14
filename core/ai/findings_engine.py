@@ -41,7 +41,7 @@ class FindingsEngine:
 
         opportunities = []
 
-        dashboard = context["dashboard"]
+        business_snapshot = context["business_snapshot"]
 
         partner_summary = context.get(
             "partner_table",
