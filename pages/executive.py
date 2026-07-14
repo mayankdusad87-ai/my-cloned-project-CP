@@ -460,3 +460,26 @@ def show_monday_plan(ai):
             disabled=True,
 
         )
+# =====================================================
+# LEADERSHIP QUESTIONS
+# =====================================================
+
+def show_leadership_questions(ai):
+
+    st.subheader("💬 Questions for Leadership")
+
+    questions = ai.get("leadership_questions", [])
+
+    if not questions:
+
+        st.info("No leadership questions available.")
+
+        return
+
+    for question in questions:
+
+        st.markdown(
+
+            f"- {question}"
+
+        )
