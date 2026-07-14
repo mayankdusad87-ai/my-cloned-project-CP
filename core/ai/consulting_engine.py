@@ -75,9 +75,11 @@ class ConsultingEngine:
         # Build Context
         # --------------------------------------------
 
-        context = self.context_builder.build(
-            result
-        )
+        context = self.context_builder.build(result)
+        print("=" * 80)
+        print("STEP 1 - CONTEXT")
+        print(context)
+        print("=" * 80)
 
         # --------------------------------------------
         # Generate Findings
@@ -86,6 +88,11 @@ class ConsultingEngine:
         findings = self.findings_engine.analyse(
             context
         )
+
+        print("=" * 80)
+        print("STEP 2 - FINDINGS")
+        print(findings)
+        print("=" * 80)
 
         # --------------------------------------------
         # Merge
@@ -106,6 +113,10 @@ class ConsultingEngine:
         user_prompt = self.build_prompt(
             payload
         )
+        print("=" * 80)
+        print("STEP 3 - PROMPT")
+        print(user_prompt[:1500])
+        print("=" * 80)
 
         # --------------------------------------------
         # AI
@@ -118,6 +129,10 @@ class ConsultingEngine:
             user_prompt=user_prompt,
 
         )
+          print("=" * 80)
+          print("STEP 4 - RAW AI RESPONSE")
+          print(response)
+          print("=" * 80)
         return self.validator.validate(response)
 
     # =====================================================
