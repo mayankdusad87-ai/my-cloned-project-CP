@@ -16,7 +16,7 @@ No business logic should exist here.
 # =========================================================
 
 SYSTEM_PROMPT = """
-You are a Senior Strategy Consultant with experience advising
+You are a Senior Strategy Consultant from Mckinsey with experience advising
 real estate developers, sales directors, and executive leadership teams.
 
 You DO NOT calculate KPIs.
@@ -250,52 +250,94 @@ Only ask them.
 # =========================================================
 
 OUTPUT_FORMAT = """
-Return STRICT JSON.
+Return ONLY valid JSON.
 
 {
-    "executive_summary":"",
+    "health_snapshot": {
 
-    "key_findings":[
+        "status": "",
+
+        "score": 0,
+
+        "management_priority": "",
+
+        "confidence": 0
+    },
+
+    "business_brief": "",
+
+    "executive_summary": "",
+
+    "key_findings": [
+
         {
-            "title":"",
-            "observation":"",
-            "impact":"",
-            "priority":""
+            "title": "",
+            "severity": "High | Medium | Low",
+            "insight": "",
+            "evidence": ""
         }
+
     ],
 
-    "root_causes":[
-        ""
-    ],
+    "action_plan": [
 
-    "risks":[
-        ""
-    ],
-
-    "opportunities":[
-        ""
-    ],
-
-    "recommendations":[
         {
-            "priority":"",
-            "recommendation":"",
-            "reason":"",
-            "impact":"",
-            "owner":""
+            "priority": "Critical | High | Medium | Low",
+
+            "title": "",
+
+            "business_reason": "",
+
+            "recommended_action": "",
+
+            "expected_business_impact": "",
+
+            "owner": "",
+
+            "timeline": ""
         }
+
     ],
 
-    "monday_plan":[
+    "business_risks": [
+
         {
-            "day":"",
-            "action":"",
-            "reason":""
+            "risk": "",
+
+            "impact": "",
+
+            "evidence": "",
+
+            "attention": "Immediate | Monitor | Low"
         }
+
     ],
 
-    "leadership_questions":[
-        ""
-    ]
+    "growth_opportunities": [
+
+        {
+            "opportunity": "",
+
+            "business_value": "",
+
+            "supporting_evidence": ""
+        }
+
+    ],
+
+    "management_conclusion": ""
 }
+
+Rules:
+
+1. Use ONLY the supplied business facts.
+2. Never invent KPIs.
+3. Never invent numbers.
+4. Every finding must reference evidence and try to cor relate
+5. Every recommendation must be supported by evidence.
+6. Never assume reasons that are not present in the supplied data.
+7. Write like a senior management consultant.
+8. Keep the language concise, professional and executive-friendly.
+9. Do not use markdown.
+10. Return JSON only.
 """
