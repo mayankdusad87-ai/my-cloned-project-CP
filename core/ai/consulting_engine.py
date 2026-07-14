@@ -44,7 +44,7 @@ class ConsultingEngine:
     """
     Main AI Orchestrator.
 
-    This class never talks directly to OpenAI.
+    This class never talks directly to AI.
 
     It only talks to AIProvider.
     """
@@ -72,22 +72,21 @@ class ConsultingEngine:
     ) -> dict:
 
         # --------------------------------------------
-        # Build Context
+        # STEP 1 - Build Context
         # --------------------------------------------
 
         context = self.context_builder.build(result)
+
         print("=" * 80)
         print("STEP 1 - CONTEXT")
         print(context)
         print("=" * 80)
 
         # --------------------------------------------
-        # Generate Findings
+        # STEP 2 - Generate Findings
         # --------------------------------------------
 
-        findings = self.findings_engine.analyse(
-            context
-        )
+        findings = self.findings_engine.analyse(context)
 
         print("=" * 80)
         print("STEP 2 - FINDINGS")
@@ -95,7 +94,7 @@ class ConsultingEngine:
         print("=" * 80)
 
         # --------------------------------------------
-        # Merge
+        # STEP 3 - Build Payload
         # --------------------------------------------
 
         payload = {
@@ -107,42 +106,45 @@ class ConsultingEngine:
         }
 
         # --------------------------------------------
-        # Prompt
+        # STEP 4 - Build Prompt
         # --------------------------------------------
 
-        user_prompt = self.build_prompt(
-            payload
-        )
+        user_prompt = self.build_prompt(payload)
+
         print("=" * 80)
         print("STEP 3 - PROMPT")
         print(user_prompt[:1500])
         print("=" * 80)
 
-       # --------------------------------------------
-      # AI
-      # --------------------------------------------
-      
-      response = self.provider.generate(
-      
-          system_prompt=SYSTEM_PROMPT,
-      
-          user_prompt=user_prompt,
-      
-      )
-      
-      print("=" * 80)
-      print("STEP 4 - RAW AI RESPONSE")
-      print(response)
-      print("=" * 80)
-      
-      validated = self.validator.validate(response)
-      
-      print("=" * 80)
-      print("STEP 5 - VALIDATED RESPONSE")
-      print(validated)
-      print("=" * 80)
-      
-      return validated
+        # --------------------------------------------
+        # STEP 5 - Call AI
+        # --------------------------------------------
+
+        response = self.provider.generate(
+
+            system_prompt=SYSTEM_PROMPT,
+
+            user_prompt=user_prompt,
+
+        )
+
+        print("=" * 80)
+        print("STEP 4 - RAW AI RESPONSE")
+        print(response)
+        print("=" * 80)
+
+        # --------------------------------------------
+        # STEP 6 - Validate
+        # --------------------------------------------
+
+        validated = self.validator.validate(response)
+
+        print("=" * 80)
+        print("STEP 5 - VALIDATED RESPONSE")
+        print(validated)
+        print("=" * 80)
+
+        return validated
 
     # =====================================================
     # PROMPT
