@@ -439,16 +439,7 @@ if st.session_state.analysis_result is not None:
 
     st.divider()
 
-    st.subheader("🏆 Partner Performance")
-
-    partner_table = result.metadata["partner_table"]
-
-    st.dataframe(
-        partner_table,
-        use_container_width=True,
-        hide_index=True,
-      )
-
+   
 # =====================================================
 # KPI VALIDATION (TEMPORARY)
 # =====================================================
@@ -525,20 +516,5 @@ A total of **{result.metadata['participating_cp']} Participating CP** contribute
     # PARTNER PERFORMANCE
     # -------------------------------------------------
 
-    st.subheader("🏆 Partner Performance")
-
-    partner_summary = result.metadata.get("partner_summary")
-
-    if partner_summary is not None:
-
-        if hasattr(partner_summary, "dataframe"):
-
-            st.dataframe(
-                partner_summary.dataframe,
-                use_container_width=True,
-            )
-
-        else:
-
-            st.write(partner_summary)
+   
 
