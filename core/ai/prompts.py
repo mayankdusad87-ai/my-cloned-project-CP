@@ -136,13 +136,13 @@ RECOMMENDATIONS
 
 Every recommendation MUST satisfy ALL conditions:
 
-✓ Supported by supplied evidence.
+  Supported by supplied evidence.
 
-✓ Relevant to business performance.
+  Relevant to business performance.
 
-✓ Actionable by management.
+  Actionable by management.
 
-✓ Professional.
+  Professional.
 
 Never recommend generic actions such as:
 
