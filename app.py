@@ -152,6 +152,8 @@ if selected_page == "🏠 Dashboard":
 
     st.divider()
 
+    
+
     # =====================================================
     # Sprint 2 starts here...
     # (Upload Section will be added in Part 2)
