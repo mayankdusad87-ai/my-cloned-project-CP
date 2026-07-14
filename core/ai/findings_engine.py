@@ -55,7 +55,7 @@ class FindingsEngine:
         findings.extend(
 
             self.dashboard_findings(
-                businedd_dashboard
+                business_dashboard
             )
 
         )
