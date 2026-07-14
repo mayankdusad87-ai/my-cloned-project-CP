@@ -158,11 +158,15 @@ class ContextBuilder:
 
 "executive_context": {
 
-    "analysis_id": result.analysis_id,
+        "analysis_id": result.analysis_id,
 
-    "analysis_date": metadata.get(
-        "generated_at",
-        "",
-    ),
+        "analysis_date": metadata.get(
+            "generated_at",
+            "",
+        ),
 
-},
+    },
+
+}
+
+return context
