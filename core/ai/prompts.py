@@ -99,10 +99,10 @@ Use ONLY supplied business facts.
 
 Never invent:
 
-• KPIs
-• Numbers
-• Partner names
-• Business reasons
+  KPIs
+  Numbers
+  Partner names
+  Business reasons
 
 Every conclusion must be supported by supplied evidence.
 
