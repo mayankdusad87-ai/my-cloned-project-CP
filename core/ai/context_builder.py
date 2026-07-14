@@ -3,15 +3,6 @@
 ChannelIQ AI
 
 Context Builder
-
-Builds a structured AI context from the
-AnalysisResult object.
-
-This class NEVER performs calculations.
-
-It simply converts verified business facts
-into a format consumable by the AI layer.
-
 =========================================================
 """
 
@@ -23,13 +14,6 @@ from core.analysis_result import AnalysisResult
 
 
 class ContextBuilder:
-    """
-    Converts AnalysisResult into an AI-ready context.
-
-    AI should NEVER receive raw Excel data.
-
-    AI should ONLY receive verified facts.
-    """
 
     def build(
         self,
@@ -40,9 +24,9 @@ class ContextBuilder:
 
         context = {
 
-            # =====================================================
+            # -------------------------------------------------
             # COMPANY
-            # =====================================================
+            # -------------------------------------------------
 
             "company": {
 
@@ -57,80 +41,77 @@ class ContextBuilder:
 
             },
 
-            # =====================================================
-            # EXECUTIVE KPI
-            # =====================================================
+            # -------------------------------------------------
+            # EXECUTIVE CONTEXT
+            # -------------------------------------------------
 
-            "business_snapshot": {
+            "executive_context": {
 
-                "total_walkins":
-                    metadata.get(
-                        "total_walkins",
-                        0,
-                    ),
+                "analysis_id": result.analysis_id,
 
-                "fresh_walkins":
-                    metadata.get(
-                        "fresh_walkins",
-                        0,
-                    ),
-
-                "unique_revisits":
-                    metadata.get(
-                        "unique_revisits",
-                        0,
-                    ),
-
-                "bookings":
-                    result.total_bookings,
-
-                "conversion":
-                    result.conversion,
-
-                "participating_cp":
-                    metadata.get(
-                        "participating_cp",
-                        0,
-                    ),
+                "analysis_date": metadata.get(
+                    "generated_at",
+                    "",
+                ),
 
             },
 
-            # =====================================================
-            # TABLES
-            # =====================================================
+            # -------------------------------------------------
+            # BUSINESS SNAPSHOT
+            # -------------------------------------------------
 
-            "partner_intelligence":
+            "business_snapshot": {
 
-                metadata.get(
-                    "partner_summary",
-                    {},
+                "total_walkins": metadata.get(
+                    "total_walkins",
+                    0,
                 ),
 
-            "customer_intelligence":
-
-                metadata.get(
-                    "customer_journey",
-                    {},
+                "fresh_walkins": metadata.get(
+                    "fresh_walkins",
+                    0,
                 ),
 
-            "booking_intelligence":
-
-                metadata.get(
-                    "booking_summary",
-                    {},
+                "unique_revisits": metadata.get(
+                    "unique_revisits",
+                    0,
                 ),
 
-            # =====================================================
-            # EXISTING AI
-            # =====================================================
+                "bookings": result.total_bookings,
 
-            
+                "conversion": result.conversion,
+
+                "participating_cp": metadata.get(
+                    "participating_cp",
+                    0,
+                ),
+
+            },
+
+            # -------------------------------------------------
+            # BUSINESS INTELLIGENCE
+            # -------------------------------------------------
+
+            "partner_intelligence": metadata.get(
+                "partner_summary",
+                {},
+            ),
+
+            "customer_intelligence": metadata.get(
+                "customer_journey",
+                {},
+            ),
+
+            "booking_intelligence": metadata.get(
+                "booking_summary",
+                {},
+            ),
+
+        }
 
         return context
 
-    # =====================================================
-    # DEBUG
-    # =====================================================
+    # -------------------------------------------------
 
     def pretty_print(
         self,
@@ -140,33 +121,9 @@ class ContextBuilder:
         import json
 
         print(
-
             json.dumps(
-
                 context,
-
                 indent=4,
-
                 default=str,
-
             )
-
         )
-        # =====================================================
-        # EXECUTIVE CONTEXT
-        # =====================================================
-        
-        "executive_context": {
-        
-                "analysis_id": result.analysis_id,
-        
-                "analysis_date": metadata.get(
-                    "generated_at",
-                    "",
-                ),
-        
-            },
-        
-        }
-        
-        return context
