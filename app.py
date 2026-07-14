@@ -390,7 +390,7 @@ if selected_page == "🏠 Dashboard":
     
                 st.exception(ex)
        
-    if st.session_state.analysis_result:
+if st.session_state.analysis_result:
     
         result = st.session_state.analysis_result
     
@@ -404,4 +404,4 @@ if selected_page == "🏠 Dashboard":
     
         }
     
-        PAGE_ROUTES[selected_page](result)
+        PAGE_ROUTES[selected_page](result)    
