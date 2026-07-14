@@ -4,39 +4,61 @@ ChannelIQ AI
 
 Application Entry Point
 
-Version : 2.1
+Enterprise Architecture V2.2
 =========================================================
 """
-from pages.dashboard import show_dashboard
-
-from pages.executive import show_executive
-
-from pages.partner_intelligence import show_partner_page
-
 
 from pathlib import Path
 
 import streamlit as st
-from openai import OpenAI
+
+# =========================================================
+# CONFIG
+# =========================================================
 
 from config import (
-    APP_NAME,
-    PAGE_ICON,
     PAGE_TITLE,
+    PAGE_ICON,
     LAYOUT,
     INITIAL_SIDEBAR_STATE,
     STYLE_FILE,
 )
 
+# =========================================================
+# DATABASE
+# =========================================================
+
 from database import create_tables
+
+# =========================================================
+# CORE
+# =========================================================
 
 from core.analysis_service import AnalysisService
 from core.excel_reader import ExcelReader
 from core.reporting_period import ReportingPeriod
 
+# =========================================================
+# COMPONENTS
+# =========================================================
+
 from components.header import render_header
 from components.sidebar import render_sidebar
-from components.metric_cards import metric_card
+
+# =========================================================
+# PAGES
+# =========================================================
+
+from pages.dashboard import show_dashboard
+from pages.executive import show_executive
+from pages.partner_intelligence import show_partner_page
+
+# Future Pages
+# from pages.risk import show_risk
+# from pages.opportunity import show_opportunity
+# from pages.trends import show_trends
+# from pages.consultant import show_consultant
+
 
 # =========================================================
 # PAGE CONFIG
@@ -72,63 +94,42 @@ create_tables()
 # SESSION STATE
 # =========================================================
 
-DEFAULT_STATE = {
+def initialise_session():
 
-    "analysis_result": None,
+    defaults = {
 
-    "analysis_id": "",
+        "analysis_result": None,
 
-    "company": "",
+        "analysis_id": "",
 
-    "project": "",
+        "company": "",
 
-    "uploaded_file": None,
+        "project": "",
 
-    "full_dataframe": None,
+        "uploaded_file": None,
 
-    "available_periods": [],
+        "full_dataframe": None,
 
-    "selected_period": None,
+        "available_periods": [],
 
-}
+        "selected_period": None,
 
-for key, value in DEFAULT_STATE.items():
+    }
 
-    if key not in st.session_state:
+    for key, value in defaults.items():
 
-        st.session_state[key] = value
+        if key not in st.session_state:
+
+            st.session_state[key] = value
+
+
+initialise_session()
 
 # =========================================================
 # SIDEBAR
 # =========================================================
 
 selected_page = render_sidebar()
-
-if st.sidebar.button("🧪 Test OpenAI"):
-
-    try:
-
-        api_key = st.secrets.get("OPENAI_API_KEY")
-
-        client = OpenAI(api_key=api_key)
-
-        response = client.responses.create(
-
-            model="gpt-5-mini",
-
-            input="Reply with exactly: SUCCESS"
-
-        )
-
-        st.success("✅ OpenAI Connected")
-
-        st.code(response.output_text)
-
-    except Exception as ex:
-
-        st.error("❌ OpenAI Failed")
-
-        st.exception(ex)
 
 # =========================================================
 # HEADER
@@ -145,7 +146,7 @@ render_header(
 )
 
 # =========================================================
-# PAGE TITLE
+# DASHBOARD PAGE
 # =========================================================
 
 if selected_page == "🏠 Dashboard":
@@ -157,80 +158,137 @@ if selected_page == "🏠 Dashboard":
     )
 
     st.divider()
+ # =========================================================
+# UPLOAD SECTION
+# =========================================================
 
-    
+st.subheader("📂 Upload Monthly Tracker")
 
+uploaded_file = st.file_uploader(
+    "Upload ChannelIQ Excel Tracker",
+    type=["xlsx", "xls"],
+    help="Upload the latest Channel Partner tracker.",
+)
 
-    
+# =========================================================
+# READ EXCEL
+# =========================================================
 
-    # =====================================================
-    # Sprint 2 starts here...
-    # (Upload Section will be added in Part 2)
-    # =====================================================
+if uploaded_file is not None:
 
+    file_changed = (
 
-    # =====================================================
-    # UPLOAD SECTION
-    # =====================================================
+        st.session_state.uploaded_file is None
 
-    st.subheader("📂 Upload Monthly Tracker")
+        or
 
-    uploaded_file = st.file_uploader(
-        "Upload ChannelIQ Excel Tracker",
-        type=["xlsx", "xls"],
-        help="Upload the latest Channel Partner tracker.",
+        uploaded_file.name
+        != st.session_state.uploaded_file.name
+
     )
 
-    # -----------------------------------------------------
-    # READ EXCEL
-    # -----------------------------------------------------
+    if file_changed:
 
-    if uploaded_file is not None:
+        try:
 
-        if (
-            st.session_state.uploaded_file is None
-            or
-            uploaded_file.name != st.session_state.uploaded_file.name
-        ):
+            with st.spinner(
+                "Reading Excel Tracker..."
+            ):
 
-            try:
+                reader = ExcelReader()
 
-                with st.spinner("Reading Excel..."):
-
-                    reader = ExcelReader()
-
-                    full_df = reader.read(uploaded_file)
-
-                    reporting = ReportingPeriod()
-
-                    periods = reporting.available_periods(full_df)
-
-                    latest = reporting.latest_period(full_df)
-
-                    st.session_state.uploaded_file = uploaded_file
-
-                    st.session_state.full_dataframe = full_df
-
-                    st.session_state.available_periods = periods
-
-                    st.session_state.selected_period = latest
-
-                st.success(
-                    f"Tracker loaded successfully "
-                    f"({len(full_df):,} records)"
+                full_df = reader.read(
+                    uploaded_file
                 )
 
-            except Exception as e:
+                reporting = ReportingPeriod()
 
-                st.error("Unable to read uploaded tracker.")
+                periods = reporting.available_periods(
+                    full_df
+                )
 
-                st.exception(e)
+                latest = reporting.latest_period(
+                    full_df
+                )
 
-  # =====================================================
+                # -----------------------------
+                # SESSION
+                # -----------------------------
+
+                st.session_state.uploaded_file = uploaded_file
+
+                st.session_state.full_dataframe = full_df
+
+                st.session_state.available_periods = periods
+
+                st.session_state.selected_period = latest
+
+                # Reset previous analysis
+
+                st.session_state.analysis_result = None
+
+            st.success(
+                f"Tracker loaded successfully "
+                f"({len(full_df):,} records)"
+            )
+
+        except Exception as ex:
+
+            st.error(
+                "Unable to read uploaded tracker."
+            )
+
+            st.exception(ex)
+
+# =========================================================
+# DATASET SUMMARY
+# =========================================================
+
+if st.session_state.full_dataframe is not None:
+
+    st.divider()
+
+    st.subheader("Dataset Summary")
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+
+        st.metric(
+
+            "Total Records",
+
+            len(
+                st.session_state.full_dataframe
+            ),
+
+        )
+
+    with c2:
+
+        st.metric(
+
+            "Reporting Periods",
+
+            len(
+                st.session_state.available_periods
+            ),
+
+        )
+
+    with c3:
+
+        st.metric(
+
+            "Latest Period",
+
+            st.session_state.selected_period,
+
+        ) 
+        
+# =========================================================
 # ANALYSIS SETTINGS
-# =====================================================
-
-analyse = False
+# =========================================================
 
 if st.session_state.full_dataframe is not None:
 
@@ -240,9 +298,9 @@ if st.session_state.full_dataframe is not None:
 
     left, right = st.columns(2)
 
-    # -------------------------------------------------
+    # -----------------------------------------------------
     # COMPANY / PROJECT
-    # -------------------------------------------------
+    # -----------------------------------------------------
 
     with left:
 
@@ -258,96 +316,47 @@ if st.session_state.full_dataframe is not None:
             placeholder="Project Name",
         )
 
-    # -------------------------------------------------
+    # -----------------------------------------------------
     # REPORTING PERIOD
-    # -------------------------------------------------
+    # -----------------------------------------------------
 
     with right:
 
-        if st.session_state.available_periods:
-
-            default_index = 0
-
-            if (
+        selected_period = st.selectbox(
+            "Analysis Period",
+            options=st.session_state.available_periods,
+            index=st.session_state.available_periods.index(
                 st.session_state.selected_period
-                in st.session_state.available_periods
-            ):
-
-                default_index = (
-                    st.session_state.available_periods.index(
-                        st.session_state.selected_period
-                    )
-                )
-
-            selected_period = st.selectbox(
-                "Analysis Period",
-                options=st.session_state.available_periods,
-                index=default_index,
-            )
-
-        else:
-
-            selected_period = None
-
-            st.warning(
-                "No reporting periods found in the uploaded tracker."
-            )
-
-        st.caption(
-            "Latest available reporting period is selected automatically."
+            ),
         )
 
-    # -------------------------------------------------
+    # -----------------------------------------------------
     # SAVE SESSION
-    # -------------------------------------------------
+    # -----------------------------------------------------
 
     st.session_state.company = company
+
     st.session_state.project = project
+
     st.session_state.selected_period = selected_period
-
-    # -------------------------------------------------
-    # DATASET SUMMARY
-    # -------------------------------------------------
-
-    info1, info2, info3 = st.columns(3)
-
-    with info1:
-
-        st.metric(
-            "Total Records",
-            f"{len(st.session_state.full_dataframe):,}",
-        )
-
-    with info2:
-
-        st.metric(
-            "Reporting Periods",
-            len(st.session_state.available_periods),
-        )
-
-    with info3:
-
-        st.metric(
-            "Selected Period",
-            selected_period if selected_period else "-",
-        )
 
     st.divider()
 
-    analyse = st.button(
+    # =====================================================
+    # ANALYSE BUTTON
+    # =====================================================
+
+    if st.button(
         "🚀 Analyse",
         use_container_width=True,
         type="primary",
-    )
-    # =====================================================
-    # RUN ANALYSIS
-    # =====================================================
-
-    if analyse:
+    ):
 
         try:
 
-            with st.spinner("Generating Executive Dashboard..."):
+            with st.spinner(
+                "Generating Executive Intelligence..."
+            ):
 
                 service = AnalysisService()
 
@@ -363,44 +372,34 @@ if st.session_state.full_dataframe is not None:
 
                 )
 
+                # --------------------------------------
+                # SAVE SESSION
+                # --------------------------------------
+
                 st.session_state.analysis_result = result
-
-                st.session_state.company = company
-
-                st.session_state.project = project
 
                 st.session_state.analysis_id = result.analysis_id
 
-                st.success("Analysis completed successfully.")
-            
-            st.rerun()
+                st.success(
+                    "Analysis completed successfully."
+                )
 
-        except Exception as e:
+        except Exception as ex:
 
-            st.exception(e)
+            st.exception(ex)
+   
+if st.session_state.analysis_result:
 
+    result = st.session_state.analysis_result
 
+    PAGE_ROUTES = {
 
+        "🏠 Dashboard": show_dashboard,
 
-        # =====================================================
-        # EXECUTIVE DASHBOARD
-        # =====================================================
-        if st.session_state.analysis_result is not None:
-        
-            result = st.session_state.analysis_result
-        
-            if selected_page == "🏠 Dashboard":
-        
-                show_dashboard(result)
-        
-            elif selected_page == "📈 Executive Report":
-        
-                show_executive(result)
-        
-            elif selected_page == "🏆 Partner Intelligence":
-        
-                show_partner_page(result)
-        
-            else:
-        
-                st.info("Coming Soon")
+        "📈 Executive Report": show_executive,
+
+        "🏆 Partner Intelligence": show_partner_page,
+
+    }
+
+    PAGE_ROUTES[selected_page](result)
