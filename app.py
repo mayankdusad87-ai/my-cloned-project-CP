@@ -526,6 +526,26 @@ A total of **{result.metadata['participating_cp']} Participating CP** contribute
 # =====================================================
 
 
+
+if selected_page == "🏆 Partner Intelligence":
+
+    st.title("🏆 Partner Intelligence")
+
+    if st.session_state.analysis_result is None:
+
+        st.info("Please analyse a tracker first.")
+
+    else:
+
+        result = st.session_state.analysis_result
+
+        st.subheader("Channel Partner Performance")
+
+        st.dataframe(
+            result.metadata["partner_table"],
+            use_container_width=True,
+            hide_index=True,
+        )
         
        
 
