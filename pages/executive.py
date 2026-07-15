@@ -4,6 +4,12 @@ import streamlit as st
 # PAGE
 # =====================================================
 
+# ----------------------------------------------------
+# Hidden for MVP v1
+# These sections will return once supported by
+# Business Intelligence Signals instead of AI inference.
+# ----------------------------------------------------
+
 def show_executive(result):
 
     ai = result.ai_report or {}
@@ -28,25 +34,25 @@ def show_executive(result):
 
     show_executive_summary(ai)
 
-    st.divider()
+    #st.divider()
 
-    show_diagnosis(ai)
+    #show_diagnosis(ai)
 
     st.divider()
 
     show_key_findings(ai)
 
-    st.divider()
+    #st.divider()
 
-    show_root_causes(ai)
+    #show_root_causes(ai)
 
-    st.divider()
+    #st.divider()
 
-    show_risks(ai)
+    #show_risks(ai)
 
-    st.divider()
+    #st.divider()
 
-    show_opportunities(ai)
+    #show_opportunities(ai)
 
     st.divider()
 
