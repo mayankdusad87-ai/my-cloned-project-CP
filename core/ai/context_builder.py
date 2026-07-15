@@ -106,11 +106,15 @@ class ContextBuilder:
                 "booking_summary",
                 {},
             ),
-
+            
+            "commercial_intelligence": result.metadata.get(
+               "commercial_intelligence",
+               {},
         }
 
         return context
-
+        
+),
     # -------------------------------------------------
 
     def pretty_print(
