@@ -58,8 +58,8 @@ class FindingsEngine:
 
         findings.extend(
 
-            self.commercial_findings(
-                commercial
+            self.dashboard_findings(
+                business_snapshot
             )
 
         )
