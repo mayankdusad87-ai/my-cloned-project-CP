@@ -14,6 +14,10 @@ def show_executive(result):
 
     st.divider()
 
+    show_commercial_intelligence(result)
+
+    st.divider()
+
     show_health_snapshot(ai)
 
     st.divider()
@@ -83,6 +87,115 @@ def show_header(result):
         st.caption(
             f"Analysis ID : {result.analysis_id}"
         )
+
+# =====================================================
+# COMMERCIAL INTELLIGENCE
+# =====================================================
+
+def show_commercial_intelligence(result):
+
+    signal = result.metadata.get(
+        "commercial_intelligence",
+        {},
+    )
+
+    if not signal:
+
+        return
+
+    st.subheader("🏢 Commercial Intelligence")
+
+    col1, col2 = st.columns([1, 3])
+
+    with col1:
+
+        severity = signal.get("severity", "Unknown")
+
+        status_icon = {
+            "Excellent": "🟢",
+            "Low": "🟡",
+            "Medium": "🟠",
+            "Critical": "🔴",
+        }
+
+        icon = status_icon.get(
+            severity,
+            "⚪",
+        )
+
+        st.metric(
+            "Business Status",
+            f"{icon} {severity}",
+        )
+
+    with col2:
+
+        st.markdown(
+            f"### {signal.get('title','Commercial Intelligence')}"
+        )
+
+        st.write(
+            signal.get(
+                "summary",
+                "",
+            )
+        )
+
+    evidence = signal.get(
+        "evidence",
+        {},
+    )
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+
+        st.metric(
+            "Overall Conversion",
+            f"{evidence.get('overall_conversion',0)}%",
+        )
+
+    with c2:
+
+        st.metric(
+            "CP Conversion",
+            f"{evidence.get('cp_conversion',0)}%",
+        )
+
+    with c3:
+
+        st.metric(
+            "Conversion Gap",
+            f"{evidence.get('conversion_gap',0)}%",
+        )
+
+    st.info(
+
+        "**Business Impact**\n\n"
+
+        + signal.get(
+
+            "business_impact",
+
+            "",
+
+        )
+
+    )
+
+    st.warning(
+
+        "**Management Question**\n\n"
+
+        + signal.get(
+
+            "management_question",
+
+            "",
+
+        )
+
+    )
 
 
 # =====================================================
