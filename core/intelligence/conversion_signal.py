@@ -30,7 +30,7 @@ class ConversionSignal:
         overall_walkins = len(
 
             df[
-                df["Customer Fresh/Revisit"]
+                df["customer_fresh_revisit"]
                 .astype(str)
                 .str.strip()
                 .str.upper()
@@ -46,7 +46,7 @@ class ConversionSignal:
         overall_bookings = len(
 
             df[
-                df["Booking Done"]
+                df["booking_done"]
                 .astype(str)
                 .str.strip()
                 .str.upper()
@@ -61,12 +61,12 @@ class ConversionSignal:
 
         cp_walkins_df = df[
 
-            (df["Source"].astype(str).str.strip().str.upper() == "CHANNEL PARTNER")
+            (df["source"].astype(str).str.strip().str.upper() == "CHANNEL PARTNER")
 
             &
 
             (
-                df["Customer Fresh/Revisit"]
+                df["customer_fresh_revisit"]
                 .astype(str)
                 .str.strip()
                 .str.upper()
@@ -85,12 +85,12 @@ class ConversionSignal:
 
             df[
 
-                (df["Source"].astype(str).str.strip().str.upper() == "CHANNEL PARTNER")
+                (df["source"].astype(str).str.strip().str.upper() == "CHANNEL PARTNER")
 
                 &
 
                 (
-                    df["Booking Done"]
+                    df["booking_done"]
                     .astype(str)
                     .str.strip()
                     .str.upper()
