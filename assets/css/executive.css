@@ -1,1 +1,220 @@
 
+/* =====================================================
+   Executive Workspace
+===================================================== */
+
+.executive-wrapper{
+
+    max-width:1400px;
+
+    margin:auto;
+
+}
+
+.executive-card{
+
+    background:#FFFFFF;
+
+    border-radius:22px;
+
+    padding:34px;
+
+    border:1px solid #EDF2F7;
+
+    box-shadow:
+
+        0 10px 30px rgba(15,23,42,.05);
+
+}
+
+/* =====================================================
+Header
+===================================================== */
+
+.executive-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    margin-bottom:30px;
+
+}
+
+.executive-title{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#0F172A;
+
+}
+
+.executive-subtitle{
+
+    margin-top:8px;
+
+    font-size:14px;
+
+    color:#64748B;
+
+}
+
+/* =====================================================
+Metadata Card
+===================================================== */
+
+.metadata-card{
+
+    width:260px;
+
+    background:#F8FAFC;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    border:1px solid #E5E7EB;
+
+}
+
+.meta-label{
+
+    color:#94A3B8;
+
+    text-transform:uppercase;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    margin-top:10px;
+
+}
+
+.meta-value{
+
+    color:#111827;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+/* =====================================================
+Metric Grid
+===================================================== */
+
+.metric-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:22px;
+
+    margin-top:30px;
+
+}
+
+.metric-box{
+
+    background:#F8FAFC;
+
+    border-radius:18px;
+
+    border:1px solid #E2E8F0;
+
+    padding:24px;
+
+    transition:.25s;
+
+}
+
+.metric-box:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
+
+}
+
+.metric-label{
+
+    color:#94A3B8;
+
+    text-transform:uppercase;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    letter-spacing:.05em;
+
+}
+
+.metric-number{
+
+    margin-top:20px;
+
+    font-size:42px;
+
+    font-weight:700;
+
+    color:#0F172A;
+
+}
+
+.metric-description{
+
+    margin-top:8px;
+
+    color:#64748B;
+
+    font-size:14px;
+
+}
+
+/* =====================================================
+Priority Pill
+===================================================== */
+
+.priority-wrapper{
+
+    margin-top:30px;
+
+}
+
+.priority-title{
+
+    font-size:13px;
+
+    color:#64748B;
+
+    margin-bottom:12px;
+
+}
+
+.priority-pill{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    background:#FEF3C7;
+
+    color:#92400E;
+
+    border-radius:999px;
+
+    padding:12px 22px;
+
+    font-weight:700;
+
+}
