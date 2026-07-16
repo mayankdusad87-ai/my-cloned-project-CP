@@ -52,7 +52,7 @@ Every insight should help leadership make better decisions.
 # EXECUTIVE REPORT PROMPT
 # =========================================================
 
-EXECUTIVE_SUMMARY_PROMPT = """
+EXECUTIVE_REPORT_PROMPT = """
 Prepare an Executive Consulting Report for the CEO and Leadership Team.
 
 The report should explain the business, not the dashboard.
