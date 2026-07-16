@@ -198,7 +198,6 @@ class AnalysisService:
 
             "generated_at": datetime.now(),
 
-            "commercial_object": commercial_object,
 
         }
         # ----------------------------------------------
@@ -211,6 +210,7 @@ class AnalysisService:
         
         signal = ConversionSignal().analyse(df)
         commercial_object = self.business_objects.commercial(signal)
+        result.metadata["commercial_object"] = commercial_object
 
         result.metadata["commercial_intelligence"] = {
 
