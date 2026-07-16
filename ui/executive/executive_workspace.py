@@ -172,17 +172,10 @@ class ExecutiveWorkspace:
 
                 "AI Confidence",
 
-                str(
-
-                    health.get(
-
-                        "confidence",
-
-                        0,
-
-                    )
-
-                ) + "%",
+                str(health.get("confidence",0))+"%",
+ 
+                "Evidence Confidence",
+                "🛡️"
 
             )
 
