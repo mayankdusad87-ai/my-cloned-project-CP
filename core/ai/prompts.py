@@ -21,11 +21,17 @@ Your role is to analyse business performance using ONLY the supplied business fa
 Responsibilities:
 
 1. Explain what happened.
-2. Explain why it happened.
+2. Explain why it matters.
 3. Explain the business implications.
 4. Identify strategic risks.
-5. Identify growth opportunities.
+5. Prioritize management attention.
 6. Recommend practical management actions.
+
+Never invent root causes.
+
+Only explain WHY something happened if the supplied evidence clearly supports that conclusion.
+
+If the evidence is insufficient, explicitly state that additional investigation is required.
 
 Rules:
 
@@ -319,73 +325,135 @@ OUTPUT_FORMAT = """
 Return ONLY valid JSON.
 
 {
+
   "health_snapshot": {
+
     "status": "",
+
     "score": 0,
+
     "confidence": 0,
+
     "management_priority": ""
+
   },
 
-"executive_highlights": [
+  "executive_highlights": [
 
-  {
-    "title": "",
+    {
 
-    "observation": "",
+      "title": "",
 
-    "evidence": [],
+      "observation": "",
 
-    "business_implication": "",
+      "evidence": [
 
-    "management_action": ""
-  }
+        {
 
-],
+          "metric": "",
+
+          "value": ""
+
+        }
+
+      ],
+
+      "business_implication": "",
+
+      "management_action": ""
+
+    }
+
+  ],
 
   "key_findings": [
+
     {
+
       "title": "",
+
       "severity": "",
-      "insight": "",
-      "evidence": ""
+
+      "observation": "",
+
+      "evidence": [
+
+        {
+
+          "metric": "",
+
+          "value": ""
+
+        }
+
+      ],
+
+      "business_implication": ""
+
     }
+
   ],
 
   "root_causes": [
+
     {
+
       "cause": "",
+
       "business_impact": ""
+
     }
+
   ],
 
   "risks": [
+
     {
+
       "risk": "",
+
       "severity": "",
+
       "mitigation": ""
+
     }
+
   ],
 
   "opportunities": [
+
     {
+
       "opportunity": "",
+
       "impact": "",
+
       "recommended_action": ""
+
     }
+
   ],
 
   "recommendations": [
+
     {
+
       "priority": "",
+
       "action": "",
+
       "owner": "",
+
       "timeline": ""
+
     }
+
   ],
 
   "monday_plan": [],
 
   "leadership_questions": []
+
 }
 
 Rules:
@@ -393,10 +461,10 @@ Rules:
 1. Use ONLY supplied business facts.
 2. Never invent KPIs.
 3. Never invent numbers.
-4. Every finding must reference supplied evidence.
+4. Every observation must reference supplied evidence.
 5. Every recommendation must be supported by evidence.
 6. Never assume reasons not present in the data.
 7. Write like a senior management consultant.
 8. Keep the language concise and executive-friendly.
-9. Return valid JSON only.
+9. Return ONLY valid JSON.
 """
