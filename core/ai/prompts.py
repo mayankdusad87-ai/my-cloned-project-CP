@@ -69,18 +69,41 @@ Explain their implications.
 
 Do NOT simply repeat KPI values.
 
-Prepare the report in the following order:
+Prepare an Executive Intelligence Report.
 
-1. Business Brief
-2. Executive Summary
-3. Commercial Diagnosis
-4. Key Findings
-5. Root Causes
-6. Risks
-7. Opportunities
-8. Recommendations
-9. Monday Morning Action Plan
-10. Leadership Questions
+The report must begin with Executive Intelligence Highlights.
+
+Generate the 3–7 most important business insights based ONLY on verified business facts.
+
+Each Executive Intelligence Highlight must contain:
+
+1. Title
+2. Observation
+3. Evidence
+4. Business Implication
+5. Management Action
+
+Rules:
+
+- Every observation must be supported by evidence.
+- Never invent evidence.
+- Never invent KPIs.
+- Never invent numbers.
+- Never make assumptions not supported by business facts.
+- Prioritize insights based on business impact.
+- If there are only two important insights, generate only two.
+- If there are six important insights, generate six.
+- Quality is more important than quantity.
+
+After Executive Intelligence Highlights continue with:
+
+1. Key Findings
+2. Root Causes
+3. Risks
+4. Opportunities
+5. Recommendations
+6. Monday Morning Action Plan
+7. Leadership Questions
 
 Rules:
 
