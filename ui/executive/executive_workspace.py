@@ -82,9 +82,14 @@ class ExecutiveWorkspace:
             priority,
         )
 
-        self.render_highlights(
-        ai,
+         self.render_tabs(
+             result,
+             ai,
        )
+        st.markdown(
+            "</div>",
+            unsafe_allow_html=True,
+        )
     # =====================================================
     # HEADER
     # =====================================================
@@ -403,4 +408,198 @@ No executive intelligence highlights available.
             )
 
         st.markdown("<br>", unsafe_allow_html=True)
+        
+    # =====================================================
+    # TABS
+    # =====================================================
+
+    def render_tabs(
+        self,
+        result,
+        ai,
+    ):
+
+        tab1, tab2, tab3, tab4, tab5 = st.tabs(
+
+            [
+
+                "Executive",
+
+                "Commercial",
+
+                "Insights",
+
+                "Recommendations",
+
+                "Action Plan",
+
+            ]
+
+        )
+
+        # -------------------------------------------------
+
+        with tab1:
+
+            st.success(
+
+                "Executive Intelligence Summary"
+
+            )
+
+            st.write(
+
+                ai.get(
+
+                    "executive_summary",
+
+                    "Executive Summary not available.",
+
+                )
+
+            )
+
+        # -------------------------------------------------
+
+        with tab2:
+
+            commercial = result.metadata.get(
+
+                "commercial_intelligence",
+
+                {},
+
+            )
+
+            if commercial:
+
+                st.subheader(
+
+                    commercial.get(
+
+                        "title",
+
+                        "Commercial Intelligence",
+
+                    )
+
+                )
+
+                st.write(
+
+                    commercial.get(
+
+                        "summary",
+
+                        "-",
+
+                    )
+
+                )
+
+                st.markdown("### Business Impact")
+
+                st.write(
+
+                    commercial.get(
+
+                        "business_impact",
+
+                        "-",
+
+                    )
+
+                )
+
+                st.markdown("### Management Question")
+
+                st.write(
+
+                    commercial.get(
+
+                        "management_question",
+
+                        "-",
+
+                    )
+
+                )
+
+            else:
+
+                st.info(
+
+                    "Commercial Intelligence not available."
+
+                )
+
+        # -------------------------------------------------
+
+        with tab3:
+
+            findings = ai.get(
+
+                "findings",
+
+                [],
+
+            )
+
+            if findings:
+
+                for finding in findings:
+
+                    st.markdown(
+
+                        "- " + str(finding)
+
+                    )
+
+            else:
+
+                st.info(
+
+                    "No insights available."
+
+                )
+
+        # -------------------------------------------------
+
+        with tab4:
+
+            recommendations = ai.get(
+
+                "recommendations",
+
+                [],
+
+            )
+
+            if recommendations:
+
+                for item in recommendations:
+
+                    st.markdown(
+
+                        "- " + str(item)
+
+                    )
+
+            else:
+
+                st.info(
+
+                    "No recommendations generated."
+
+                )
+
+        # -------------------------------------------------
+
+        with tab5:
+
+            st.info(
+
+                "Action Plan module will be added in Phase 2."
+
+            )
 
