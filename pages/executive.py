@@ -23,7 +23,7 @@ def show_executive(result):
 
     ) 
         
-# Remaining sections will be added in Part 2
+
 
 # =====================================================
 # HEADER
