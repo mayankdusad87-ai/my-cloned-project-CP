@@ -303,11 +303,21 @@ Return ONLY valid JSON.
     "management_priority": ""
   },
 
-  "business_brief": "",
+"executive_highlights": [
 
-  "executive_summary": "",
+  {
+    "title": "",
 
-  "diagnosis": "",
+    "observation": "",
+
+    "evidence": [],
+
+    "business_implication": "",
+
+    "management_action": ""
+  }
+
+],
 
   "key_findings": [
     {
