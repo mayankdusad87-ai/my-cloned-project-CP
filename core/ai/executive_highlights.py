@@ -1,3 +1,4 @@
+
 """
 =========================================================
 ChannelIQ AI
@@ -26,8 +27,12 @@ class ExecutiveHighlights:
 
         commercial = context.get(
             "commercial_intelligence",
-            None,
+            {},
         )
+
+        # -------------------------------------------------
+        # Commercial Intelligence
+        # -------------------------------------------------
 
         if commercial:
 
@@ -35,11 +40,25 @@ class ExecutiveHighlights:
 
                 {
 
-                    "title": commercial.title,
+                    "priority": commercial.get(
+                        "severity",
+                        "Medium",
+                    ),
 
-                    "observation": commercial.summary,
+                    "title": commercial.get(
+                        "title",
+                        "",
+                    ),
 
-                    "evidence": commercial.evidence,
+                    "observation": commercial.get(
+                        "summary",
+                        "",
+                    ),
+
+                    "evidence": commercial.get(
+                        "evidence",
+                        {},
+                    ),
 
                 }
 
