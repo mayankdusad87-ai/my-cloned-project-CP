@@ -1,0 +1,277 @@
+/* =====================================================
+   ChannelIQ Design System v1.0
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+/* =====================================================
+   COLOR TOKENS
+   ===================================================== */
+
+:root{
+
+    --navy:#0F172A;
+
+    --navy-light:#1E293B;
+
+    --primary:#2563EB;
+
+    --primary-light:#DBEAFE;
+
+    --background:#F8FAFC;
+
+    --surface:#FFFFFF;
+
+    --surface-2:#F3F4F6;
+
+    --border:#E5E7EB;
+
+    --text:#111827;
+
+    --muted:#6B7280;
+
+    --success:#16A34A;
+
+    --warning:#F59E0B;
+
+    --danger:#DC2626;
+
+    --shadow:
+        0 1px 2px rgba(15,23,42,.04),
+        0 10px 30px rgba(15,23,42,.06);
+
+}
+
+/* =====================================================
+   GLOBAL
+   ===================================================== */
+
+html,
+body,
+[class*="css"]{
+
+    font-family:"DM Sans",sans-serif;
+
+}
+
+.stApp{
+
+    background:var(--background);
+
+}
+
+/* =====================================================
+   MAIN CONTAINER
+   ===================================================== */
+
+.block-container{
+
+    max-width:1500px;
+
+    padding-top:1.2rem;
+
+    padding-left:2rem;
+
+    padding-right:2rem;
+
+    padding-bottom:2rem;
+
+}
+
+/* =====================================================
+   REMOVE STREAMLIT DEFAULTS
+   ===================================================== */
+
+header{
+
+    visibility:hidden;
+
+}
+
+footer{
+
+    visibility:hidden;
+
+}
+
+#MainMenu{
+
+    visibility:hidden;
+
+}
+
+/* =====================================================
+   CARD
+   ===================================================== */
+
+.channel-card{
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:24px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:20px;
+
+}
+
+/* =====================================================
+   TITLE
+   ===================================================== */
+
+.channel-title{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.channel-subtitle{
+
+    color:var(--muted);
+
+    font-size:14px;
+
+    margin-top:6px;
+
+}
+
+/* =====================================================
+   SECTION TITLE
+   ===================================================== */
+
+.section-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+    margin-bottom:18px;
+
+}
+
+/* =====================================================
+   METRIC CARD
+   ===================================================== */
+
+.metric-card{
+
+    background:var(--surface-2);
+
+    border-radius:16px;
+
+    padding:18px;
+
+    border:1px solid var(--border);
+
+    transition:.2s;
+
+}
+
+.metric-card:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:var(--shadow);
+
+}
+
+.metric-title{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+
+}
+
+.metric-value{
+
+    margin-top:8px;
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+/* =====================================================
+   PRIORITY BADGE
+   ===================================================== */
+
+.priority-pill{
+
+    display:inline-block;
+
+    background:#FEF3C7;
+
+    color:#92400E;
+
+    border-radius:999px;
+
+    padding:10px 18px;
+
+    font-weight:700;
+
+    font-size:14px;
+
+}
+
+/* =====================================================
+   HIGHLIGHT CARD
+   ===================================================== */
+
+.highlight-card{
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-left:5px solid var(--primary);
+
+    border-radius:16px;
+
+    padding:18px;
+
+    margin-top:15px;
+
+}
+
+.highlight-title{
+
+    font-size:17px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.highlight-label{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    margin-top:14px;
+
+}
