@@ -28,11 +28,11 @@ def show_executive(result):
 
     st.divider()
 
-    show_business_brief(ai)
+    #show_business_brief(ai)
 
-    st.divider()
+    #st.divider()
 
-    show_executive_summary(ai)
+    #show_executive_summary(ai)
 
     #st.divider()
 
