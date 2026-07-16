@@ -42,14 +42,13 @@ class MetricCard:
 
 </div>
 
-<div class="channel-subtitle">
+<div class="metric-sub">
 
 {subtitle}
 
 </div>
 
 </div>
-
 """,
 
             unsafe_allow_html=True,
