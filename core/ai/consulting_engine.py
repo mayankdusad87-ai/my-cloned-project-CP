@@ -24,6 +24,7 @@ Executive Report
 """
 
 from __future__ import annotations
+from core.ai.executive_highlights import ExecutiveHighlights
 
 import json
 
@@ -59,6 +60,8 @@ class ConsultingEngine:
         self.context_builder = ContextBuilder()
 
         self.findings_engine = FindingsEngine()
+          
+        self.executive_highlights = ExecutiveHighlights()
 
         self.validator = AIResponseValidator()
 
@@ -69,6 +72,7 @@ class ConsultingEngine:
     def generate(
         self,
         result: AnalysisResult,
+          
     ) -> dict:
 
         # --------------------------------------------
@@ -81,6 +85,19 @@ class ConsultingEngine:
         print("STEP 1 - CONTEXT")
         print(context)
         print("=" * 80)
+
+       # --------------------------------------------
+       # STEP 2 - Executive Highlights
+       # --------------------------------------------
+      
+       executive_highlights = self.executive_highlights.build(
+          context
+        ) 
+      
+        print("=" * 80)
+        print("EXECUTIVE HIGHLIGHTS")
+        print(executive_highlights)
+        print("=" * 80)  
 
         # --------------------------------------------
         # STEP 2 - Generate Findings
@@ -100,6 +117,8 @@ class ConsultingEngine:
         payload = {
 
             "context": context,
+
+            "executive_highlights": executive_highlights,
 
             "findings": findings,
 
