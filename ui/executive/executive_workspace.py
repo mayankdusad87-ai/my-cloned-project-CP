@@ -28,16 +28,16 @@ class ExecutiveWorkspace:
         ai,
 ):
 
-    health = ai.get("health_snapshot", {})
-
-    status = health.get("status", "-")
-    score = health.get("score", "-")
-    confidence = health.get("confidence", 0)
-    priority = health.get("management_priority", "Not Available")
-
-    reporting_period = result.metadata.get(
-        "reporting_period",
-        "-",
+        health = ai.get("health_snapshot", {})
+    
+        status = health.get("status", "-")
+        score = health.get("score", "-")
+        confidence = health.get("confidence", 0)
+        priority = health.get("management_priority", "Not Available")
+    
+        reporting_period = result.metadata.get(
+            "reporting_period",
+            "-",
     )
 
     analysis_id = result.analysis_id
