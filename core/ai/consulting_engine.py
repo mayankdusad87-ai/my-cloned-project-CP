@@ -90,14 +90,18 @@ class ConsultingEngine:
        # STEP 2 - Executive Highlights
        # --------------------------------------------
       
-       executive_highlights = self.executive_highlights.build(
-          context
-        ) 
-      
+        # --------------------------------------------
+        # STEP 2 - Executive Highlights
+        # --------------------------------------------
+
+        executive_highlights = self.executive_highlights.build(
+            context
+        )
+
         print("=" * 80)
         print("EXECUTIVE HIGHLIGHTS")
         print(executive_highlights)
-        print("=" * 80)  
+        print("=" * 80)
 
         # --------------------------------------------
         # STEP 2 - Generate Findings
