@@ -13,17 +13,18 @@
 
 .executive-card{
 
-    background:#FFFFFF;
+     background:#FFFFFF;
 
-    border-radius:22px;
+    border-radius:20px;
 
-    padding:34px;
+    padding:36px;
 
-    border:1px solid #EDF2F7;
+    border:1px solid #E5E7EB;
 
     box-shadow:
+        0 8px 30px rgba(15,23,42,.06);
 
-        0 10px 30px rgba(15,23,42,.05);
+    margin-bottom:28px;
 
 }
 
@@ -69,17 +70,15 @@ Metadata Card
 
 .metadata-card{
 
-    width:260px;
+    width:280px;
 
     background:#F8FAFC;
 
-    border-radius:18px;
+    border-radius:16px;
 
     padding:22px;
 
-    border:1px solid #E5E7EB;
-
-}
+    border:1px solid #E2E8F0;
 
 .meta-label{
 
@@ -123,15 +122,20 @@ Metric Grid
 
 .metric-box{
 
-    background:#F8FAFC;
+    background:#FFFFFF;
 
-    border-radius:18px;
+    border-radius:16px;
 
-    border:1px solid #E2E8F0;
+    border:1px solid #E5E7EB;
 
-    padding:24px;
+    padding:22px;
+
+    min-height:145px;
 
     transition:.25s;
+
+    box-shadow:
+        0 4px 16px rgba(15,23,42,.04);
 
 }
 
@@ -159,13 +163,17 @@ Metric Grid
 
 .metric-number{
 
-    margin-top:20px;
+   .metric-number{
 
-    font-size:42px;
+    margin-top:18px;
+
+    font-size:40px;
 
     font-weight:700;
 
-    color:#0F172A;
+    color:#111827;
+
+    line-height:1;
 
 }
 
@@ -207,14 +215,61 @@ Priority Pill
 
     gap:8px;
 
-    background:#FEF3C7;
+    background:#EFF6FF;
 
-    color:#92400E;
+    color:#1D4ED8;
 
     border-radius:999px;
 
-    padding:12px 22px;
+    padding:8px 18px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+   .executive-report-title{
+
+    font-size:42px;
 
     font-weight:700;
+
+    color:#0F172A;
+
+    margin-bottom:8px;
+
+}
+
+.executive-report-subtitle{
+
+    color:#64748B;
+
+    font-size:16px;
+
+    margin-bottom:32px;
+
+}
+
+.executive-card-title{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:#0F172A;
+
+}
+
+.executive-card-subtitle{
+
+    color:#94A3B8;
+
+    font-size:13px;
+
+    letter-spacing:.06em;
+
+    text-transform:uppercase;
+
+    margin-top:8px;
 
 }
