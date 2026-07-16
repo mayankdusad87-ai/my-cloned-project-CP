@@ -11,7 +11,6 @@ import streamlit as st
 # These sections will return once supported by
 # Business Intelligence Signals instead of AI inference.
 # ----------------------------------------------------
-
 def show_executive(result):
 
     workspace = ExecutiveWorkspace()
@@ -20,83 +19,9 @@ def show_executive(result):
 
         result,
 
-    ai = result.ai_report or {}
-    )    
+        result.ai_report or {},
 
-    st.title("📊 Executive Intelligence Report")
-
-    show_header(result)
-
-    st.divider()
-    show_executive_brief(result, ai)
-
-    st.divider()
-
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(
-
-        [
-
-            "📊 Executive",
-
-            "🏢 Commercial",
-
-            "💡 Insights",
-
-            "🎯 Recommendations",
-
-            "📅 Action Plan",
-
-        ]
-
-    )
-
-    # ==================================================
-    # TAB 1
-    # ==================================================
-
-    with tab1:
-
-        show_health_snapshot(ai)
-
-        st.divider()
-
-        show_executive_highlights(ai)
-
-    # ==================================================
-    # TAB 2
-    # ==================================================
-
-    with tab2:
-
-        show_commercial_intelligence(result)
-
-    # ==================================================
-    # TAB 3
-    # ==================================================
-
-    with tab3:
-
-        show_key_findings(ai)
-
-    # ==================================================
-    # TAB 4
-    # ==================================================
-
-    with tab4:
-
-        show_recommendations(ai)
-
-    # ==================================================
-    # TAB 5
-    # ==================================================
-
-    with tab5:
-
-        show_monday_plan(ai)
-
-        st.divider()
-
-        show_leadership_questions(ai)   
+    ) 
         
 # Remaining sections will be added in Part 2
 
