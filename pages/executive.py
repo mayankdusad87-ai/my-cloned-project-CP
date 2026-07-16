@@ -20,60 +20,73 @@ def show_executive(result):
 
     st.divider()
 
-    show_health_snapshot(ai)
-    
-    st.divider()
-    
-    show_executive_highlights(ai)
-    
-    st.divider()
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(
 
-    show_commercial_intelligence(result)
+        [
 
-    st.divider()
+            "📊 Executive",
 
-    show_health_snapshot(ai)
+            "🏢 Commercial",
 
-    st.divider()
+            "💡 Insights",
 
-    #show_business_brief(ai)
+            "🎯 Recommendations",
 
-    #st.divider()
+            "📅 Action Plan",
 
-    #show_executive_summary(ai)
+        ]
 
-    #st.divider()
+    )
 
-    #show_diagnosis(ai)
+    # ==================================================
+    # TAB 1
+    # ==================================================
 
-    st.divider()
+    with tab1:
 
-    show_key_findings(ai)
+        show_health_snapshot(ai)
 
-    #st.divider()
+        st.divider()
 
-    #show_root_causes(ai)
+        show_executive_highlights(ai)
 
-    #st.divider()
+    # ==================================================
+    # TAB 2
+    # ==================================================
 
-    #show_risks(ai)
+    with tab2:
 
-    #st.divider()
+        show_commercial_intelligence(result)
 
-    #show_opportunities(ai)
+    # ==================================================
+    # TAB 3
+    # ==================================================
 
-    st.divider()
+    with tab3:
 
-    show_recommendations(ai)
+        show_key_findings(ai)
 
-    st.divider()
+    # ==================================================
+    # TAB 4
+    # ==================================================
 
-    show_monday_plan(ai)
+    with tab4:
 
-    st.divider()
+        show_recommendations(ai)
 
-    show_leadership_questions(ai)   
-    # Remaining sections will be added in Part 2
+    # ==================================================
+    # TAB 5
+    # ==================================================
+
+    with tab5:
+
+        show_monday_plan(ai)
+
+        st.divider()
+
+        show_leadership_questions(ai)   
+        
+# Remaining sections will be added in Part 2
 
 
 # =====================================================
