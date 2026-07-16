@@ -10,6 +10,7 @@ Enterprise Architecture V2.2
 
 from pathlib import Path
 
+
 import streamlit as st
 
 # =========================================================
@@ -70,7 +71,7 @@ st.set_page_config(
     layout=LAYOUT,
     initial_sidebar_state=INITIAL_SIDEBAR_STATE,
 )
-
+from ui.styles import load_styles
 # =========================================================
 # LOAD CSS
 # =========================================================
