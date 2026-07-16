@@ -4,32 +4,17 @@ ChannelIQ AI
 
 Executive Workspace
 
-Enterprise Executive Report UI
-
 =========================================================
 """
-
-from __future__ import annotations
 
 import streamlit as st
 
 
 class ExecutiveWorkspace:
 
-    # =====================================================
-    # PUBLIC
-    # =====================================================
+    def render(self, result, ai):
 
-    def render(
-        self,
-        result,
-        ai,
-    ):
-
-        health = ai.get(
-            "health_snapshot",
-            {},
-        )
+        health = ai.get("health_snapshot", {})
 
         reporting_period = result.metadata.get(
             "reporting_period",
@@ -43,7 +28,7 @@ class ExecutiveWorkspace:
             "-",
         )
 
-        health_score = health.get(
+        score = health.get(
             "score",
             "-",
         )
@@ -55,156 +40,61 @@ class ExecutiveWorkspace:
 
         priority = health.get(
             "management_priority",
-            "Normal",
+            "Medium",
         )
+
+        # ------------------------------------------------
+        # HEADER
+        # ------------------------------------------------
 
         st.markdown(
             """
-<div class="executive-page">
-""",
-            unsafe_allow_html=True,
+# 📊 Executive Intelligence Report
+
+AI Powered Business Intelligence
+"""
         )
 
-        self.render_header()
+        st.divider()
 
-        self.render_brief_header(
-            reporting_period,
-            analysis_id,
-        )
+        # ------------------------------------------------
+        # TOP SECTION
+        # ------------------------------------------------
 
-        self.render_metric_tiles(
-            sentiment,
-            health_score,
-            confidence,
-        )
-
-        self.render_priority(
-            priority,
-        )
-
-         self.render_tabs(
-             result,
-             ai,
-       )
-        st.markdown(
-            "</div>",
-            unsafe_allow_html=True,
-        )
-    # =====================================================
-    # HEADER
-    # =====================================================
-
-    def render_header(self):
-
-        st.markdown(
-            """
-<div class="executive-report-header">
-
-    <div>
-
-        <div class="executive-report-title">
-
-            📊 Executive Intelligence Report
-
-        </div>
-
-        <div class="executive-report-subtitle">
-
-            AI Powered Business Intelligence
-
-        </div>
-
-    </div>
-
-</div>
-""",
-            unsafe_allow_html=True,
-        )
-    # =====================================================
-    # EXECUTIVE BRIEF
-    # =====================================================
-
-    def render_brief_header(
-        self,
-        reporting_period,
-        analysis_id,
-    ):
-
-        left, right = st.columns(
-            [3, 1],
-        )
+        left, right = st.columns([3, 1])
 
         with left:
 
             st.markdown(
                 """
-<div class="executive-card">
+### Executive Intelligence Brief
 
-<div class="executive-card-title">
-
-Executive Intelligence Brief
-
-</div>
-
-<div class="executive-card-subtitle">
-
-OFFICIAL EXECUTIVE INTELLIGENCE BRIEFING
-
-</div>
-
-</div>
-""",
-                unsafe_allow_html=True,
+Official Executive Intelligence Briefing
+"""
             )
 
         with right:
 
-            st.markdown(
-                f"""
-<div class="metadata-card">
+            st.info(
 
-<div class="meta-heading">
-
-Reporting Period
-
-</div>
-
-<div class="meta-value">
+f"""
+**Reporting Period**
 
 {reporting_period}
 
-</div>
+---
 
-<br>
-
-<div class="meta-heading">
-
-Analysis ID
-
-</div>
-
-<div class="meta-value">
+**Analysis ID**
 
 {analysis_id}
-
-</div>
-
-</div>
-""",
-                unsafe_allow_html=True,
+"""
             )
 
-        st.markdown("<br>", unsafe_allow_html=True)
-    # =====================================================
-    # KPI TILES
-    # =====================================================
+        st.write("")
 
-    def render_metric_tiles(
-        self,
-        sentiment,
-        health_score,
-        confidence,
-    ):
+        # ------------------------------------------------
+        # KPI
+        # ------------------------------------------------
 
         c1, c2, c3 = st.columns(3)
 
@@ -215,15 +105,15 @@ Analysis ID
 <div class="metric-card">
 
 <div class="metric-title">
+
 Sentiment
+
 </div>
 
 <div class="metric-value">
-{sentiment}
-</div>
 
-<div class="metric-footer">
-Overall Business Outlook
+{sentiment}
+
 </div>
 
 </div>
@@ -238,15 +128,15 @@ Overall Business Outlook
 <div class="metric-card">
 
 <div class="metric-title">
+
 Health Score
+
 </div>
 
 <div class="metric-value">
-{health_score}
-</div>
 
-<div class="metric-footer">
-Overall Business Health
+{score}
+
 </div>
 
 </div>
@@ -261,15 +151,15 @@ Overall Business Health
 <div class="metric-card">
 
 <div class="metric-title">
+
 AI Confidence
+
 </div>
 
 <div class="metric-value">
-{confidence}%
-</div>
 
-<div class="metric-footer">
-Evidence Confidence
+{confidence}%
+
 </div>
 
 </div>
@@ -277,70 +167,18 @@ Evidence Confidence
                 unsafe_allow_html=True,
             )
 
-        st.markdown("<br>", unsafe_allow_html=True)
-    # =====================================================
-    # PRIORITY
-    # =====================================================
+        st.write("")
 
-    def render_priority(
-        self,
-        priority,
-    ):
+        st.success(
 
-        colour = "#2563eb"
+            f"Priority Status : {priority}"
 
-        if str(priority).lower() == "high":
-            colour = "#dc2626"
-
-        elif str(priority).lower() == "medium":
-            colour = "#d97706"
-
-        elif str(priority).lower() == "low":
-            colour = "#16a34a"
-
-        st.markdown(
-            f"""
-<div class="priority-container">
-
-<div class="priority-label">
-
-Priority Status
-
-</div>
-
-<div
-class="priority-pill"
-
-style="background:{colour}20;color:{colour};">
-
-{priority}
-
-</div>
-
-</div>
-""",
-            unsafe_allow_html=True,
         )
 
-        st.markdown("<br>", unsafe_allow_html=True)
-    # =====================================================
-    # EXECUTIVE HIGHLIGHTS
-    # =====================================================
+        st.divider()
 
-    def render_highlights(
-        self,
-        ai,
-    ):
-
-        st.markdown(
-            """
-<div class="section-title">
-
-Executive Intelligence Highlights
-
-</div>
-""",
-            unsafe_allow_html=True,
+        st.subheader(
+            "Executive Intelligence Highlights"
         )
 
         highlights = ai.get(
@@ -348,76 +186,29 @@ Executive Intelligence Highlights
             [],
         )
 
-        if not highlights:
+        if highlights:
 
-            st.markdown(
-                """
-<div class="highlight-empty">
+            for item in highlights:
 
-No executive intelligence highlights available.
+                st.markdown(
+                    f"""
+### {item.get("title","")}
 
-</div>
-""",
-                unsafe_allow_html=True,
+{item.get("observation","")}
+
+**Evidence**
+
+{item.get("evidence","")}
+"""
+                )
+
+        else:
+
+            st.info(
+                "No Executive Highlights Available."
             )
 
-            return
-
-        for item in highlights:
-
-            title = item.get(
-                "title",
-                "",
-            )
-
-            observation = item.get(
-                "observation",
-                "",
-            )
-
-            evidence = item.get(
-                "evidence",
-                "",
-            )
-
-            st.markdown(
-                f"""
-<div class="highlight-card">
-
-<div class="highlight-title">
-
-{title}
-
-</div>
-
-<div class="highlight-observation">
-
-{observation}
-
-</div>
-
-<div class="highlight-evidence">
-
-{evidence}
-
-</div>
-
-</div>
-""",
-                unsafe_allow_html=True,
-            )
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        
-    # =====================================================
-    # TABS
-    # =====================================================
-
-    def render_tabs(
-        self,
-        result,
-        ai,
-    ):
+        st.divider()
 
         tab1, tab2, tab3, tab4, tab5 = st.tabs(
 
@@ -437,169 +228,35 @@ No executive intelligence highlights available.
 
         )
 
-        # -------------------------------------------------
-
         with tab1:
 
-            st.success(
-
-                "Executive Intelligence Summary"
-
-            )
-
             st.write(
-
                 ai.get(
-
                     "executive_summary",
-
-                    "Executive Summary not available.",
-
+                    "No Executive Summary",
                 )
-
             )
-
-        # -------------------------------------------------
 
         with tab2:
 
-            commercial = result.metadata.get(
-
-                "commercial_intelligence",
-
-                {},
-
+            st.json(
+                result.metadata.get(
+                    "commercial_intelligence",
+                    {},
+                )
             )
-
-            if commercial:
-
-                st.subheader(
-
-                    commercial.get(
-
-                        "title",
-
-                        "Commercial Intelligence",
-
-                    )
-
-                )
-
-                st.write(
-
-                    commercial.get(
-
-                        "summary",
-
-                        "-",
-
-                    )
-
-                )
-
-                st.markdown("### Business Impact")
-
-                st.write(
-
-                    commercial.get(
-
-                        "business_impact",
-
-                        "-",
-
-                    )
-
-                )
-
-                st.markdown("### Management Question")
-
-                st.write(
-
-                    commercial.get(
-
-                        "management_question",
-
-                        "-",
-
-                    )
-
-                )
-
-            else:
-
-                st.info(
-
-                    "Commercial Intelligence not available."
-
-                )
-
-        # -------------------------------------------------
 
         with tab3:
 
-            findings = ai.get(
-
-                "findings",
-
-                [],
-
-            )
-
-            if findings:
-
-                for finding in findings:
-
-                    st.markdown(
-
-                        "- " + str(finding)
-
-                    )
-
-            else:
-
-                st.info(
-
-                    "No insights available."
-
-                )
-
-        # -------------------------------------------------
+            st.write("Business Insights")
 
         with tab4:
 
-            recommendations = ai.get(
-
-                "recommendations",
-
-                [],
-
-            )
-
-            if recommendations:
-
-                for item in recommendations:
-
-                    st.markdown(
-
-                        "- " + str(item)
-
-                    )
-
-            else:
-
-                st.info(
-
-                    "No recommendations generated."
-
-                )
-
-        # -------------------------------------------------
+            st.write("Recommendations")
 
         with tab5:
 
-            st.info(
+            st.write("Action Plan")
 
-                "Action Plan module will be added in Phase 2."
-
-            )
+            
 
