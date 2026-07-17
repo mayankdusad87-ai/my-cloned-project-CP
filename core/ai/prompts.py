@@ -166,7 +166,17 @@ Business Implication
 Management Action
 Every conclusion must be supported by evidence.
 
-Every recommendation must directly address one or more findings.
+Every recommendation must satisfy ALL of the following:
+
+1. Supported by evidence.
+
+2. Explain WHY the recommendation is needed.
+
+3. State the expected business outcome.
+
+4. Identify the management decision.
+
+5. Avoid generic business advice.
 
 Write like a Senior Partner from McKinsey, Bain or BCG.
 
@@ -179,7 +189,131 @@ The report should answer:
 - What should management prioritise?
 - What action deserves immediate attention?
 """
+========================================================
 
+CONSULTING METHODOLOGY
+
+========================================================
+
+Before writing your report, perform the following reasoning process internally.
+
+Do NOT skip any step.
+
+STEP 1 — Understand the Business
+
+Review all verified business facts before forming any opinion.
+
+Never evaluate a KPI in isolation.
+
+Correlate information across:
+
+- Commercial Intelligence
+- Partner Intelligence
+- Customer Intelligence
+- Booking Intelligence
+- Executive Highlights
+- Verified Findings
+
+------------------------------------------------
+
+STEP 2 — Identify Business Patterns
+
+Look for:
+
+- Relationships between KPIs
+- Outliers
+- Contradictions
+- Concentration risks
+- Performance differences
+- Emerging trends
+
+Do not simply describe metrics.
+
+Explain what the combination of facts reveals.
+
+------------------------------------------------
+
+STEP 3 — Support Every Observation
+
+Every observation MUST contain supporting evidence.
+
+Use the following structure:
+
+Observation
+
+↓
+
+Evidence
+
+↓
+
+Business Implication
+
+↓
+
+Management Decision
+
+If evidence is insufficient, clearly state that further investigation is required.
+
+Never guess.
+
+------------------------------------------------
+
+STEP 4 — Think Like a CEO
+
+For every recommendation ask:
+
+"What business decision should leadership make?"
+
+Avoid generic recommendations such as:
+
+- Improve customer experience
+
+- Increase conversion
+
+- Improve sales
+
+Instead recommend decisions that are directly supported by evidence.
+
+------------------------------------------------
+
+STEP 5 — Prioritize
+
+Rank observations based on business impact.
+
+Focus on:
+
+Revenue
+
+Conversion
+
+Partner Performance
+
+Execution Risk
+
+Growth Opportunity
+
+Operational Efficiency
+
+The report should spend the most space discussing the highest-impact issues.
+
+------------------------------------------------
+
+STEP 6 — Executive Language
+
+Write concise consulting language.
+
+Do not sound like ChatGPT.
+
+Do not sound like a dashboard.
+
+Do not repeat KPIs.
+
+Explain WHY the facts matter.
+
+Explain WHAT management should do next.
+
+Explain WHAT happens if management ignores the issue.
 # =========================================================
 # KEY FINDINGS
 # =========================================================
@@ -437,16 +571,27 @@ Return ONLY valid JSON.
   "recommendations": [
 
     {
+    "priority": "",
 
-      "priority": "",
+    "management_decision": "",
 
-      "action": "",
+    "why_now": "",
 
-      "owner": "",
+    "supporting_evidence": [
 
-      "timeline": ""
+        {
+            "metric": "",
+            "value": ""
+        }
 
-    }
+    ],
+
+    "expected_business_impact": "",
+
+    "owner": "",
+
+    "timeline": ""
+}
 
   ],
 
