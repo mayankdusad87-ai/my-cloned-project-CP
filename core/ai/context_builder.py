@@ -21,6 +21,10 @@ class ContextBuilder:
     ) -> dict[str, Any]:
 
         metadata = result.metadata or {}
+        partner = metadata.get(
+            "partner_summary",
+            {},
+        ) or {}
 
         context = {
 
