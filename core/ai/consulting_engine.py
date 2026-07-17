@@ -25,6 +25,7 @@ Executive Report
 
 from __future__ import annotations
 from core.ai.executive_highlights import ExecutiveHighlights
+from core.ai.executive_reasoner import ExecutiveReasoner
 
 import json
 
@@ -62,6 +63,7 @@ class ConsultingEngine:
         self.findings_engine = FindingsEngine()
           
         self.executive_highlights = ExecutiveHighlights()
+        self.executive_reasoner = ExecutiveReasoner()
 
         self.validator = AIResponseValidator()
 
@@ -107,6 +109,12 @@ class ConsultingEngine:
 
         findings = self.findings_engine.analyse(context)
 
+        executive_reasoning = self.executive_reasoner.build(
+          context=context,
+          executive_highlights=executive_highlights,
+          findings=findings,
+      )  
+
         print("=" * 80)
         print("STEP 2 - FINDINGS")
         print(findings)
@@ -123,6 +131,8 @@ class ConsultingEngine:
             "executive_highlights": executive_highlights,
 
             "findings": findings,
+
+            "executive_reasoning": executive_reasoning, 
 
         }
 
