@@ -315,7 +315,6 @@ def show_business_brief(ai):
 
 import pandas as pd
 
-
 def show_executive_highlights(ai):
 
     st.subheader("⭐ Executive Intelligence Highlights")
@@ -337,7 +336,77 @@ def show_executive_highlights(ai):
     for item in highlights:
 
         priority = item.get("priority", "Medium")
-        icon = severity_icon.get
+        icon = severity_icon.get(priority, "⚪")
+
+        with st.container(border=True):
+
+            st.markdown(
+                f"### {icon} {item.get('title', 'Executive Insight')}"
+            )
+
+            # -----------------------------
+            # Key Insight
+            # -----------------------------
+            st.markdown("### 💡 Key Insight")
+            st.write(item.get("observation", "No insight available."))
+
+            # -----------------------------
+            # Supporting Evidence
+            # -----------------------------
+            evidence = item.get("evidence", {})
+
+            if evidence:
+
+                st.markdown("### 📊 Supporting Evidence")
+
+                evidence_rows = []
+
+                if isinstance(evidence, dict):
+
+                    for metric, value in evidence.items():
+                        evidence_rows.append(
+                            {
+                                "Metric": metric.replace("_", " ").title(),
+                                "Value": value,
+                            }
+                        )
+
+                elif isinstance(evidence, list):
+
+                    for row in evidence:
+
+                        if isinstance(row, dict):
+
+                            evidence_rows.append(
+                                {
+                                    "Metric": row.get("metric", ""),
+                                    "Value": row.get("value", ""),
+                                }
+                            )
+
+                if evidence_rows:
+                    df = pd.DataFrame(evidence_rows)
+                    st.table(df)
+
+            # -----------------------------
+            # Business Implication
+            # -----------------------------
+            implication = item.get("business_implication", "")
+
+            if implication:
+
+                st.markdown("### 💼 Business Implication")
+                st.write(implication)
+
+            # -----------------------------
+            # Management Action
+            # -----------------------------
+            action = item.get("management_action", "")
+
+            if action:
+
+                st.markdown("### 🎯 Recommended Management Action")
+                st.success(action)
 
 
 
