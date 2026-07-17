@@ -169,10 +169,7 @@ Official Executive Intelligence Briefing
                     
                         st.write(evidence)
 
-                    if isinstance(evidence, dict):
-                        st.table(evidence)
-                    else:
-                        st.write(evidence)
+                    
 
                     st.markdown("### 💼 Business Implication")
                     st.write(
@@ -185,11 +182,14 @@ Official Executive Intelligence Briefing
                     st.markdown("### 🎯 Recommended Management Action")
                     st.write(
                         item.get(
-                            "recommended_management_action",
-                            item.get(
-                                "recommended_action",
-                                "Not Available",
-                            ),
+                            "management_action",
+                             item.get(
+                                "recommended_management_action",
+                                item.get(
+                                    "recommended_action",
+                                    "Not Available",
+                                ),
+                             ),     
                         )
                     )
 
