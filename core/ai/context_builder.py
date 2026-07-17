@@ -148,3 +148,24 @@ class ContextBuilder:
                 default=str,
             )
         )
+        # -------------------------------------------------
+        # VERIFIED BUSINESS FACTS
+        # -------------------------------------------------
+
+        context["verified_business_facts"] = {
+
+            "company": context["company"],
+
+            "business_snapshot": context["business_snapshot"],
+
+            "commercial_intelligence": context["commercial_intelligence"],
+
+            "partner_intelligence": context["partner_intelligence"],
+
+            "customer_intelligence": context["customer_intelligence"],
+
+            "booking_intelligence": context["booking_intelligence"],
+
+        }
+
+
