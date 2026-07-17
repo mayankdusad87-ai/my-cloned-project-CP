@@ -106,7 +106,7 @@ Official Executive Intelligence Briefing
                 with st.container(border=True):
 
                     st.markdown(f"## {item.get('title', 'Executive Insight')}")
-                    st.divider()
+                   
 
                     st.markdown("### 💡 Key Insight")
                     st.write(
@@ -141,7 +141,13 @@ Official Executive Intelligence Briefing
                                 }
                             )
                     
-                        st.table(table_data)
+                        df = pd.DataFrame(table_data)
+
+                        st.dataframe(
+                            df,
+                            hide_index=True,
+                            use_container_width=True,
+                        )
                     
                     # ------------------------------------------------
                     # Evidence as Dictionary
