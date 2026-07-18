@@ -205,12 +205,16 @@ class AnalysisService:
         # ------------------------------------------------------
         
         from core.intelligence.conversion_signal import ConversionSignal
+        from core.intelligence.partner_performance_signal import PartnerPerformanceSignal
         
         conversion_signal = ConversionSignal().analyse(df)
         
+        partner_signal = PartnerPerformanceSignal().analyse(df)
+        
         # New v2 Architecture
         result.metadata["business_signals"] = [
-            conversion_signal
+            conversion_signal,
+            partner_signal
         ]
         
         # Existing Business Object (leave unchanged)
