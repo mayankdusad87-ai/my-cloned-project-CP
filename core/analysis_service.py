@@ -227,32 +227,14 @@ class AnalysisService:
             print(signal.diagnosis)
             print(signal.facts)
         
-        # Existing Business Object (leave unchanged)
-        commercial_object = self.business_objects.commercial(conversion_signal)
-        result.metadata["commercial_object"] = commercial_object
+        # ------------------------------------------------------
+        # Temporary Compatibility Layer
+        # ------------------------------------------------------
         
-        # Legacy AI Context (temporary - do not remove yet)
-        result.metadata["commercial_intelligence"] = {
+        result.metadata["commercial_signal"] = conversion_signal
         
-            "title": conversion_signal.title,
-        
-            "category": conversion_signal.category,
-        
-            "severity": conversion_signal.severity,
-        
-            "status": conversion_signal.status,
-        
-            "summary": conversion_signal.summary,
-        
-            "business_impact": conversion_signal.business_impact,
-        
-            "management_question": conversion_signal.management_question,
-        
-            "evidence": conversion_signal.evidence,
-        
-        }
-        
-        
+        result.metadata["partner_signal"] = partner_signal        
+                
 
 
         
