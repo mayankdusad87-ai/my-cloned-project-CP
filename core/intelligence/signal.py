@@ -24,6 +24,18 @@ class Signal:
     # Classification
     severity: str
     status: str
+    
+    # -----------------------------
+    # New v2 Architecture
+    # -----------------------------
+    diagnosis: str = ""
+    
+    facts: Dict[str, Any] = field(default_factory=dict)
+    
+    summary: str = ""
+    business_impact: str = ""
+    management_question: str = ""
+    
 
     # Business narrative
     summary: str
