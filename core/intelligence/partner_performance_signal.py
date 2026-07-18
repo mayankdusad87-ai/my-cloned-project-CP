@@ -11,19 +11,75 @@ Sprint 5.2.0
 from __future__ import annotations
 
 from core.intelligence.signal import Signal
+from core.business.filters import BusinessFilters
+from core.business.pareto import ParetoAnalyzer
 
 
 class PartnerPerformanceSignal:
 
     def analyse(self, df):
 
-        # TODO
-        # Active CP
-        # Pareto Analysis
-        # Micro Market Analysis
-        # Revisit Analysis
+        # --------------------------------------------------
+        # Channel Partner Fresh Walk-ins
+        # --------------------------------------------------
 
-        signal = Signal(
+        cp_df = BusinessFilters.cp_fresh(df)
+
+        # --------------------------------------------------
+        # Pareto Analysis
+        # --------------------------------------------------
+
+        pareto = ParetoAnalyzer.analyse(
+
+            cp_df,
+
+            group_column="channel_partner_company"
+
+        )
+
+        # --------------------------------------------------
+        # Facts
+        # --------------------------------------------------
+
+        facts = {}
+
+        # --------------------------------------------------
+        # Diagnosis
+        # --------------------------------------------------
+
+      
+
+        share = pareto["pareto_share"]
+        
+        if share >= 80:
+        
+            diagnosis = "HIGH_NETWORK_CONCENTRATION"
+        
+            severity = "High"
+        
+            status = "Negative"
+        
+        elif share >= 65:
+        
+            diagnosis = "MODERATE_NETWORK_CONCENTRATION"
+        
+            severity = "Medium"
+        
+            status = "Neutral"
+        
+        else:
+        
+            diagnosis = "DIVERSIFIED_NETWORK"
+        
+            severity = "Low"
+        
+            status = "Positive"
+
+        # --------------------------------------------------
+        # Return Signal
+        # --------------------------------------------------
+
+        return Signal(
 
             id="partner_performance",
 
@@ -31,13 +87,23 @@ class PartnerPerformanceSignal:
 
             category="Channel Partner",
 
-            severity="Low",
+            severity=severity,
 
-            status="Neutral",
+            status=status,
 
-            diagnosis="NOT_ANALYSED",
+            diagnosis=diagnosis,
 
-            facts={},
+            facts={
+
+                "active_cp": cp_df["channel_partner_company"].nunique(),
+            
+                "pareto_cp_count": pareto["pareto_count"],
+            
+                "pareto_walkin_share": pareto["pareto_share"],
+            
+                "pareto_cp_names": pareto["pareto_names"]
+            
+            },
 
             summary="",
 
@@ -45,8 +111,6 @@ class PartnerPerformanceSignal:
 
             management_question="",
 
-            evidence={}
+            evidence=facts
 
         )
-
-        return signal
