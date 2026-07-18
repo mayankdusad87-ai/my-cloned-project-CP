@@ -254,26 +254,50 @@ class ConversionSignal:
         # ==================================================
         # Diagnosis
         # ==================================================
-         if overall_bookings == 0:
+        if overall_bookings == 0:
             
                 diagnosis = "NO_BOOKINGS"
             
-            elif conversion_gap >= 0:
+        elif conversion_gap >= 0:
             
                 diagnosis = "CP_OUTPERFORMING_PROJECT"
             
-            elif conversion_gap >= -1:
+        elif conversion_gap >= -1:
             
                 diagnosis = "CP_NEAR_PROJECT_AVERAGE"
             
-            elif conversion_gap >= -3:
+        elif conversion_gap >= -3:
             
                 diagnosis = "CP_UNDERPERFORMING_PROJECT"
             
-            else:
+        else:
             
                 diagnosis = "CP_SIGNIFICANTLY_UNDERPERFORMING"   
-            
+
+        facts = {
+
+            "overall_fresh_walkins": overall_fresh_walkins,
+        
+            "overall_bookings": overall_bookings,
+        
+            "overall_conversion": round(overall_conversion, 2),
+        
+            "cp_fresh_walkins": cp_fresh_walkins,
+        
+            "cp_bookings": cp_bookings,
+        
+            "cp_conversion": round(cp_conversion, 2),
+        
+            "conversion_gap": round(conversion_gap, 2),
+        
+            "expected_cp_bookings": round(expected_cp_bookings),
+        
+            "lost_bookings": lost_bookings,
+        
+            "revenue_opportunity": revenue_opportunity,
+        
+        }
+                    
 
         # ==================================================
         # Signal
@@ -290,6 +314,10 @@ class ConversionSignal:
             severity=severity,
 
             status=status,
+            
+            diagnosis=diagnosis,
+
+            facts=facts,
 
             summary=summary,
 
@@ -309,29 +337,9 @@ class ConversionSignal:
 
             ),
 
-            evidence={
+            evidence= facts,
 
-                "overall_fresh_walkins": overall_fresh_walkins,
-
-                "overall_bookings": overall_bookings,
-
-                "overall_conversion": round(overall_conversion, 2),
-
-                "cp_fresh_walkins": cp_fresh_walkins,
-
-                "cp_bookings": cp_bookings,
-
-                "cp_conversion": round(cp_conversion, 2),
-
-                "conversion_gap": round(conversion_gap, 2),
-
-                "expected_cp_bookings": round(expected_cp_bookings),
-
-                "lost_bookings": lost_bookings,
-
-                "revenue_opportunity": revenue_opportunity,
-
-            },
+               
 
         )
 
