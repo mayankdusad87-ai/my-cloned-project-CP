@@ -26,7 +26,7 @@ class ExecutiveHighlights:
         highlights = []
 
         commercial = context.get(
-            "commercial_intelligence",
+            "business_signals",
             {},
         )
 
