@@ -1,8 +1,15 @@
 """
 =========================================================
+
 ChannelIQ AI
 
 Context Builder
+
+Builds the verified AI context.
+
+This class does NOT perform any business analysis.
+It only packages verified facts and business signals.
+
 =========================================================
 """
 
@@ -21,10 +28,6 @@ class ContextBuilder:
     ) -> dict[str, Any]:
 
         metadata = result.metadata or {}
-        partner = metadata.get(
-            "partner_summary",
-            {},
-        ) or {}
 
         context = {
 
@@ -35,9 +38,7 @@ class ContextBuilder:
             "company": {
 
                 "name": result.company_name,
-
                 "project": result.project_name,
-
                 "reporting_period": metadata.get(
                     "reporting_period",
                     "",
@@ -53,7 +54,7 @@ class ContextBuilder:
 
                 "analysis_id": result.analysis_id,
 
-                "analysis_date": metadata.get(
+                "generated_at": metadata.get(
                     "generated_at",
                     "",
                 ),
@@ -61,170 +62,60 @@ class ContextBuilder:
             },
 
             # -------------------------------------------------
-            # BUSINESS SNAPSHOT
+            # VERIFIED BUSINESS SIGNALS
             # -------------------------------------------------
 
-            "business_snapshot": {
+            "business_signals": metadata.get(
+                "business_signals",
+                [],
+            ),
 
-                "total_walkins": metadata.get(
-                    "total_walkins",
-                    0,
+            # -------------------------------------------------
+            # VERIFIED FACT PACK
+            # -------------------------------------------------
+
+            "business_fact_pack": {
+
+                "dashboard": {
+
+                    "total_walkins": metadata.get(
+                        "total_walkins",
+                        0,
+                    ),
+
+                    "fresh_walkins": metadata.get(
+                        "fresh_walkins",
+                        0,
+                    ),
+
+                    "unique_revisits": metadata.get(
+                        "unique_revisits",
+                        0,
+                    ),
+
+                    "bookings": result.total_bookings,
+
+                    "conversion": result.conversion,
+
+                    "participating_cp": metadata.get(
+                        "participating_cp",
+                        0,
+                    ),
+
+                },
+
+                "customer": metadata.get(
+                    "customer_journey",
+                    {},
                 ),
 
-                "fresh_walkins": metadata.get(
-                    "fresh_walkins",
-                    0,
-                ),
-
-                "unique_revisits": metadata.get(
-                    "unique_revisits",
-                    0,
-                ),
-
-                "bookings": result.total_bookings,
-
-                "conversion": result.conversion,
-
-                "participating_cp": metadata.get(
-                    "participating_cp",
-                    0,
+                "booking": metadata.get(
+                    "booking_summary",
+                    {},
                 ),
 
             },
 
-            # -------------------------------------------------
-            # BUSINESS INTELLIGENCE
-            # -------------------------------------------------
-
-            "partner_intelligence": {
-            
-                "active_count": partner.get(
-                    "active_count",
-                    0,
-                ),
-            
-                "executive_summary": partner.get(
-                    "executive_summary",
-                    "",
-                ),
-            
-                "recommendations": partner.get(
-                    "recommendations",
-                    [],
-                ),
-            
-                "best_partner": (
-                    partner.get("best_partner").to_dict()
-                    if hasattr(
-                        partner.get("best_partner"),
-                        "to_dict",
-                    )
-                    else None
-                ),
-            
-                "worst_partner": (
-                    partner.get("worst_partner").to_dict()
-                    if hasattr(
-                        partner.get("worst_partner"),
-                        "to_dict",
-                    )
-                    else None
-                ),
-            
-                "top_walkins": (
-                    partner.get("top_walkins")
-                    .head(5)
-                    .to_dict("records")
-                    if hasattr(
-                        partner.get("top_walkins"),
-                        "to_dict",
-                    )
-                    else []
-                ),
-            
-                "top_conversion": (
-                    partner.get("top_conversion")
-                    .head(5)
-                    .to_dict("records")
-                    if hasattr(
-                        partner.get("top_conversion"),
-                        "to_dict",
-                    )
-                    else []
-                ),
-            
-            },
-
-            "customer_intelligence": metadata.get(
-                "customer_journey",
-                {},
-            ),
-
-            "booking_intelligence": metadata.get(
-                "booking_summary",
-                {},
-            ),
-            
-            "commercial_intelligence": result.metadata.get(
-               "commercial_intelligence",
-               {},
-            ),    
         }
-
-        import json
-        # -------------------------------------------------
-        # VERIFIED BUSINESS FACTS
-        # -------------------------------------------------
-
-        context["verified_business_facts"] = {
-
-            "company": context["company"],
-
-            "business_snapshot": context["business_snapshot"],
-
-            "commercial_intelligence": context["commercial_intelligence"],
-
-            "partner_intelligence": context["partner_intelligence"],
-
-            "customer_intelligence": context["customer_intelligence"],
-
-            "booking_intelligence": context["booking_intelligence"],
-
-        }
-
-        print("=" * 80)
-        print("AI CONTEXT")
-        print("=" * 80)
-
-        print(
-            json.dumps(
-                context,
-                indent=4,
-                default=str,
-            )
-        )
-
-        print("=" * 80)
 
         return context
-        
-
-    # -------------------------------------------------
-
-    def pretty_print(
-        self,
-        context: dict,
-    ) -> None:
-
-        import json
-
-        print(
-            json.dumps(
-                context,
-                indent=4,
-                default=str,
-            )
-        )
-        
-
-
