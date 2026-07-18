@@ -211,38 +211,240 @@ Official Executive Intelligence Briefing
             st.info("No Executive Highlights Available.")
 
         st.divider()
-
-        tab1, tab2, tab3, tab4, tab5 = st.tabs(
+        tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(
             [
-                "Executive",
-                "Commercial",
-                "Insights",
-                "Recommendations",
-                "Action Plan",
+                "📑 Executive Summary",
+                "🏢 Commercial Intelligence",
+                "🔍 Key Findings",
+                "🧩 Root Causes",
+                "⚠ Business Risks",
+                "🚀 Opportunities",
+                "🎯 Recommendations",
+                "📅 Monday Plan",
             ]
         )
-
+        
+        # ---------------------------------------------------
+        # Executive Summary
+        # ---------------------------------------------------
+        
         with tab1:
+        
+            st.subheader("Executive Summary")
+        
             st.write(
                 ai.get(
                     "executive_summary",
-                    "No Executive Summary",
+                    "Executive Summary unavailable."
                 )
             )
-
+        
+            st.divider()
+        
+            st.subheader("Commercial Diagnosis")
+        
+            st.write(
+                ai.get(
+                    "diagnosis",
+                    "Diagnosis unavailable."
+                )
+            )
+        
+        # ---------------------------------------------------
+        # Commercial Intelligence
+        # ---------------------------------------------------
+        
         with tab2:
-            st.json(
-                result.metadata.get(
-                    "commercial_intelligence",
-                    {},
+        
+            signal = result.metadata.get("commercial_intelligence", {})
+        
+            if signal:
+        
+                st.subheader(signal.get("title", "Commercial Intelligence"))
+        
+                st.success(signal.get("summary", ""))
+        
+                evidence = signal.get("evidence", {})
+        
+                c1, c2, c3 = st.columns(3)
+        
+                c1.metric(
+                    "Overall Conversion",
+                    f"{evidence.get('overall_conversion',0)}%"
                 )
-            )
-
+        
+                c2.metric(
+                    "CP Conversion",
+                    f"{evidence.get('cp_conversion',0)}%"
+                )
+        
+                c3.metric(
+                    "Gap",
+                    f"{evidence.get('conversion_gap',0)}%"
+                )
+        
+                st.info(signal.get("business_impact", ""))
+        
+                st.warning(signal.get("management_question", ""))
+        
+            else:
+        
+                st.info("Commercial Intelligence unavailable.")
+        
+        # ---------------------------------------------------
+        # Key Findings
+        # ---------------------------------------------------
+        
         with tab3:
-            st.write("Business Insights")
-
+        
+            findings = ai.get("key_findings", [])
+        
+            if findings:
+        
+                for finding in findings:
+        
+                    with st.container(border=True):
+        
+                        st.markdown(f"### {finding.get('title')}")
+        
+                        st.write(finding.get("insight"))
+        
+                        if finding.get("evidence"):
+        
+                            st.caption(f"Evidence : {finding.get('evidence')}")
+        
+            else:
+        
+                st.info("No findings available.")
+        
+        # ---------------------------------------------------
+        # Root Causes
+        # ---------------------------------------------------
+        
         with tab4:
-            st.write("Recommendations")
-
+        
+            causes = ai.get("root_causes", [])
+        
+            if causes:
+        
+                for cause in causes:
+        
+                    with st.container(border=True):
+        
+                        st.markdown(f"### {cause.get('cause')}")
+        
+                        st.write(cause.get("business_impact"))
+        
+            else:
+        
+                st.info("No root causes identified.")
+        
+        # ---------------------------------------------------
+        # Risks
+        # ---------------------------------------------------
+        
         with tab5:
-            st.write("Action Plan")
+        
+            risks = ai.get("risks", [])
+        
+            if risks:
+        
+                for risk in risks:
+        
+                    with st.container(border=True):
+        
+                        st.markdown(f"### {risk.get('risk')}")
+        
+                        st.write(risk.get("mitigation"))
+        
+            else:
+        
+                st.success("No significant risks identified.")
+        
+        # ---------------------------------------------------
+        # Opportunities
+        # ---------------------------------------------------
+        
+        with tab6:
+        
+            opportunities = ai.get("opportunities", [])
+        
+            if opportunities:
+        
+                for opportunity in opportunities:
+        
+                    with st.container(border=True):
+        
+                        st.markdown(
+                            f"### {opportunity.get('opportunity')}"
+                        )
+        
+                        st.write(
+                            opportunity.get("recommended_action")
+                        )
+        
+            else:
+        
+                st.info("No opportunities identified.")
+        
+        # ---------------------------------------------------
+        # Recommendations
+        # ---------------------------------------------------
+        
+        with tab7:
+        
+            recommendations = ai.get("recommendations", [])
+        
+            if recommendations:
+        
+                for rec in recommendations:
+        
+                    with st.container(border=True):
+        
+                        st.markdown(
+                            f"### Priority : {rec.get('priority')}"
+                        )
+        
+                        st.write(rec.get("action"))
+        
+                        col1, col2 = st.columns(2)
+        
+                        with col1:
+        
+                            st.caption(
+                                f"Owner : {rec.get('owner')}"
+                            )
+        
+                        with col2:
+        
+                            st.caption(
+                                f"Timeline : {rec.get('timeline')}"
+                            )
+        
+            else:
+        
+                st.info("No recommendations available.")
+        
+        # ---------------------------------------------------
+        # Monday Plan
+        # ---------------------------------------------------
+        
+        with tab8:
+        
+            plan = ai.get("monday_plan", [])
+        
+            if plan:
+        
+                for i, task in enumerate(plan, start=1):
+        
+                    st.checkbox(
+                        f"Action {i} : {task}",
+                        value=False,
+                        disabled=True,
+                    )
+        
+            else:
+        
+                st.info("No immediate action plan available.")
+        
+               
