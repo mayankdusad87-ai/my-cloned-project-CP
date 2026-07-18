@@ -256,12 +256,12 @@ Official Executive Intelligence Briefing
         
         with tab2:
         
-            signal = result.metadata.get("commercial_intelligence", {})
+            signal = result.metadata.get("commercial_signal", {})
         
             if signal:
         
                 st.subheader(signal.get("title", "Commercial Intelligence"))
-        
+                st.markdown("### Key Commercial Insight")
                 st.success(signal.get("summary", ""))
         
                 evidence = signal.get("evidence", {})
