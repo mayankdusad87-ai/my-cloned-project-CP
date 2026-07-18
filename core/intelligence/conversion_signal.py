@@ -251,6 +251,29 @@ class ConversionSignal:
                     "Channel Partner conversion is significantly below the project benchmark."
 
                 )
+        # ==================================================
+        # Diagnosis
+        # ==================================================
+         if overall_bookings == 0:
+            
+                diagnosis = "NO_BOOKINGS"
+            
+            elif conversion_gap >= 0:
+            
+                diagnosis = "CP_OUTPERFORMING_PROJECT"
+            
+            elif conversion_gap >= -1:
+            
+                diagnosis = "CP_NEAR_PROJECT_AVERAGE"
+            
+            elif conversion_gap >= -3:
+            
+                diagnosis = "CP_UNDERPERFORMING_PROJECT"
+            
+            else:
+            
+                diagnosis = "CP_SIGNIFICANTLY_UNDERPERFORMING"   
+            
 
         # ==================================================
         # Signal
