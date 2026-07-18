@@ -216,6 +216,16 @@ class AnalysisService:
             conversion_signal,
             partner_signal
         ]
+        # ===============================================
+        # DEBUG - Remove after testing
+        # ===============================================
+        
+        for signal in result.metadata["business_signals"]:
+        
+            print("=" * 60)
+            print(signal.id)
+            print(signal.diagnosis)
+            print(signal.facts)
         
         # Existing Business Object (leave unchanged)
         commercial_object = self.business_objects.commercial(conversion_signal)
