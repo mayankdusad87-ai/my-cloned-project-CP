@@ -5,10 +5,11 @@ ChannelIQ AI
 
 Context Builder
 
-Builds the verified AI context.
+Packages verified business facts and business signals.
 
-This class does NOT perform any business analysis.
-It only packages verified facts and business signals.
+NO business logic.
+NO KPI calculations.
+NO AI.
 
 =========================================================
 """
@@ -22,6 +23,10 @@ from core.analysis_result import AnalysisResult
 
 class ContextBuilder:
 
+    # =====================================================
+    # PUBLIC
+    # =====================================================
+
     def build(
         self,
         result: AnalysisResult,
@@ -29,16 +34,38 @@ class ContextBuilder:
 
         metadata = result.metadata or {}
 
+        # -------------------------------------------------
+        # Convert Business Signals
+        # -------------------------------------------------
+
+        signals = []
+
+        for signal in metadata.get("business_signals", []):
+
+            if hasattr(signal, "to_dict"):
+
+                signals.append(signal.to_dict())
+
+            else:
+
+                signals.append(signal)
+
+        # -------------------------------------------------
+        # Build Context
+        # -------------------------------------------------
+
         context = {
 
-            # -------------------------------------------------
-            # COMPANY
-            # -------------------------------------------------
+            # ---------------------------------------------
+            # Company
+            # ---------------------------------------------
 
             "company": {
 
                 "name": result.company_name,
+
                 "project": result.project_name,
+
                 "reporting_period": metadata.get(
                     "reporting_period",
                     "",
@@ -46,9 +73,9 @@ class ContextBuilder:
 
             },
 
-            # -------------------------------------------------
-            # EXECUTIVE CONTEXT
-            # -------------------------------------------------
+            # ---------------------------------------------
+            # Executive Context
+            # ---------------------------------------------
 
             "executive_context": {
 
@@ -61,61 +88,99 @@ class ContextBuilder:
 
             },
 
-            # -------------------------------------------------
-            # VERIFIED BUSINESS SIGNALS
-            # -------------------------------------------------
+            # ---------------------------------------------
+            # Verified Business Signals
+            # ---------------------------------------------
 
-            "business_signals": metadata.get(
-                "business_signals",
-                [],
-            ),
+            "business_signals": signals,
 
-            # -------------------------------------------------
-            # VERIFIED FACT PACK
-            # -------------------------------------------------
+            # ---------------------------------------------
+            # Verified Business Fact Pack
+            # ---------------------------------------------
 
             "business_fact_pack": {
 
                 "dashboard": {
 
-                    "total_walkins": metadata.get(
-                        "total_walkins",
-                        0,
-                    ),
+                    "total_walkins":
+                        metadata.get(
+                            "total_walkins",
+                            0,
+                        ),
 
-                    "fresh_walkins": metadata.get(
-                        "fresh_walkins",
-                        0,
-                    ),
+                    "fresh_walkins":
+                        metadata.get(
+                            "fresh_walkins",
+                            0,
+                        ),
 
-                    "unique_revisits": metadata.get(
-                        "unique_revisits",
-                        0,
-                    ),
+                    "unique_revisits":
+                        metadata.get(
+                            "unique_revisits",
+                            0,
+                        ),
 
-                    "bookings": result.total_bookings,
+                    "bookings":
+                        result.total_bookings,
 
-                    "conversion": result.conversion,
+                    "conversion":
+                        result.conversion,
 
-                    "participating_cp": metadata.get(
-                        "participating_cp",
-                        0,
-                    ),
+                    "participating_cp":
+                        metadata.get(
+                            "participating_cp",
+                            0,
+                        ),
 
                 },
 
-                "customer": metadata.get(
-                    "customer_journey",
-                    {},
-                ),
+                "customer":
 
-                "booking": metadata.get(
-                    "booking_summary",
-                    {},
-                ),
+                    metadata.get(
+                        "customer_journey",
+                        {},
+                    ),
+
+                "booking":
+
+                    metadata.get(
+                        "booking_summary",
+                        {},
+                    ),
 
             },
 
         }
 
         return context
+
+    # =====================================================
+    # DEBUG
+    # =====================================================
+
+    def pretty_print(
+        self,
+        context: dict[str, Any],
+    ) -> None:
+
+        import json
+
+        print("=" * 80)
+        print("AI CONTEXT")
+        print("=" * 80)
+
+        print(
+
+            json.dumps(
+
+                context,
+
+                indent=4,
+
+                default=str,
+
+            )
+
+        )
+
+        print("=" * 80)
