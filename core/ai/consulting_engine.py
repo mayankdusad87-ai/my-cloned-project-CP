@@ -211,7 +211,7 @@ EXECUTIVE CONSULTANT FACT PACK
 ========================================================
 
 {json.dumps(
-    payload["context"]["verified_business_facts"],
+    payload["context"]["business_fact_pack"],
     indent=4,
     default=str
 )}
