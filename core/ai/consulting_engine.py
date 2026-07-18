@@ -110,9 +110,7 @@ class ConsultingEngine:
         findings = self.findings_engine.analyse(context)
 
         executive_reasoning = self.executive_reasoner.build(
-          context=context,
-          executive_highlights=executive_highlights,
-          findings=findings,
+          context["business_signals"]
       )  
 
         print("=" * 80)
