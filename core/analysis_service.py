@@ -200,43 +200,43 @@ class AnalysisService:
 
 
         }
-# ------------------------------------------------------
-# BUSINESS SIGNALS
-# ------------------------------------------------------
-
-from core.intelligence.conversion_signal import ConversionSignal
-
-conversion_signal = ConversionSignal().analyse(df)
-
-# New v2 Architecture
-result.metadata["business_signals"] = [
-    conversion_signal
-]
-
-# Existing Business Object (leave unchanged)
-commercial_object = self.business_objects.commercial(conversion_signal)
-result.metadata["commercial_object"] = commercial_object
-
-# Legacy AI Context (temporary - do not remove yet)
-result.metadata["commercial_intelligence"] = {
-
-    "title": conversion_signal.title,
-
-    "category": conversion_signal.category,
-
-    "severity": conversion_signal.severity,
-
-    "status": conversion_signal.status,
-
-    "summary": conversion_signal.summary,
-
-    "business_impact": conversion_signal.business_impact,
-
-    "management_question": conversion_signal.management_question,
-
-    "evidence": conversion_signal.evidence,
-
-}
+        # ------------------------------------------------------
+        # BUSINESS SIGNALS
+        # ------------------------------------------------------
+        
+        from core.intelligence.conversion_signal import ConversionSignal
+        
+        conversion_signal = ConversionSignal().analyse(df)
+        
+        # New v2 Architecture
+        result.metadata["business_signals"] = [
+            conversion_signal
+        ]
+        
+        # Existing Business Object (leave unchanged)
+        commercial_object = self.business_objects.commercial(conversion_signal)
+        result.metadata["commercial_object"] = commercial_object
+        
+        # Legacy AI Context (temporary - do not remove yet)
+        result.metadata["commercial_intelligence"] = {
+        
+            "title": conversion_signal.title,
+        
+            "category": conversion_signal.category,
+        
+            "severity": conversion_signal.severity,
+        
+            "status": conversion_signal.status,
+        
+            "summary": conversion_signal.summary,
+        
+            "business_impact": conversion_signal.business_impact,
+        
+            "management_question": conversion_signal.management_question,
+        
+            "evidence": conversion_signal.evidence,
+        
+        }
         
         
 
