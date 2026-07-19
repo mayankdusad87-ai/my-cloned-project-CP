@@ -255,43 +255,42 @@ Official Executive Intelligence Briefing
         # ---------------------------------------------------
         
         with tab2:
-
-        signal = result.metadata.get("commercial_signal")
-    
-        if signal:
-    
-            st.subheader(signal.title)
-    
-            st.markdown("### Key Commercial Insight")
-            st.success(signal.summary)
-    
-            evidence = signal.evidence
-    
-            c1, c2, c3 = st.columns(3)
-    
-            c1.metric(
-                "Overall Conversion",
-                f"{evidence.get('overall_conversion', 0)}%"
-            )
-    
-            c2.metric(
-                "CP Conversion",
-                f"{evidence.get('cp_conversion', 0)}%"
-            )
-    
-            c3.metric(
-                "Gap",
-                f"{evidence.get('conversion_gap', 0)}%"
-            )
-    
-            st.info(signal.business_impact)
-    
-            st.warning(signal.management_question)
-    
-        else:
-    
-            st.info("Commercial Intelligence unavailable.")
         
+            signal = result.metadata.get("commercial_signal")
+        
+            if signal:
+        
+                st.subheader(signal.title)
+        
+                st.markdown("### Key Commercial Insight")
+                st.success(signal.summary)
+        
+                evidence = signal.evidence
+        
+                c1, c2, c3 = st.columns(3)
+        
+                c1.metric(
+                    "Overall Conversion",
+                    f"{evidence.get('overall_conversion', 0)}%"
+                )
+        
+                c2.metric(
+                    "CP Conversion",
+                    f"{evidence.get('cp_conversion', 0)}%"
+                )
+        
+                c3.metric(
+                    "Gap",
+                    f"{evidence.get('conversion_gap', 0)}%"
+                )
+        
+                st.info(signal.business_impact)
+        
+                st.warning(signal.management_question)
+        
+            else:
+        
+                st.info("Commercial Intelligence unavailable.")
         # ---------------------------------------------------
         # Key Findings
         # ---------------------------------------------------
