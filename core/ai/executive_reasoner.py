@@ -9,9 +9,13 @@ Sprint 6.0
 """
 
 from __future__ import annotations
+from core.ai.diagnosis_catalog import DiagnosisCatalog
 
 
 class ExecutiveReasoner:
+    def __init__(self):
+
+        self.catalog = DiagnosisCatalog()
     """
     Converts Business Signals into Executive Insights.
 
@@ -80,85 +84,18 @@ class ExecutiveReasoner:
 
     def _business_implication(self, signal):
 
-        diagnosis = signal.diagnosis
 
-        implications = {
-
-            "NO_BOOKINGS":
-                "No revenue was generated during the reporting period.",
-
-            "CP_OUTPERFORMING_PROJECT":
-                "The channel partner ecosystem is outperforming the project benchmark.",
-
-            "CP_NEAR_PROJECT_AVERAGE":
-                "Channel partner performance is aligned with the overall project benchmark.",
-
-            "CP_UNDERPERFORMING_PROJECT":
-                "Channel partner conversion is reducing overall commercial effectiveness.",
-
-            "CP_SIGNIFICANTLY_UNDERPERFORMING":
-                "Commercial performance is materially impacted by weak partner conversion.",
-
-            "HIGH_NETWORK_CONCENTRATION":
-                "The business is dependent on a small number of channel partners.",
-
-            "MODERATE_NETWORK_CONCENTRATION":
-                "Partner acquisition risk is beginning to increase.",
-
-            "DIVERSIFIED_NETWORK":
-                "The partner ecosystem is well diversified."
-
-        }
-
-        return implications.get(
-
-            diagnosis,
-
-            "No business implication available."
-
-        )
+        return self.catalog.business_implication(
+            signal.diagnosis
+    )
 
     # ======================================================
 
     def _management_action(self, signal):
 
-        diagnosis = signal.diagnosis
-
-        actions = {
-
-            "NO_BOOKINGS":
-                "Review the complete sales funnel immediately.",
-
-            "CP_OUTPERFORMING_PROJECT":
-                "Scale relationships with top-performing channel partners.",
-
-            "CP_NEAR_PROJECT_AVERAGE":
-                "Continue monitoring partner performance.",
-
-            "CP_UNDERPERFORMING_PROJECT":
-                "Review partner conversion quality and sales follow-up.",
-
-            "CP_SIGNIFICANTLY_UNDERPERFORMING":
-                "Launch a focused commercial improvement plan for channel partners.",
-
-            "HIGH_NETWORK_CONCENTRATION":
-                "Recruit additional active channel partners to diversify demand.",
-
-            "MODERATE_NETWORK_CONCENTRATION":
-                "Increase engagement with mid-performing partners.",
-
-            "DIVERSIFIED_NETWORK":
-                "Maintain the current acquisition strategy."
-
-        }
-
-        return actions.get(
-
-            diagnosis,
-
-            "No management action available."
-
-        )
+        return self.catalog.management_action(
+            signal.diagnosis
+    )
 
     # ======================================================
 
