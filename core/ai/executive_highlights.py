@@ -19,49 +19,31 @@ from typing import Any
 class ExecutiveHighlights:
 
     def build(
-        self,
-        context: dict[str, Any],
-    ) -> list[dict]:
+    self,
+    context: dict[str, Any],
+) -> list[dict]:
 
-        highlights = []
+    highlights = []
 
-        commercial = context.get(
-            "business_signals",
-            {},
-        )
+    business_signals = context.get(
+        "business_signals",
+        []
+    )
 
-        # -------------------------------------------------
-        # Commercial Intelligence
-        # -------------------------------------------------
+    for signal in business_signals:
 
-        if commercial:
+        highlights.append({
 
-            highlights.append(
+            "priority": signal.severity,
 
-                {
+            "title": signal.title,
 
-                    "priority": commercial.get(
-                        "severity",
-                        "Medium",
-                    ),
+            "observation": signal.summary,
 
-                    "title": commercial.get(
-                        "title",
-                        "",
-                    ),
+            "evidence": signal.evidence,
 
-                    "observation": commercial.get(
-                        "summary",
-                        "",
-                    ),
+        })
 
-                    "evidence": commercial.get(
-                        "evidence",
-                        {},
-                    ),
+    return highlights
 
-                }
-
-            )
-
-        return highlights
+    
