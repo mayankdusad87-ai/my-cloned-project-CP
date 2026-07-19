@@ -67,261 +67,36 @@ Return concise, commercially focused insights.
 # =========================================================
 
 EXECUTIVE_REPORT_PROMPT = """
-Prepare an Executive Consulting Report for the CEO and Leadership Team.
+Prepare a Board-Level Executive Consulting Report.
 
-The report should explain the business, not the dashboard.
+The supplied Business Facts, Executive Highlights and Findings are VERIFIED.
 
-Think like a Senior Management Consultant.
+Do not recalculate KPIs.
 
-Before writing every statement ask:
+Do not invent evidence.
 
-"So What?"
+Interpret the business.
 
-Interpret the business facts.
+Every insight must contain:
 
-Explain their implications.
+• Executive Insight
+• Supporting Evidence
+• Business Implication
+• Management Decision
 
-Do NOT simply repeat KPI values.
+Prioritize observations with the highest commercial impact.
 
-Prepare an Executive Intelligence Report.
+Whenever possible compare:
 
-The report must begin with Executive Intelligence Highlights.
+• High vs Low Performing Partners
+• Walk-ins vs Conversion
+• Strong vs Weak Micro Markets
 
-Generate the 3–7 most important business insights based ONLY on verified business facts.
+Always reference actual Channel Partner names and Micro Markets when available.
 
-Each Executive Intelligence Highlight must contain:
+Never repeat dashboard metrics.
 
-1. Title
-2. Observation
-3. Evidence
-4. Business Implication
-5. Management Action
-
-Rules:
-
-- Every observation must be supported by evidence.
-- Never invent evidence.
-- Never invent KPIs.
-- Never invent numbers.
-- Never make assumptions not supported by business facts.
-- Prioritize insights based on business impact.
-- If there are only two important insights, generate only two.
-- If there are six important insights, generate six.
-- Quality is more important than quantity.
-
-After Executive Intelligence Highlights continue with:
-
-1. Key Findings
-2. Root Causes
-3. Risks
-4. Opportunities
-5. Recommendations
-6. Monday Morning Action Plan
-7. Leadership Questions
-
-Rules:
-
-Use ONLY the supplied business facts.
-
-The Business Intelligence Engine has already analysed
-the commercial performance and produced verified
-Commercial Intelligence.
-
-Treat Commercial Intelligence as VERIFIED FACTS.
-
-Do NOT recalculate KPIs.
-
-Do NOT reinterpret conversion calculations.
-
-Do NOT contradict Commercial Intelligence.
-
-Instead:
-
-- Explain WHY the Commercial Intelligence matters.
-
-- Explain its business implications.
-
-- Connect Commercial Intelligence with Partner Intelligence.
-
-- Connect Commercial Intelligence with Customer Intelligence.
-
-- Prioritize management attention based on Commercial Intelligence.
-
-Never invent:
-
-- KPIs
-
-- Numbers
-
-- Root causes not supported by evidence
-
-- Recommendations without supporting evidence
-
-Separate:
-
-Observation
-
-↓
-
-Evidence
-
-↓
-
-Business Implication
-
-↓
-
-Management Action
-Every conclusion must be supported by evidence.
-
-Every recommendation must satisfy ALL of the following:
-
-1. Supported by evidence.
-
-2. Explain WHY the recommendation is needed.
-
-3. State the expected business outcome.
-
-4. Identify the management decision.
-
-5. Avoid generic business advice.
-
-Write like a Senior Partner from McKinsey, Bain or BCG.
-
-Keep the language concise, strategic and executive-friendly.
-
-The report should answer:
-
-- What happened?
-- Why does it matter?
-- What should management prioritise?
-- What action deserves immediate attention?
-
-========================================================
-
-CONSULTING METHODOLOGY
-
-========================================================
-
-Before writing your report, perform the following reasoning process internally.
-
-Do NOT skip any step.
-
-STEP 1 — Understand the Business
-
-Review all verified business facts before forming any opinion.
-
-Never evaluate a KPI in isolation.
-
-Correlate information across:
-
-- Commercial Intelligence
-- Partner Intelligence
-- Customer Intelligence
-- Booking Intelligence
-- Executive Highlights
-- Verified Findings
-
-------------------------------------------------
-
-STEP 2 — Identify Business Patterns
-
-Look for:
-
-- Relationships between KPIs
-- Outliers
-- Contradictions
-- Concentration risks
-- Performance differences
-- Emerging trends
-
-Do not simply describe metrics.
-
-Explain what the combination of facts reveals.
-
-------------------------------------------------
-
-STEP 3 — Support Every Observation
-
-Every observation MUST contain supporting evidence.
-
-Use the following structure:
-
-Observation
-
-↓
-
-Evidence
-
-↓
-
-Business Implication
-
-↓
-
-Management Decision
-
-If evidence is insufficient, clearly state that further investigation is required.
-
-Never guess.
-
-------------------------------------------------
-
-STEP 4 — Think Like a CEO
-
-For every recommendation ask:
-
-"What business decision should leadership make?"
-
-Avoid generic recommendations such as:
-
-- Improve customer experience
-
-- Increase conversion
-
-- Improve sales
-
-Instead recommend decisions that are directly supported by evidence.
-
-------------------------------------------------
-
-STEP 5 — Prioritize
-
-Rank observations based on business impact.
-
-Focus on:
-
-Revenue
-
-Conversion
-
-Partner Performance
-
-Execution Risk
-
-Growth Opportunity
-
-Operational Efficiency
-
-The report should spend the most space discussing the highest-impact issues.
-
-------------------------------------------------
-
-STEP 6 — Executive Language
-
-Write concise consulting language.
-
-Do not sound like ChatGPT.
-
-Do not sound like a dashboard.
-
-Do not repeat KPIs.
-
-Explain WHY the facts matter.
-
-Explain WHAT management should do next.
-
-Explain WHAT happens if management ignores the issue.
+Return only valid JSON.
 """
 # =========================================================
 # KEY FINDINGS
