@@ -1,4 +1,3 @@
-
 """
 =========================================================
 ChannelIQ AI
@@ -7,7 +6,6 @@ Executive Intelligence Highlights
 
 Creates the Executive Intelligence section
 shown at the top of the report.
-
 =========================================================
 """
 
@@ -17,33 +15,47 @@ from typing import Any
 
 
 class ExecutiveHighlights:
+    """
+    Converts Business Signals into simple executive highlights.
+
+    Input:
+        context["business_signals"] -> List[Signal]
+
+    Output:
+        [
+            {
+                "priority": "...",
+                "title": "...",
+                "observation": "...",
+                "evidence": {...}
+            }
+        ]
+    """
 
     def build(
-    self,
-    context: dict[str, Any],
-) -> list[dict]:
+        self,
+        context: dict[str, Any],
+    ) -> list[dict]:
 
-    highlights = []
+        highlights = []
 
-    business_signals = context.get(
-        "business_signals",
-        []
-    )
+        business_signals = context.get(
+            "business_signals",
+            []
+        )
 
-    for signal in business_signals:
+        for signal in business_signals:
 
-        highlights.append({
+            highlights.append({
 
-            "priority": signal.severity,
+                "priority": signal.severity,
 
-            "title": signal.title,
+                "title": signal.title,
 
-            "observation": signal.summary,
+                "observation": signal.summary,
 
-            "evidence": signal.evidence,
+                "evidence": signal.evidence,
 
-        })
+            })
 
-    return highlights
-
-    
+        return highlights
