@@ -126,6 +126,8 @@ class ConsultingEngine:
 
             "context": context,
 
+            "business_signals": context["business_signals"],
+
             "executive_highlights": executive_highlights,
 
             "findings": findings,
