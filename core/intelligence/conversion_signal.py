@@ -178,11 +178,11 @@ class ConversionSignal:
 
             cp_df
 
-            .groupby("channel_partner_company")
+            .groupby("channel_partner")
 
             .agg(
 
-                fresh_walkins=("channel_partner_company", "count"),
+                fresh_walkins=("channel_partner", "count"),
 
                 bookings=(
 
