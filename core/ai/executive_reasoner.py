@@ -13,9 +13,7 @@ from core.ai.diagnosis_catalog import DiagnosisCatalog
 
 
 class ExecutiveReasoner:
-    def __init__(self):
-
-        self.catalog = DiagnosisCatalog()
+    
     """
     Converts Business Signals into Executive Insights.
 
@@ -30,6 +28,9 @@ class ExecutiveReasoner:
     No AI is used here.
     This is deterministic business reasoning.
     """
+    def __init__(self):
+
+        self.catalog = DiagnosisCatalog()
 
     def build(self, business_signals: list) -> dict:
 
