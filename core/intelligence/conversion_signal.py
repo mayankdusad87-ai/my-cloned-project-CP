@@ -153,6 +153,185 @@ class ConversionSignal:
         )
 
         # ==================================================
+        # Channel Partner Intelligence
+        # ==================================================
+
+        cp_df = df[
+
+            (df["source"]
+                .astype(str)
+                .str.strip()
+                .str.upper()
+                == "CHANNEL PARTNER")
+
+            &
+
+            (df["customer_fresh_revisit"]
+                .astype(str)
+                .str.strip()
+                .str.upper()
+                == "FRESH")
+
+        ].copy()
+
+        cp_summary = (
+
+            cp_df
+
+            .groupby("channel_partner_company")
+
+            .agg(
+
+                fresh_walkins=("channel_partner_company", "count"),
+
+                bookings=(
+
+                    "booking_done",
+
+                    lambda x: (
+
+                        x.astype(str)
+
+                        .str.strip()
+
+                        .str.upper()
+
+                        == "Y"
+
+                    ).sum()
+
+                )
+
+            )
+
+            .reset_index()
+
+        )
+
+        if not cp_summary.empty:
+
+            cp_summary["conversion"] = (
+
+                cp_summary["bookings"]
+
+                / cp_summary["fresh_walkins"]
+
+                * 100
+
+            ).round(2)
+
+        else:
+
+            cp_summary["conversion"] = []
+
+
+
+        # ----------------------------------------------
+        # Top Conversion Partners
+        # ----------------------------------------------
+
+        top_conversion_partners = (
+
+            cp_summary
+
+            .sort_values(
+
+                ["conversion", "bookings"],
+
+                ascending=[False, False]
+
+            )
+
+            .head(5)
+
+            .to_dict("records")
+
+        )
+
+
+
+        # ----------------------------------------------
+        # Top Booking Partners
+        # ----------------------------------------------
+
+        top_booking_partners = (
+
+            cp_summary
+
+            .sort_values(
+
+                "bookings",
+
+                ascending=False
+
+            )
+
+            .head(5)
+
+            .to_dict("records")
+
+        )
+
+
+
+        # ----------------------------------------------
+        # High Walk-in / Low Conversion Partners
+        # ----------------------------------------------
+
+        low_conversion_high_volume = (
+
+            cp_summary[
+
+                cp_summary["fresh_walkins"] >= 5
+
+            ]
+
+            .sort_values(
+
+                ["conversion", "fresh_walkins"],
+
+                ascending=[True, False]
+
+            )
+
+            .head(5)
+
+            .to_dict("records")
+
+        )
+
+
+
+        # ----------------------------------------------
+        # Partner Dependency
+        # ----------------------------------------------
+
+        if cp_summary["fresh_walkins"].sum() > 0:
+
+            partner_dependency = round(
+
+                cp_summary["fresh_walkins"].max()
+
+                /
+
+                cp_summary["fresh_walkins"].sum()
+
+                * 100,
+
+                2
+
+            )
+
+        else:
+
+            partner_dependency = 0
+        # ==================================================
+        # Expected Bookings
+        # ==================================================
+
+        
+
+        # ==================================================
         # Expected Bookings
         # ==================================================
 
@@ -296,8 +475,16 @@ class ConversionSignal:
         
             "revenue_opportunity": revenue_opportunity,
         
+            "top_conversion_partners": top_conversion_partners,
+        
+            "top_booking_partners": top_booking_partners,
+        
+            "low_conversion_high_volume": low_conversion_high_volume,
+        
+            "partner_dependency_percent": partner_dependency,
+        
         }
-                    
+                            
 
         # ==================================================
         # Signal
