@@ -33,7 +33,7 @@ class PartnerPerformanceSignal:
 
             cp_df,
 
-            group_column="channel_partner_company"
+            group_column="channel_partner"
 
         )
 
@@ -43,7 +43,7 @@ class PartnerPerformanceSignal:
 
         facts = {
 
-            "active_cp": cp_df["channel_partner_company"].nunique(),
+            "active_cp": cp_df["channel_partner"].nunique(),
 
             "pareto_cp_count": pareto["pareto_count"],
 
